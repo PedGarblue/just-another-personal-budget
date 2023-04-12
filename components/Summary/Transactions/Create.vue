@@ -1,15 +1,7 @@
 <script lang="ts" setup>
-import VueDatePicker from '@vuepic/vue-datepicker'
-import { createTransaction, TransactionBase } from '~~/api/transactions'
+import { createTransaction } from '~~/api/transactions'
 import Modal from '~~/components/Modal.vue'
-import { AccountComplete, useAccounts } from '~~/stores/accounts'
-
-enum LoadingStatus {
-  IDLE = 'IDLE',
-  LOADING = 'LOADING',
-  FINISHED = 'FINISHED',
-  ERROR = 'ERROR',
-}
+import { useAccounts } from '~~/stores/accounts'
 
 const emits = defineEmits(['form-finished'])
 
@@ -18,15 +10,40 @@ const { t } = useLang()
 const modal = ref<InstanceType<typeof Modal> | null>(null)
 const accountsState = useAccounts()
 const accountsList = accountsState.getAccounts
-const defaultData = {
-  description: '',
-  date: new Date(),
-  account: 0,
-  amount: '',
-}
-const transactionData = reactive({ ...defaultData })
-const account = ref<AccountComplete>(accountsList[0])
-const loadingState = ref<LoadingStatus>(LoadingStatus.IDLE)
+
+const fields = [
+  {
+    key: 'date',
+    title: 'Date',
+    default: new Date(),
+    datePicker: true,
+    value: '',
+  },
+  {
+    key: 'account',
+    title: 'Account',
+    default: accountsList[0],
+    selectOptions: accountsList,
+    selectionKey: 'name',
+    optionKey: 'name',
+    value: '',
+  },
+  {
+    key: 'description',
+    title: 'Description',
+    default: '',
+    value: '',
+  },
+  {
+    key: 'amount',
+    title: 'Amount',
+    default: 0,
+    value: 0,
+    componentProps: {
+      type: 'number',
+    },
+  },
+]
 
 // methods
 const openModal = () => {
@@ -34,35 +51,18 @@ const openModal = () => {
 }
 const closeModal = () => {
   modal.value?.close()
-  clearForm()
-}
-const clearForm = () => {
-  transactionData.description = defaultData.description
-  transactionData.date = defaultData.date
-  transactionData.account = defaultData.account
-  transactionData.amount = defaultData.amount
-  loadingState.value = LoadingStatus.IDLE
 }
 
-const addTransaction = async () => {
-  if (loadingState.value !== LoadingStatus.IDLE) return
-  const { description, amount, date } = transactionData
-  const data: TransactionBase = {
-    description,
-    amount,
-    date,
-    account: account.value.id,
-  }
+const submit = (data: any) => {
+  return createTransaction({
+    ...data,
+    account: data.account.id,
+  })
+}
 
-  loadingState.value = LoadingStatus.LOADING
-
-  try {
-    const created = await createTransaction(data)
-    loadingState.value = LoadingStatus.FINISHED
-    emits('form-finished')
-  } catch (error) {
-    loadingState.value = LoadingStatus.ERROR
-  }
+const finishCreate = () => {
+  closeModal()
+  emits('form-finished')
 }
 </script>
 
@@ -70,72 +70,16 @@ const addTransaction = async () => {
   <div>
     <Button @click="openModal">Create</Button>
     <Modal ref="modal">
-      <template #header>
-        <h3>
-          {{ t('pages.summary.transactions.create.title') }}
-        </h3>
-        {{ transactionData }}
-      </template>
-      <template #body>
-        <template v-if="loadingState === LoadingStatus.LOADING">
-          <div class="flex w-full h-full items-center justify-center p-16">
-            <IconMdi:loading class="text-[5rem] animate-spin" />
-          </div>
-        </template>
-        <template v-else-if="loadingState === LoadingStatus.FINISHED">
-          <div class="flex w-full h-full items-center justify-center p-16">
-            <IconMdi:checkbox-marked-circle
-              class="text-[5rem] text-green-500"
-            />
-          </div>
-        </template>
-        <div v-else class="flex flex-col gap-2">
-          <div>
-            <div class="text-base">Date</div>
-            <VueDatePicker v-model="transactionData.date" />
-          </div>
-          <Select v-model="account" :options="accountsList" title="Account">
-            <template #selected-value="{ selected }">
-              {{ selected ? selected.name : '' }}
-            </template>
-            <template #item-value="{ option }">
-              {{ option.name }}
-            </template>
-          </Select>
-          <FormTextInput
-            v-model="transactionData.description"
-            size="md"
-            class="md:1/3"
-            title="Description"
-          />
-          <FormTextInput
-            v-model="transactionData.amount"
-            type="number"
-            size="md"
-            class="md:1/3"
-            title="Amount"
-          >
-            <template #prefix>
-              {{ account.currencyData.name }}
-            </template>
-          </FormTextInput>
-        </div>
-      </template>
-      <template #footer>
-        <div
-          v-if="loadingState === LoadingStatus.FINISHED"
-          class="flex flex-row gap-6"
-        >
-          <Button @click="() => clearForm()">
-            {{ t('pages.summary.transactions.create.restart') }}
-          </Button>
-          <Button @click="() => closeModal()">
-            {{ t('others.close') }}
-          </Button>
-        </div>
-        <Button v-else @click="addTransaction">{{
-          t('pages.summary.transactions.create.title')
-        }}</Button>
+      <template #contents>
+        <Form
+          class="m-auto max-w-1/3"
+          :fields="fields"
+          :form-submit-fn="submit"
+          :form-title="`${t('pages.summary.transactions.create.title')}`"
+          :restart-title="`${t('pages.summary.transactions.create.restart')}`"
+          :submit-title="`${t('pages.summary.transactions.create.title')}`"
+          @form-finished="() => finishCreate()"
+        ></Form>
       </template>
     </Modal>
   </div>
