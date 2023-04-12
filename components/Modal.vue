@@ -12,17 +12,19 @@
               <div class="absolute inset-0 bg-gray-800 opacity-50"></div>
             </div>
           </transition>
-          <Card class="modal-card">
-            <CardTitle>
-              <slot name="header"> </slot>
-            </CardTitle>
-            <CardContent>
-              <slot name="body"> </slot>
-            </CardContent>
-            <CardFooter>
-              <slot name="footer"> </slot>
-            </CardFooter>
-          </Card>
+          <slot name="contents">
+            <Card class="modal-card">
+              <CardTitle>
+                <slot name="header"> </slot>
+              </CardTitle>
+              <CardContent>
+                <slot name="body"> </slot>
+              </CardContent>
+              <CardFooter>
+                <slot name="footer"> </slot>
+              </CardFooter>
+            </Card>
+          </slot>
         </div>
       </div>
     </transition>

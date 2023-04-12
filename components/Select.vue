@@ -182,7 +182,7 @@ const selectedFontSizeStyle = computed(
 }
 
 .item.active {
-  @apply bg-blue-450 text-white;
+  @apply bg-blue-400 text-white;
 }
 
 .item:hover {
