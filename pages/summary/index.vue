@@ -9,7 +9,7 @@ const accountsStore = useAccounts()
 
 await accountsStore.fetchData()
 
-const accountsData = accountsStore.getAccounts
+const accountsData = computed(() => accountsStore.getAccounts)
 </script>
 
 <template>

@@ -31,7 +31,7 @@ type FormField = IFormField | ISelectFormField | IDatePickerFormField
 
 const { t } = useLang()
 
-const emits = defineEmits(['form-finished'])
+const emits = defineEmits(['form-finished', 'form-error'])
 
 const props = defineProps({
   formTitle: {
@@ -108,6 +108,7 @@ const submit = async () => {
     loadingState.value = LoadingStatus.FINISHED
     emits('form-finished')
   } catch (submitError) {
+    emits('form-error', submitError)
     loadingState.value = LoadingStatus.ERROR
     error.value = submitError
   }
