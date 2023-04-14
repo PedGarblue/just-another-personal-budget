@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { PropType } from 'vue'
 import { deleteTransaction } from '~~/api/transactions'
+import { useNotificationsStore } from '~~/stores/notifications'
 import { DisplayTransaction } from '~~/types/transactionTypes'
 
 enum LoadingStatus {
@@ -20,7 +21,9 @@ const props = defineProps({
 })
 
 // data
+const { t } = useLang()
 const loadingState = ref<LoadingStatus>(LoadingStatus.IDLE)
+const notification = useNotificationsStore()
 
 // methods
 const removeTransaction = async () => {
@@ -32,6 +35,10 @@ const removeTransaction = async () => {
   try {
     await deleteTransaction(id)
     loadingState.value = LoadingStatus.FINISHED
+    notification.addNotification({
+      type: 'warning',
+      text: t('pages.summary.transactions.delete.success'),
+    })
     emits('form-finished')
   } catch (error) {
     loadingState.value = LoadingStatus.ERROR

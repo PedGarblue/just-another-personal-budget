@@ -17,10 +17,14 @@ pages:
       title: Summary
     transactions:
       create:
+        success: Transaction Created!
         title: Create Transaction
         restart: Create Another Transaction
       update:
         title: Update Transaction
+        success: Transaction Updated!
+      delete:
+        success: Transaction Deleted
     exchanges:
       create:
         title: Create Exchange

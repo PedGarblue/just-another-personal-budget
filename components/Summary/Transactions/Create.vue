@@ -2,6 +2,7 @@
 import { createTransaction } from '~~/api/transactions'
 import Modal from '~~/components/Modal.vue'
 import { useAccounts } from '~~/stores/accounts'
+import { useNotificationsStore } from '~~/stores/notifications'
 
 const emits = defineEmits(['form-finished'])
 
@@ -10,6 +11,7 @@ const { t } = useLang()
 const modal = ref<InstanceType<typeof Modal> | null>(null)
 const accountsState = useAccounts()
 const accountsList = accountsState.getAccounts
+const notifications = useNotificationsStore()
 
 const fields = [
   {
@@ -61,6 +63,10 @@ const submit = (data: any) => {
 }
 
 const finishCreate = () => {
+  notifications.addNotification({
+    type: 'success',
+    text: t('pages.summary.transactions.create.success'),
+  })
   closeModal()
   emits('form-finished')
 }
