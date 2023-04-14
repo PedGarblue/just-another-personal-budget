@@ -23,6 +23,8 @@ declare module '@vue/runtime-core' {
     'IconMdi:closeOutlineCircle': typeof import('~icons/mdi/close-outline-circle')['default']
     'IconMdi:delete': typeof import('~icons/mdi/delete')['default']
     'IconMdi:deleteOutline': typeof import('~icons/mdi/delete-outline')['default']
+    'IconMdi:filterMenuOutline': typeof import('~icons/mdi/filter-menu-outline')['default']
+    'IconMdi:filterOutline': typeof import('~icons/mdi/filter-outline')['default']
     'IconMdi:githubFace': typeof import('~icons/mdi/github-face')['default']
     'IconMdi:loading': typeof import('~icons/mdi/loading')['default']
     'IconMdi:messageTextOutline': typeof import('~icons/mdi/message-text-outline')['default']
