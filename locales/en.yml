@@ -29,6 +29,7 @@ pages:
       create:
         title: Create Exchange
         restart: Create Another Exchange
+        success: Exchange Created!
   blank:
     nav: blank
     title: blank page
