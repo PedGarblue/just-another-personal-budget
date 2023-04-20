@@ -20,6 +20,9 @@ const fields = [
     default: new Date(),
     datePicker: true,
     value: '',
+    componentProps: {
+      required: true,
+    },
   },
   {
     key: 'description',
@@ -35,6 +38,9 @@ const fields = [
     selectionKey: 'name',
     optionKey: 'name',
     value: '',
+    componentProps: {
+      required: true,
+    },
   },
   {
     key: 'from_amount',
@@ -54,6 +60,9 @@ const fields = [
     selectionKey: 'name',
     optionKey: 'name',
     value: '',
+    componentProps: {
+      required: true,
+    },
   },
   {
     key: 'to_amount',
