@@ -30,6 +30,12 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  required: {
+    type: Boolean,
+    default() {
+      return false
+    },
+  },
 })
 
 const emits = defineEmits(['update:modelValue', 'selection'])
@@ -111,6 +117,7 @@ const selectedFontSizeStyle = computed(
       </div>
       <div class="items" :class="{ selectHide: !open }">
         <div
+          v-if="!required"
           key="default"
           class="item bg-gray-100"
           @click="($event) => updateValue('')"
