@@ -14,6 +14,7 @@ export interface AccountComplete extends Account {
 const defaultCurrency: Currency = {
   id: 0,
   name: 'N/A',
+  symbol: 'N/A',
 }
 
 const defaultAccount: AccountComplete = {

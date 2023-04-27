@@ -7,7 +7,7 @@ export interface Account {
 
 export default async function (): Promise<[Account] | null> {
   const runtimeConfig = useRuntimeConfig()
-  const urlAccounts = `${runtimeConfig.public.apiUrl}/accounts`
+  const urlAccounts = `${runtimeConfig.public.apiUrl}/accounts/`
   const { data: accounts } = await useFetch<[Account]>(urlAccounts)
   return accounts.value
 }

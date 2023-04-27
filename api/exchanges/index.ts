@@ -11,7 +11,7 @@ interface ExchangeFields {
 
 export async function createExchange(data: ExchangeFields) {
   const runtimeConfig = useRuntimeConfig()
-  const url = `${runtimeConfig.public.apiUrl}/exchanges`
+  const url = `${runtimeConfig.public.apiUrl}/exchanges/`
   const { data: created } = await useFetch<[TransactionAPI]>(url, {
     method: 'POST',
     body: data,

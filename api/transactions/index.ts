@@ -15,7 +15,7 @@ export default async function (
 ): Promise<[TransactionAPI] | null> {
   const runtimeConfig = useRuntimeConfig()
   const fromQuery = from ? `start_date=${from}` : ''
-  const url = `${runtimeConfig.public.apiUrl}/transactions?${fromQuery}`
+  const url = `${runtimeConfig.public.apiUrl}/transactions/?${fromQuery}`
   const { data: transactions } = await useFetch<[TransactionAPI]>(url)
   return transactions.value
 }
@@ -24,7 +24,7 @@ export async function createTransaction(
   data: TransactionBase
 ): Promise<TransactionAPI | null> {
   const runtimeConfig = useRuntimeConfig()
-  const url = `${runtimeConfig.public.apiUrl}/transactions`
+  const url = `${runtimeConfig.public.apiUrl}/transactions/`
   const { data: created } = await useFetch<TransactionAPI>(url, {
     method: 'POST',
     body: data,
@@ -37,7 +37,7 @@ export async function updateTransaction(
   data: TransactionBase
 ): Promise<TransactionAPI | null> {
   const runtimeConfig = useRuntimeConfig()
-  const url = `${runtimeConfig.public.apiUrl}/transactions/${pk}`
+  const url = `${runtimeConfig.public.apiUrl}/transactions/${pk}/`
   const { data: updated } = await useFetch<TransactionAPI>(url, {
     method: 'PUT',
     body: data,
@@ -47,7 +47,7 @@ export async function updateTransaction(
 
 export async function deleteTransaction(pk: number) {
   const runtimeConfig = useRuntimeConfig()
-  const url = `${runtimeConfig.public.apiUrl}/transactions/${pk}`
+  const url = `${runtimeConfig.public.apiUrl}/transactions/${pk}/`
   await useFetch(url, {
     method: 'DELETE',
   })
