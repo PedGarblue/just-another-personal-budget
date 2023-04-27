@@ -14,7 +14,7 @@ const props = defineProps({
   <Card>
     <CardTitle>{{ account.name }}</CardTitle>
     <CardContent>
-      {{ account.currencyData.name }}.{{ account.balance }}
+      {{ account.currencyData.symbol }}{{ account.balance }}
     </CardContent>
   </Card>
 </template>

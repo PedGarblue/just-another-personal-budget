@@ -35,7 +35,7 @@ const displayTransactionsData = computed<DisplayTransaction[]>(() => {
           dateFormatted: format(new Date(transaction.date), 'yyyy-MM-dd hh:mm'),
           key: transaction.id,
           accountData: account,
-          amountWithCurrency: `${account.currencyData.name}.${transaction.amount}`,
+          amountWithCurrency: `${account.currencyData.symbol}${transaction.amount}`,
         }
         return newTransaction
       })
@@ -122,7 +122,7 @@ onMounted(() => {
           :options="[
             'All',
             'Zinli',
-            'USD Efectivo',
+            'Efectivo USD',
             'Mercantil Personal',
             'Reserve',
             'Binance',
