@@ -11,7 +11,7 @@ pages:
     title: page not found
   summary:
     nav: summary
-    title: summary page
+    title: summary
     description: summary of accounts balances and recent transactions
     index:
       title: Summary
@@ -82,8 +82,21 @@ pages:
     nav: dashboard
     title: dashboard
     index:
-      nav: home
-      title: home
+      nav: dashboard
+      title: My Dashboard
+  investments:
+    nav: investments
+    index:
+      title: Receivables and Investments
+    receivables:
+      create:
+        success: 'Receivable Created Successfully'
+        title: 'Create a Receivable'
+      update:
+        success: 'Receivable Updated Successfully'
+        title: 'Update Receivable'
+      delete:
+        success: 'Receivable Updated Successfully'
 banners:
   welcome: hello, welcome to %{app_name}!
 others:
