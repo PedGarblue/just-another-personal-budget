@@ -5,6 +5,7 @@ import { ITheme } from './utils/theme'
 import { useNotificationsStore } from '~~/stores/notifications'
 AppSetup()
 const theme = useState<ITheme>('theme.current')
+const themeDark = ref<ITheme>('dark')
 const locale = useState<string>('locale.setting')
 const app = useAppConfig() as AppConfigInput
 // use Notification display
@@ -27,7 +28,10 @@ useHead({
 </script>
 
 <template>
-  <Html :class="`${theme === 'dark' ? 'dark' : ''}`" :lang="locale">
+  <Html
+    :class="`${theme.value === themeDark ? themeDark : ''}`"
+    :lang="locale.value"
+  >
     <Body
       class="antialiased duration-300 transition-colors text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-900"
     >

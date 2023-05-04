@@ -56,7 +56,7 @@ export function ThemeManager() {
       themeCurrent.value = themeSetting
     }
   }
-  watch(themeSetting, (val) => onThemeSettingChange(val))
+  watch(themeSetting, (val) => onThemeSettingChange(val.value))
   const onThemeSystemChange = () => {
     if (themeSetting.value === 'system') {
       themeCurrent.value = getSystemTheme()

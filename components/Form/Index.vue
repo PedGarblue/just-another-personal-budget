@@ -160,8 +160,8 @@ const submit = async () => {
               <template #selected-value="{ selected }">
                 {{
                   selected
-                    ? field.selectionKey
-                      ? selected[field.selectionKey]
+                    ? typeof selected === 'object' && field.selectionKey
+                      ? selected[field.selectionKey as keyof typeof selected]
                       : selected
                     : ''
                 }}
@@ -169,8 +169,8 @@ const submit = async () => {
               <template #item-value="{ option }">
                 {{
                   option
-                    ? field.optionKey
-                      ? option[field.optionKey]
+                    ? typeof option === 'object' && field.selectionKey
+                      ? option[field.optionKey as keyof typeof option]
                       : option
                     : ''
                 }}
