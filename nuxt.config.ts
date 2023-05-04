@@ -9,7 +9,7 @@ export default defineNuxtConfig({
     },
   },
   // server side rendering mode
-  ssr: true,
+  ssr: false,
 
   // typescripts
   typescript: {
