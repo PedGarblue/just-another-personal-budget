@@ -32,7 +32,7 @@ const displayTransactionsData = computed<DisplayTransaction[]>(() => {
         const account = accounts.getAccount(transaction.account)
         const newTransaction: DisplayTransaction = {
           ...transaction,
-          dateFormatted: format(new Date(transaction.date), 'yyyy-MM-dd hh:mm'),
+          dateFormatted: format(new Date(transaction.date), 'yyyy-MM-dd HH:mm'),
           key: transaction.id,
           accountData: account,
           amountWithCurrency: `${account.currencyData.symbol}${transaction.amount}`,
