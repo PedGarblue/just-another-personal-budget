@@ -54,9 +54,9 @@ const currentStyle = toRef(props, 'type')
           :class="{
             'py-2 px-2 flex items-center cursor-pointer': true,
             'text-sky-500 bg-gray-100 dark:bg-gray-600/30':
-              themeSetting.value === theme.key,
+              themeSetting === theme.key,
             'hover:bg-gray-50 dark:hover:bg-gray-700/30':
-              themeSetting.value !== theme.key,
+              themeSetting !== theme.key,
           }"
         >
           <span class="text-sm mr-2 flex items-center">

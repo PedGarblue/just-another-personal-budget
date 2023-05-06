@@ -62,8 +62,8 @@ export function LanguageManager() {
 
   // watchers
   watch(localeSetting, (localeSetting) => {
-    localeUserSetting.value = localeSetting.value
-    locale.value = localeSetting.value
+    localeUserSetting.value = localeSetting
+    locale.value = localeSetting
   })
 
   // init locale
