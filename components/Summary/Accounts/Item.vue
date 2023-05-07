@@ -12,8 +12,10 @@ const props = defineProps({
 
 <template>
   <Card>
-    <CardTitle>{{ account.name }}</CardTitle>
-    <CardContent>
+    <CardTitle class="px-2 py-1 lg:px-6 lg:py-2 !text-base lg:text-lg">{{
+      account.name
+    }}</CardTitle>
+    <CardContent class="px-2 py-1 lg:px-6 lg:py-6">
       {{ account.currencyData.symbol }}{{ account.balance }}
     </CardContent>
   </Card>

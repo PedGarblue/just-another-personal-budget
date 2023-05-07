@@ -10,7 +10,8 @@ definePageMeta({
       <PageTitle :text="$t('pages.dashboard.index.title')" class="capitalize" />
     </PageHeader>
     <PageBody>
-      <Summary></Summary>
+      <SummaryAccounts />
+      <SummaryTransactions />
     </PageBody>
   </PageWrapper>
 </template>

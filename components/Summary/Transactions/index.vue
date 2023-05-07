@@ -89,7 +89,7 @@ onMounted(() => {
 })
 </script>
 <template>
-  <div>
+  <PageSection>
     <div class="flex flex-row w-full gap-4 mb-2">
       <SummaryTransactionsCreate @form-finished="() => refreshTable()" />
       <SummaryExchangesCreate @form-finished="() => refreshTable()" />
@@ -130,5 +130,5 @@ onMounted(() => {
         />
       </template>
     </EasyDataTable>
-  </div>
+  </PageSection>
 </template>

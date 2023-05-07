@@ -10,12 +10,15 @@ const accountsData = computed(() => accountsStore.getAccounts)
 
 <template>
   <PageSection>
-    <div class="flex flex-row gap-4 pb-4">
-      <div v-for="account in accountsData" :key="account.id">
-        <SummaryAccount :account="account" />
+    <div class="flex flex-row flex-wrap gap-4 pb-4">
+      <div
+        v-for="account in accountsData"
+        :key="account.id"
+        class="w-[48%] lg:w-auto"
+      >
+        <SummaryAccountsItem :account="account" />
       </div>
     </div>
-    <SummaryTransactions />
   </PageSection>
 </template>
 
