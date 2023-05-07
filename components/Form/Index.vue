@@ -1,33 +1,12 @@
 <script lang="ts" setup>
 import VueDatePicker from '@vuepic/vue-datepicker'
 import { PropType } from 'vue'
-
-enum LoadingStatus {
-  IDLE = 'IDLE',
-  LOADING = 'LOADING',
-  FINISHED = 'FINISHED',
-  ERROR = 'ERROR',
-}
-
-interface IFormField {
-  key: string
-  title: string
-  default?: any
-  value: any
-  componentProps?: Object
-}
-
-interface ISelectFormField extends IFormField {
-  selectOptions: Array<Object | string>
-  selectionKey?: string
-  optionKey?: string
-}
-
-interface IDatePickerFormField extends IFormField {
-  datePicker: boolean // type guard
-}
-
-type FormField = IFormField | ISelectFormField | IDatePickerFormField
+import {
+  FormField,
+  LoadingStatus,
+  IDatePickerFormField,
+  ISelectFormField,
+} from '~~/types/formTypes'
 
 const { t } = useLang()
 
