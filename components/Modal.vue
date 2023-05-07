@@ -12,19 +12,21 @@
               <div class="absolute inset-0 bg-gray-800 opacity-50"></div>
             </div>
           </transition>
-          <slot name="contents">
-            <Card class="modal-card">
-              <CardTitle>
-                <slot name="header"> </slot>
-              </CardTitle>
-              <CardContent>
-                <slot name="body"> </slot>
-              </CardContent>
-              <CardFooter>
-                <slot name="footer"> </slot>
-              </CardFooter>
-            </Card>
-          </slot>
+          <div class="modal-contents">
+            <slot name="contents">
+              <Card class="modal-card">
+                <CardTitle>
+                  <slot name="header"> </slot>
+                </CardTitle>
+                <CardContent>
+                  <slot name="body"> </slot>
+                </CardContent>
+                <CardFooter>
+                  <slot name="footer"> </slot>
+                </CardFooter>
+              </Card>
+            </slot>
+          </div>
         </div>
       </div>
     </transition>
@@ -46,7 +48,7 @@ defineExpose({
 })
 </script>
 
-<style scoped>
+<style scoped lang="postcss">
 .modal-mask {
   position: fixed;
   z-index: 9997;
@@ -63,10 +65,12 @@ defineExpose({
   vertical-align: middle;
 }
 
+.modal-contents {
+  @apply max-w-[90%] lg:max-w-[50%];
+}
 .modal-card {
   z-index: 9998;
   margin: auto;
-  max-width: 50%;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
   overflow: visible;

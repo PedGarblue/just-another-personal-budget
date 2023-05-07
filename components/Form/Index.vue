@@ -125,7 +125,6 @@ const submit = async () => {
       >
         {{ error }}
       </div>
-      {{ getFieldsValues }}
     </CardTitle>
     <CardContent>
       <template v-if="loadingState === LoadingStatus.LOADING">
