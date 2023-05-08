@@ -65,9 +65,6 @@ defineExpose({
   vertical-align: middle;
 }
 
-.modal-contents {
-  @apply max-w-[90%] lg:max-w-[50%];
-}
 .modal-card {
   z-index: 9998;
   margin: auto;

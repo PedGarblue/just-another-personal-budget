@@ -34,6 +34,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  asModal: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 // data
@@ -95,7 +99,7 @@ const submit = async () => {
 </script>
 
 <template>
-  <Card class="form-card">
+  <Card class="form-card" :class="{ 'form-card-modal': asModal }">
     <CardTitle>
       <h3>{{ formTitle }}</h3>
       <div
@@ -188,5 +192,8 @@ const submit = async () => {
 <style lang="postcss">
 .form-card {
   overflow: visible;
+}
+.form-card-modal {
+  @apply m-auto max-w-[95%] md:max-w-3/4 xl:max-w-1/3;
 }
 </style>

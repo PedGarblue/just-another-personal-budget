@@ -109,7 +109,7 @@ const finishCreate = () => {
     <Modal ref="modal">
       <template #contents>
         <Form
-          class="m-auto max-w-1/3"
+          as-modal
           :fields="fields"
           :form-submit-fn="submit"
           :form-title="t('pages.summary.exchanges.create.title')"
