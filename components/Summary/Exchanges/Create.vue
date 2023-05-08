@@ -3,6 +3,7 @@ import { createExchange } from '~~/api/exchanges'
 import Modal from '~~/components/Modal.vue'
 import { useAccounts } from '~~/stores/accounts'
 import { useNotificationsStore } from '~~/stores/notifications'
+import { FormField } from '~~/types/formTypes'
 
 const emits = defineEmits(['form-finished'])
 
@@ -10,10 +11,9 @@ const emits = defineEmits(['form-finished'])
 const { t } = useLang()
 const modal = ref<InstanceType<typeof Modal> | null>(null)
 const accountsState = useAccounts()
-const accountsList = accountsState.getAccounts
 const notifications = useNotificationsStore()
 
-const fields = [
+const fields = computed<FormField[]>(() => [
   {
     key: 'date',
     title: 'Date',
@@ -33,8 +33,8 @@ const fields = [
   {
     key: 'from_account',
     title: 'Sender Account',
-    default: accountsList[0],
-    selectOptions: accountsList,
+    default: accountsState.getAccounts[0],
+    selectOptions: accountsState.getAccounts,
     selectionKey: 'name',
     optionKey: 'name',
     value: '',
@@ -55,8 +55,8 @@ const fields = [
   {
     key: 'to_account',
     title: 'Recipient Account',
-    default: accountsList[1],
-    selectOptions: accountsList,
+    default: accountsState.getAccounts[1],
+    selectOptions: accountsState.getAccounts,
     selectionKey: 'name',
     optionKey: 'name',
     value: '',
@@ -74,7 +74,7 @@ const fields = [
       required: true,
     },
   },
-]
+])
 
 // methods
 const openModal = () => {

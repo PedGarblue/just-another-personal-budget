@@ -4,6 +4,7 @@ import { createReceivable } from '~~/api/receivables'
 import Modal from '~~/components/Modal.vue'
 import { useAccounts } from '~~/stores/accounts'
 import { useNotificationsStore } from '~~/stores/notifications'
+import { FormField } from '~~/types/formTypes'
 
 const emits = defineEmits(['form-finished'])
 
@@ -11,10 +12,9 @@ const emits = defineEmits(['form-finished'])
 const { t } = useLang()
 const modal = ref<InstanceType<typeof Modal> | null>(null)
 const accountsState = useAccounts()
-const accountsList = accountsState.getAccounts
 const notifications = useNotificationsStore()
 
-const fields = [
+const fields = computed<FormField[]>(() => [
   {
     key: 'description',
     title: 'Description',
@@ -52,8 +52,8 @@ const fields = [
   {
     key: 'account',
     title: 'Account',
-    default: accountsList[0],
-    selectOptions: accountsList,
+    default: accountsState.getAccounts[0],
+    selectOptions: accountsState.getAccounts,
     selectionKey: 'name',
     optionKey: 'name',
     value: '',
@@ -70,7 +70,7 @@ const fields = [
     datePicker: true,
     value: new Date(),
   },
-]
+])
 
 // methods
 const openModal = () => {

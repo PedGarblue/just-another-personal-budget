@@ -1,7 +1,11 @@
 <script lang="ts" setup>
+import { useAccounts } from '~~/composables/useAccounts'
+
 definePageMeta({
   layout: 'dashboard',
 })
+
+const accounts = useAccounts()
 </script>
 
 <template>
