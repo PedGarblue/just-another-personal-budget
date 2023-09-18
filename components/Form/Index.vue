@@ -74,6 +74,8 @@ const clearForm = (): void => {
 
 const getFieldsValues = computed((): Object => {
   return _fields.reduce((prev, current) => {
+    // omit empty values
+    if (!current.value || current.value === '') return prev
     return {
       ...prev,
       [current.key]: current.value,
