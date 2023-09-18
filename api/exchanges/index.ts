@@ -2,7 +2,7 @@ import { TransactionAPI } from '../transactions'
 
 interface ExchangeFields {
   date: string
-  description: string
+  description?: string
   from_amount: string
   to_amount: string
   from_account: number
