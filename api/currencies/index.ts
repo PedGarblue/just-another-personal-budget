@@ -2,6 +2,7 @@ export interface Currency {
   id: number
   name: string
   symbol: string
+  balance: number
 }
 
 export default async function (): Promise<[Currency] | null> {

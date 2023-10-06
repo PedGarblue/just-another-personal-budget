@@ -15,6 +15,7 @@ const defaultCurrency: Currency = {
   id: 0,
   name: 'N/A',
   symbol: 'N/A',
+  balance: 0,
 }
 
 const defaultAccount: AccountComplete = {
@@ -52,6 +53,17 @@ export const useAccounts = defineStore('accounts', {
   getters: {
     getCurrencies(): Currency[] {
       return this.currencies
+    },
+    getCurrenciesWithAccounts(state): Currency[] {
+      return state.currencies.map((currency) => {
+        const accounts = this.getAccounts.filter(
+          (account) => account.currency === currency.id
+        )
+        return {
+          ...currency,
+          accounts,
+        }
+      })
     },
     getCurrency(state) {
       return (pk: number): Currency =>
