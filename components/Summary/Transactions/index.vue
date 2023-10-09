@@ -84,13 +84,16 @@ const headers: Header[] = [
 
 const sortBy: string[] = ['dateFormatted']
 const sortType: SortType[] = ['desc']
+
+const accountsNames = computed(() => accounts.getAccountsNames)
+
 onMounted(() => {
   getTransactions()
 })
 </script>
 <template>
   <PageSection>
-    <div class="flex flex-row w-full gap-4 mb-2">
+    <div class="flex flex-col lg:flex-row w-full gap-4 mb-2">
       <SummaryTransactionsCreate @form-finished="() => refreshTable()" />
       <SummaryExchangesCreate @form-finished="() => refreshTable()" />
     </div>
@@ -119,14 +122,7 @@ onMounted(() => {
           v-model="accountCriteria"
           size="sm"
           default="All"
-          :options="[
-            'All',
-            'Zinli',
-            'Efectivo USD',
-            'Mercantil Personal',
-            'Reserve',
-            'Binance',
-          ]"
+          :options="['All', ...accountsNames]"
         />
       </template>
     </EasyDataTable>

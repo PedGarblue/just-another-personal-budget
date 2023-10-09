@@ -78,6 +78,9 @@ export const useAccounts = defineStore('accounts', {
         }
       })
     },
+    getAccountsNames(state): string[] {
+      return state.accounts.map((account) => account.name)
+    },
     getAccount(state): (pk: number) => AccountComplete {
       return (pk: number): AccountComplete =>
         this.getAccounts.find((item) => item.id === pk) || defaultAccount

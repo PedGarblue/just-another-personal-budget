@@ -86,13 +86,13 @@ const finish = () => {
 <template>
   <div>
     <IconMdi:pencil-box-outline
-      class="text-lg cursor-pointer"
+      class="text-xl cursor-pointer"
       @click="openModal"
     />
     <Modal ref="modal">
       <template #contents>
         <Form
-          class="m-auto max-w-1/3"
+          as-modal
           :fields="fields"
           :form-submit-fn="submit"
           :form-title="`${t('pages.summary.transactions.update.title')}`"

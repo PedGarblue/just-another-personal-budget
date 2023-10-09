@@ -13,7 +13,7 @@ const currenciesData = computed(() => accountsStore.getCurrenciesWithAccounts)
   <PageSection>
     <div>
       <h2 class="text-xl font-bold py-2">Accounts Balance</h2>
-      <div class="grid grid-cols-3 gap-4">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div
           v-for="currency in currenciesData"
           :key="currency.id"
@@ -27,7 +27,7 @@ const currenciesData = computed(() => accountsStore.getCurrenciesWithAccounts)
             <div
               v-for="account in currency.accounts"
               :key="account.id"
-              class="w-[48%] lg:w-auto"
+              class="lg:w-auto"
             >
               <SummaryAccountsItem :account="account" />
             </div>
