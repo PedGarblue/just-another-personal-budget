@@ -97,6 +97,9 @@ pages:
         title: 'Update Receivable'
       delete:
         success: 'Receivable Updated Successfully'
+  reports:
+    index:
+      title: Reports
 banners:
   welcome: hello, welcome to %{app_name}!
 others:
