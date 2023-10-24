@@ -99,6 +99,7 @@ onMounted(() => {
         default="All"
         :options="['All', ...accountsNames]"
       />
+      <ReportsCreate @refresh-table="refreshTable" />
     </div>
     <EasyDataTable
       :headers="headers"
