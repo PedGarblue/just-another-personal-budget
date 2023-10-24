@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import type { Header } from 'vue3-easy-data-table'
-import type { IReportViewItem } from '~/api/reports'
+import type { FilterOption, Header } from 'vue3-easy-data-table'
+import type { IReportApiItem, IReportDisplayItem } from '~/types/reportsTypes'
 import { getReportList } from '~~/api/reports'
 import { useAccounts } from '~~/stores/accounts'
 
@@ -37,7 +37,7 @@ const headers: Header[] = [
     value: 'total_expenses',
   },
 ]
-const reports = ref<IReportViewItem[]>([])
+const reports = ref<IReportApiItem[]>([])
 const accountCriteria = ref('All')
 
 // computed
@@ -46,7 +46,7 @@ const displayReportsData = computed(() => {
   return reports.value
     ? reports.value.map((report) => {
         const account = accountsStore.getAccount(report.account)
-        const newReport: IReportViewItem = {
+        const newReport: IReportDisplayItem = {
           ...report,
           accountData: account,
           key: report.id,

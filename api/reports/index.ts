@@ -1,16 +1,20 @@
-import { ReportBase } from '~~/types/reportsTypes'
+import { ReportBase, IReportApiItem } from '~~/types/reportsTypes'
 
-export interface IReportViewItem extends ReportBase {
-  id: number
-  initial_balance: number
-  end_balance: number
-  total_income: number
-  total_expense: number
-}
-
-export async function getReportList(): Promise<[IReportViewItem] | null> {
+export async function getReportList(): Promise<[IReportApiItem] | null> {
   const runtimeConfig = useRuntimeConfig()
   const url = `${runtimeConfig.public.apiUrl}/reports/`
-  const { data } = await useFetch<[IReportViewItem]>(url)
+  const { data } = await useFetch<[IReportApiItem]>(url)
+  return data.value
+}
+
+export async function createReport(
+  report: ReportBase
+): Promise<IReportApiItem | null> {
+  const runtimeConfig = useRuntimeConfig()
+  const url = `${runtimeConfig.public.apiUrl}/reports/`
+  const { data } = await useFetch<IReportApiItem>(url, {
+    method: 'POST',
+    body: JSON.stringify(report),
+  })
   return data.value
 }
