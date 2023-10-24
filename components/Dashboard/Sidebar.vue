@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import IconUilApps from '~icons/uil/apps'
 import IconMdiCashFast from '~icons/mdi/cash-fast'
+import IconMdiFile from '~icons/mdi/file'
+
 export interface IMenuItem {
   type: 'link' | 'button'
   text: string
@@ -29,6 +31,14 @@ const menus = computed((): IMenuItem[] => [
     route: { name: 'dashboard' },
     icon: {
       obj: IconUilApps,
+    },
+  },
+  {
+    type: 'link',
+    text: t('pages.reports.nav'),
+    route: { name: 'reports' },
+    icon: {
+      obj: IconMdiFile,
     },
   },
   {

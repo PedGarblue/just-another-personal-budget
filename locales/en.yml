@@ -98,6 +98,7 @@ pages:
       delete:
         success: 'Receivable Updated Successfully'
   reports:
+    nav: Reports
     index:
       title: Reports
 banners:
