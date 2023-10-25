@@ -13,6 +13,7 @@ export interface IReportApiItem extends ReportBase {
   id: number
   initial_balance: number
   end_balance: number
+  balance_status: string
   total_income: number
   total_expense: number
 }
