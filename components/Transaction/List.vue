@@ -96,5 +96,17 @@ const displayTransactionsData = computed<DisplayTransaction[]>(() => {
     <template v-for="(_, name) in $slots" #[name]="slotData">
       <slot :name="name" v-bind="slotData" />
     </template>
+
+    <template #item-amountWithCurrency="item">
+      <span
+        :class="{
+          'text-green-500': !item.amount.includes('-'),
+          'text-red-500': item.amount.includes('-'),
+        }"
+        class="font-bold"
+      >
+        {{ item.amountWithCurrency }}
+      </span>
+    </template>
   </EasyDataTable>
 </template>
