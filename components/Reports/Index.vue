@@ -136,8 +136,8 @@ onMounted(() => {
           <span
             class="font-bold"
             :class="{
-              'text-green-500': item.end_balance > item.initial_balance,
-              'text-red-500': item.end_balance < item.initial_balance,
+              'text-green-500': item.balance_status === 'positive',
+              'text-red-500': item.balance_status === 'negative',
             }"
           >
             {{ item.end_balance }}
