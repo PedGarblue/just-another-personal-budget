@@ -142,7 +142,7 @@ const selectedFontSizeStyle = computed(
 
 <style lang="postcss" scoped>
 .custom-select {
-  @apply relative h-full w-full text-left outline-none border rounded px-2;
+  @apply relative h-full w-full text-left outline-none border rounded px-2 z-50;
   line-height: 1.5rem;
 }
 
