@@ -119,6 +119,36 @@ onMounted(() => {
         :filter-options="filterOptions"
         @click-row="setReportSelected"
       >
+        <template #item-initial_balance="item">
+          <span class="font-bold">
+            {{ item.initial_balance }}
+          </span>
+        </template>
+
+        <template #item-end_balance="item">
+          <span
+            class="font-bold"
+            :class="{
+              'text-green-500': item.end_balance > item.initial_balance,
+              'text-red-500': item.end_balance < item.initial_balance,
+            }"
+          >
+            {{ item.end_balance }}
+          </span>
+        </template>
+
+        <template #item-total_income="item">
+          <span class="font-bold text-green-500">
+            {{ item.total_income }}
+          </span>
+        </template>
+
+        <template #item-total_expenses="item">
+          <span class="font-bold text-red-500">
+            {{ item.total_expenses }}
+          </span>
+        </template>
+
         <template #item-operation="item">
           <ReportsUpdate :report="item" @form-finished="() => refreshTable()" />
         </template>
