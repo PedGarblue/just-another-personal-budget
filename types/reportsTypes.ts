@@ -6,6 +6,9 @@ export interface ReportBase {
   account: number
 }
 
+export interface IReportUpdateItem extends ReportBase {
+  id: number
+}
 export interface IReportApiItem extends ReportBase {
   id: number
   initial_balance: number

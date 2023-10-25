@@ -105,6 +105,8 @@ pages:
       title: Create Report
       success: Report Created Successfully
       restart: Create Another Report
+    update:
+      success: Report Updated Successfully
 banners:
   welcome: hello, welcome to %{app_name}!
 others:

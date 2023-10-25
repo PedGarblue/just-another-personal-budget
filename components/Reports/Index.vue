@@ -40,6 +40,10 @@ const headers: Header[] = [
     text: 'Total Expenses',
     value: 'total_expenses',
   },
+  {
+    text: 'Operation',
+    value: 'operation',
+  },
 ]
 const reports = ref<IReportApiItem[]>([])
 const accountCriteria = ref(accountsStore.getAccountsNames[0])
@@ -106,7 +110,7 @@ onMounted(() => {
         :default="accountsNames[0]"
         :options="accountsNames"
       />
-      <ReportsCreate @refresh-table="refreshTable" />
+      <ReportsCreate @form-finished="() => refreshTable()" />
     </div>
     <div>
       <EasyDataTable
@@ -114,7 +118,11 @@ onMounted(() => {
         :items="displayReportsData"
         :filter-options="filterOptions"
         @click-row="setReportSelected"
-      ></EasyDataTable>
+      >
+        <template #item-operation="item">
+          <ReportsUpdate :report="item" @form-finished="() => refreshTable()" />
+        </template>
+      </EasyDataTable>
     </div>
     <div v-if="selectedReport" class="mt-4">
       <ReportsTransactions :report="selectedReport" />

@@ -23,6 +23,7 @@ declare module '@vue/runtime-core' {
     'IconMdi:loading': typeof import('~icons/mdi/loading')['default']
     'IconMdi:messageTextOutline': typeof import('~icons/mdi/message-text-outline')['default']
     'IconMdi:pencilBoxOutline': typeof import('~icons/mdi/pencil-box-outline')['default']
+    'IconMdi:refresh': typeof import('~icons/mdi/refresh')['default']
     'IconSimpleIcons:nuxtdotjs': typeof import('~icons/simple-icons/nuxtdotjs')['default']
     'IconUil:angleDown': typeof import('~icons/uil/angle-down')['default']
     'IconUil:bars': typeof import('~icons/uil/bars')['default']

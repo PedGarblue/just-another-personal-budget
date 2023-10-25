@@ -1,4 +1,8 @@
-import { ReportBase, IReportApiItem } from '~~/types/reportsTypes'
+import {
+  ReportBase,
+  IReportUpdateItem,
+  IReportApiItem,
+} from '~~/types/reportsTypes'
 
 export async function getReportList(): Promise<[IReportApiItem] | null> {
   const runtimeConfig = useRuntimeConfig()
@@ -14,6 +18,18 @@ export async function createReport(
   const url = `${runtimeConfig.public.apiUrl}/reports/`
   const { data } = await useFetch<IReportApiItem>(url, {
     method: 'POST',
+    body: JSON.stringify(report),
+  })
+  return data.value
+}
+
+export async function updateReport(
+  report: IReportUpdateItem
+): Promise<IReportApiItem | null> {
+  const runtimeConfig = useRuntimeConfig()
+  const url = `${runtimeConfig.public.apiUrl}/reports/${report.id}/`
+  const { data } = await useFetch<IReportApiItem>(url, {
+    method: 'PUT',
     body: JSON.stringify(report),
   })
   return data.value
