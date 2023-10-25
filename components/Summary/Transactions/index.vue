@@ -1,38 +1,25 @@
 <script lang="ts" setup>
-import transactions, { TransactionAPI } from '~~/api/transactions'
 import { useAccounts } from '~~/stores/accounts'
+import { useTransactions } from '~~/composables/useTransactions'
 
+const { transactionsAPIData, getTransactions } = useTransactions()
 const accounts = useAccounts()
 
 // TODO: Date Range selector
 // const startMonthDate = format(new Date(), 'yyyy-MM-01')
 
 // data refs
-const transactionsAPIData = ref<TransactionAPI[]>([])
 const accountCriteria = ref('All')
 
 // computed
 const accountsNames = computed(() => accounts.getAccountsNames)
 
 // methods
-
-const getTransactions = async () => {
-  const response = await transactions()
-  if (response) {
-    transactionsAPIData.value = response
-  }
-}
-
 const refreshTable = () => {
   getTransactions()
   // should i be doing this?
   accounts.fetchAccounts()
 }
-
-// lifecycle
-onMounted(() => {
-  getTransactions()
-})
 </script>
 
 <template>
