@@ -7,7 +7,7 @@ definePageMeta({
 })
 
 onMounted(() => {
-  accountsStore.fetchAccounts()
+  accountsStore.fetchData()
 })
 </script>
 <template>

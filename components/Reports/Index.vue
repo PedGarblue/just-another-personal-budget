@@ -1,5 +1,9 @@
 <script lang="ts" setup>
-import type { FilterOption, Header } from 'vue3-easy-data-table'
+import type {
+  FilterOption,
+  Header,
+  ClickRowArgument,
+} from 'vue3-easy-data-table'
 import type { IReportApiItem, IReportDisplayItem } from '~/types/reportsTypes'
 import { getReportList } from '~~/api/reports'
 import { useAccounts } from '~~/stores/accounts'
@@ -38,7 +42,8 @@ const headers: Header[] = [
   },
 ]
 const reports = ref<IReportApiItem[]>([])
-const accountCriteria = ref('All')
+const accountCriteria = ref(accountsStore.getAccountsNames[0])
+const selectedReport = ref<IReportDisplayItem | null>(null)
 
 // computed
 
@@ -58,13 +63,11 @@ const displayReportsData = computed(() => {
 
 const filterOptions = computed(() => {
   const filterOptionArray: FilterOption[] = []
-  if (accountCriteria.value !== 'All') {
-    filterOptionArray.push({
-      field: 'accountData.name',
-      comparison: '=',
-      criteria: accountCriteria.value,
-    })
-  }
+  filterOptionArray.push({
+    field: 'accountData.name',
+    comparison: '=',
+    criteria: accountCriteria.value,
+  })
 
   return filterOptionArray
 })
@@ -82,6 +85,10 @@ const refreshTable = () => {
   getReports()
 }
 
+const setReportSelected = (item: ClickRowArgument) => {
+  selectedReport.value = item as IReportDisplayItem
+}
+
 // lifecycle
 
 onMounted(() => {
@@ -96,15 +103,21 @@ onMounted(() => {
       <Select
         v-model="accountCriteria"
         size="sm"
-        default="All"
-        :options="['All', ...accountsNames]"
+        :default="accountsNames[0]"
+        :options="accountsNames"
       />
       <ReportsCreate @refresh-table="refreshTable" />
     </div>
-    <EasyDataTable
-      :headers="headers"
-      :items="displayReportsData"
-      :filter-options="filterOptions"
-    ></EasyDataTable>
+    <div>
+      <EasyDataTable
+        :headers="headers"
+        :items="displayReportsData"
+        :filter-options="filterOptions"
+        @click-row="setReportSelected"
+      ></EasyDataTable>
+    </div>
+    <div v-if="selectedReport" class="mt-4">
+      <ReportsTransactions :report="selectedReport" />
+    </div>
   </PageSection>
 </template>
