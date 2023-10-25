@@ -16,7 +16,7 @@ const accountsNames = computed(() => accounts.getAccountsNames)
 
 // methods
 const refreshTable = () => {
-  getTransactions()
+  getTransactions({})
   // should i be doing this?
   accounts.fetchAccounts()
 }

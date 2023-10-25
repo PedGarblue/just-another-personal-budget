@@ -11,11 +11,24 @@ export interface TransactionAPI extends TransactionBase {
 }
 
 export default async function (
-  from?: string
+  from?: string,
+  to?: string,
+  account?: number
 ): Promise<[TransactionAPI] | null> {
   const runtimeConfig = useRuntimeConfig()
-  const fromQuery = from ? `start_date=${from}` : ''
-  const url = `${runtimeConfig.public.apiUrl}/transactions/?${fromQuery}`
+  const params = new URLSearchParams()
+  if (from) {
+    params.append('start_date', from)
+  }
+  if (to) {
+    params.append('end_date', to)
+  }
+  if (account) {
+    params.append('account', account.toString())
+  }
+  const url = `${
+    runtimeConfig.public.apiUrl
+  }/transactions/?${params.toString()}`
   const { data: transactions } = await useFetch<[TransactionAPI]>(url)
   return transactions.value
 }
