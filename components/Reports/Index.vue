@@ -1,7 +1,9 @@
 <script lang="ts" setup>
+import { format } from 'date-fns'
 import type {
   FilterOption,
   Header,
+  SortType,
   ClickRowArgument,
 } from 'vue3-easy-data-table'
 import type { IReportApiItem, IReportDisplayItem } from '~/types/reportsTypes'
@@ -48,6 +50,9 @@ const headers: Header[] = [
 const reports = ref<IReportApiItem[]>([])
 const accountCriteria = ref(accountsStore.getAccountsNames[0])
 const selectedReport = ref<IReportDisplayItem | null>(null)
+
+const sortBy: string[] = ['from_date']
+const sortType: SortType[] = ['desc']
 
 // computed
 
@@ -116,6 +121,8 @@ onMounted(() => {
       <EasyDataTable
         :headers="headers"
         :items="displayReportsData"
+        :sort-by="sortBy"
+        :sort-type="sortType"
         :filter-options="filterOptions"
         @click-row="setReportSelected"
       >
