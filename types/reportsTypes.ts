@@ -11,11 +11,11 @@ export interface IReportUpdateItem extends ReportBase {
 }
 export interface IReportApiItem extends ReportBase {
   id: number
-  initial_balance: number
-  end_balance: number
+  initial_balance: string
+  end_balance: string
   balance_status: string
-  total_income: number
-  total_expense: number
+  total_income: string
+  total_expenses: string
 }
 
 export interface IReportDisplayItem extends IReportApiItem {
