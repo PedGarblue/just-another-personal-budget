@@ -26,7 +26,11 @@ export default defineNuxtConfig({
   ],
 
   // plugins
-  plugins: ['~/plugins/navbar.ts', '~/plugins/vue3-easy-data-table.ts'],
+  plugins: [
+    '~/plugins/navbar.ts',
+    '~/plugins/vue3-easy-data-table.ts',
+    '~/plugins/chartjs.ts',
+  ],
 
   // build
   build: {
