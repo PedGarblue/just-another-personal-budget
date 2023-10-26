@@ -77,7 +77,7 @@ export function ThemeManager() {
   onThemeSettingChange(themeSetting.value)
 
   // lifecycle
-  let intervalCheckTime: NodeJS.Timer
+  let intervalCheckTime: NodeJS.Timeout
   onBeforeMount(() => init())
   onMounted(() => {
     window

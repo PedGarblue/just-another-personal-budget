@@ -8,7 +8,7 @@ const showDrawer = useState<boolean>('navbar.showDrawer', () => false)
 const showOptions = useState<boolean>('navbar.showOptions', () => false)
 
 // lifecycle
-let timer: NodeJS.Timer
+let timer: NodeJS.Timeout
 onMounted(() => {
   if (!navbar.value) return
 
