@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { format } from 'date-fns'
 import type {
   FilterOption,
   Header,
@@ -58,15 +57,24 @@ const sortType: SortType[] = ['desc']
 
 const displayReportsData = computed(() => {
   return reports.value
-    ? reports.value.map((report) => {
-        const account = accountsStore.getAccount(report.account)
-        const newReport: IReportDisplayItem = {
-          ...report,
-          accountData: account,
-          key: report.id,
-        }
-        return newReport
-      })
+    ? reports.value
+        .map((report) => {
+          const account = accountsStore.getAccount(report.account)
+          const newReport: IReportDisplayItem = {
+            ...report,
+            accountData: account,
+            key: report.id,
+          }
+          return newReport
+        })
+        // filter by account
+        .filter((report) => report.accountData.name === accountCriteria.value)
+        // remove duplicated months
+        .filter((report, index, self) => {
+          return (
+            index === self.findIndex((t) => t.from_date === report.from_date)
+          )
+        })
     : []
 })
 
@@ -107,7 +115,10 @@ onMounted(() => {
 
 <template>
   <PageSection>
-    <PageSectionTitle> Reports </PageSectionTitle>
+    <PageSectionTitle> Report By Account </PageSectionTitle>
+    <div class="mb-4">
+      <ReportsChart :reports="displayReportsData" />
+    </div>
     <div class="flex flex-row w-full gap-4 mb-2">
       <Select
         v-model="accountCriteria"
