@@ -6,6 +6,12 @@ import {
 
 export async function getReportList(): Promise<[IReportApiItem] | null> {
   const runtimeConfig = useRuntimeConfig()
+  const query = new URLSearchParams()
+
+  // we will always sort by from_date no need to pass it as a parameter
+  // (for now)
+  query.append('ordering', '-from_date')
+
   const url = `${runtimeConfig.public.apiUrl}/reports/`
   const { data } = await useFetch<[IReportApiItem]>(url)
   return data.value
