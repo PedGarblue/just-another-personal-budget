@@ -126,7 +126,10 @@ onMounted(() => {
         :default="accountsNames[0]"
         :options="accountsNames"
       />
-      <ReportsCreate @form-finished="() => refreshTable()" />
+      <ReportsCreate
+        :account="accountCriteria"
+        @form-finished="() => refreshTable()"
+      />
     </div>
     <div>
       <EasyDataTable

@@ -8,6 +8,16 @@ import { FormField } from '~~/types/formTypes'
 
 const emits = defineEmits(['form-finished'])
 
+// props
+
+const props = defineProps({
+  account: {
+    type: String,
+    required: false,
+    default: '',
+  },
+})
+
 // data
 const { t } = useLang()
 const modal = ref<InstanceType<typeof Modal> | null>(null)
@@ -15,7 +25,6 @@ const accountsState = useAccounts()
 const notifications = useNotificationsStore()
 
 const datePickerFormat = (date: Date) => {
-  const day = date.getDate()
   const month = date.getMonth() + 1
   const year = date.getFullYear()
 
@@ -39,7 +48,9 @@ const fields = computed<FormField[]>(() => [
   {
     key: 'account',
     title: 'Account',
-    default: accountsState.getAccounts[0],
+    default: accountsState.getAccounts.find(
+      (account) => account.name === props.account
+    ),
     selectOptions: accountsState.getAccounts,
     selectionKey: 'name',
     optionKey: 'name',
@@ -57,7 +68,8 @@ const closeModal = () => {
 
 const submit = (data: any) => {
   const { account, month: date } = data
-  const monthDate = new Date(date.year, date.month)
+  const monthDate =
+    date instanceof Date ? date : new Date(date.year, date.month)
   const monthWithFirstDay = format(
     new Date(monthDate.getFullYear(), monthDate.getMonth(), 1),
     'yyyy-MM-dd'
