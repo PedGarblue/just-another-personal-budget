@@ -12,7 +12,7 @@ export async function getReportList(): Promise<[IReportApiItem] | null> {
   // (for now)
   query.append('ordering', '-from_date')
 
-  const url = `${runtimeConfig.public.apiUrl}/reports/`
+  const url = `${runtimeConfig.public.apiUrl}/reports/?${query.toString()}`
   const { data } = await useFetch<[IReportApiItem]>(url)
   return data.value
 }
