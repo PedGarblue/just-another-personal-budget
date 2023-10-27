@@ -19,30 +19,21 @@ const datePickerFormat = (date: Date) => {
   const month = date.getMonth() + 1
   const year = date.getFullYear()
 
-  return `${year}-${month}-${day}`
+  return `${year}-${month}`
 }
 
 const fields = computed<FormField[]>(() => [
   {
-    key: 'from_date',
-    title: 'Starting date',
+    key: 'month',
+    title: 'Month',
     default: new Date(),
     datePicker: true,
     value: new Date(),
     componentProps: {
-      modeltype: 'yyyy-mm-dd',
+      modeltype: 'yyyy-MM',
       format: datePickerFormat,
-    },
-  },
-  {
-    key: 'to_date',
-    title: 'End date',
-    default: new Date(),
-    datePicker: true,
-    value: new Date(),
-    componentProps: {
-      modeltype: 'yyyy-mm-dd',
-      format: datePickerFormat,
+      enableTimePicker: false,
+      monthPicker: true,
     },
   },
   {
@@ -65,10 +56,22 @@ const closeModal = () => {
 }
 
 const submit = (data: any) => {
+  const { account, month: date } = data
+  const monthDate = new Date(date.year, date.month)
+  const monthWithFirstDay = format(
+    new Date(monthDate.getFullYear(), monthDate.getMonth(), 1),
+    'yyyy-MM-dd'
+  )
+
+  const monthWithLastDay = format(
+    new Date(monthDate.getFullYear(), monthDate.getMonth() + 1, 0),
+    'yyyy-MM-dd'
+  )
+
   return createReport({
-    account: data.account.id,
-    from_date: format(data.from_date, 'yyyy-MM-dd'),
-    to_date: format(data.to_date, 'yyyy-MM-dd'),
+    account: account.id,
+    from_date: monthWithFirstDay,
+    to_date: monthWithLastDay,
   })
 }
 
