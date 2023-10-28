@@ -15,7 +15,7 @@ const { transactionsAPIData, getTransactions } = useTransactions({
   getTransactionsParams: {
     account: props.report.account,
     from: props.report.from_date,
-    to: props.report.to_date,
+    to: props.report.to_date + 'T23:59:59Z',
   },
 })
 
@@ -25,9 +25,14 @@ const refreshTable = () => {
   getTransactions({
     account: props.report.account,
     from: props.report.from_date,
-    to: props.report.to_date,
+    to: parseDate(props.report.to_date),
   })
 }
+
+const parseDate = (date: string) => {
+  return date + 'T23:59:59Z'
+}
+
 watch(
   () => props.report,
   () => {
