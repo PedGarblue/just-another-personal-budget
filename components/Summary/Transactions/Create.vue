@@ -1,9 +1,11 @@
 <script lang="ts" setup>
+import { Ref } from 'vue'
 import { createTransaction } from '~~/api/transactions'
 import Modal from '~~/components/Modal.vue'
 import { useAccounts } from '~~/stores/accounts'
 import { useNotificationsStore } from '~~/stores/notifications'
 import { FormField } from '~~/types/formTypes'
+import { CategoryAPI } from '~~/types/categories'
 
 const emits = defineEmits(['form-finished'])
 
@@ -12,6 +14,7 @@ const { t } = useLang()
 const modal = ref<InstanceType<typeof Modal> | null>(null)
 const accountsState = useAccounts()
 const notifications = useNotificationsStore()
+const categories = inject<Ref<CategoryAPI[]>>('categories')
 
 const fields = computed<FormField[]>(() => [
   {
@@ -26,6 +29,15 @@ const fields = computed<FormField[]>(() => [
     title: 'Account',
     default: accountsState.getAccounts[0],
     selectOptions: accountsState.getAccounts,
+    selectionKey: 'name',
+    optionKey: 'name',
+    value: '',
+  },
+  {
+    key: 'category',
+    title: 'Category',
+    default: categories?.value[0],
+    selectOptions: categories?.value,
     selectionKey: 'name',
     optionKey: 'name',
     value: '',
@@ -59,6 +71,7 @@ const submit = (data: any) => {
   return createTransaction({
     ...data,
     account: data.account.id,
+    category: data.category.id,
   })
 }
 

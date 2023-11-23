@@ -1,12 +1,16 @@
 <script lang="ts" setup>
 import { format } from 'date-fns'
 import type { PropType } from 'vue'
+import { Ref } from 'vue'
 import type { FilterOption, Header, SortType } from 'vue3-easy-data-table'
 import type { TransactionAPI } from '~~/api/transactions'
 import { useAccounts } from '~~/stores/accounts'
+import { CategoryAPI } from '~~/types/categories'
 import { DisplayTransaction } from '~~/types/transactionTypes'
 
 const accounts = useAccounts()
+
+const categories = inject<Ref<CategoryAPI[]>>('categories')
 
 // props
 
@@ -36,6 +40,10 @@ const headers: Header[] = [
   {
     text: 'Account',
     value: 'accountData.name',
+  },
+  {
+    text: 'Category',
+    value: 'categoryData',
   },
   {
     text: 'Amount',
@@ -75,12 +83,14 @@ const displayTransactionsData = computed<DisplayTransaction[]>(() => {
           key: transaction.id,
           accountData: account,
           amountWithCurrency: `${account.currencyData.symbol}${transaction.amount}`,
+          categoryData: categories?.value?.find(
+            (category: CategoryAPI) => category.id === transaction.category
+          ),
         }
         return newTransaction
       })
     : []
 })
-
 // methods
 </script>
 
@@ -95,6 +105,17 @@ const displayTransactionsData = computed<DisplayTransaction[]>(() => {
   >
     <template v-for="(_, name) in $slots" #[name]="slotData">
       <slot :name="name" v-bind="slotData" />
+    </template>
+
+    <template #item-categoryData="item">
+      <span
+        class="rounded-md px-2 py-1 text-black font-bold"
+        :style="{
+          'background-color': item.categoryData?.color,
+        }"
+      >
+        {{ item.categoryData?.name }}
+      </span>
     </template>
 
     <template #item-amountWithCurrency="item">

@@ -1,3 +1,4 @@
+import { CategoryAPI } from './categories'
 import { TransactionAPI } from '~~/api/transactions'
 import { AccountComplete } from '~~/stores/accounts'
 
@@ -6,4 +7,5 @@ export interface DisplayTransaction extends TransactionAPI {
   dateFormatted: string
   accountData: AccountComplete
   amountWithCurrency: string
+  categoryData?: CategoryAPI
 }

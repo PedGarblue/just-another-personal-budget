@@ -1,10 +1,11 @@
 <script lang="ts" setup>
-import { PropType } from 'vue'
+import { PropType, Ref } from 'vue'
 import { updateTransaction } from '~~/api/transactions'
 import { useAccounts } from '~~/stores/accounts'
 import { DisplayTransaction } from '~~/types/transactionTypes'
 import Modal from '~~/components/Modal.vue'
 import { useNotificationsStore } from '~~/stores/notifications'
+import { CategoryAPI } from '~~/types/categories'
 
 const emits = defineEmits(['form-finished'])
 
@@ -21,6 +22,7 @@ const modal = ref<InstanceType<typeof Modal> | null>(null)
 const accountsState = useAccounts()
 const accountsList = accountsState.getAccounts
 const notifications = useNotificationsStore()
+const categories = inject<Ref<CategoryAPI[]>>('categories')
 
 // methods
 
@@ -50,6 +52,15 @@ const fields = [
     value: props.transaction.accountData,
   },
   {
+    key: 'category',
+    title: 'Category',
+    default: props.transaction.categoryData,
+    selectOptions: categories?.value,
+    selectionKey: 'name',
+    optionKey: 'name',
+    value: props.transaction.categoryData,
+  },
+  {
     key: 'description',
     title: 'Description',
     default: props.transaction.description,
@@ -70,6 +81,7 @@ const submit = (data: any) => {
   return updateTransaction(props.transaction.id, {
     ...data,
     account: data.account.id,
+    category: data.category.id,
   })
 }
 

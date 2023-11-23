@@ -2,6 +2,7 @@ export interface TransactionBase {
   amount: string
   description: string
   account: number
+  category: number
   date: Date
 }
 
