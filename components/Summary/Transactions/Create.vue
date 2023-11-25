@@ -3,6 +3,7 @@ import { Ref } from 'vue'
 import { createTransaction } from '~~/api/transactions'
 import Modal from '~~/components/Modal.vue'
 import { useAccounts } from '~~/stores/accounts'
+import { useTransactions } from '~~/stores/transactions'
 import { useNotificationsStore } from '~~/stores/notifications'
 import { FormField } from '~~/types/formTypes'
 import { CategoryAPI } from '~~/types/categories'
@@ -13,8 +14,9 @@ const emits = defineEmits(['form-finished'])
 const { t } = useLang()
 const modal = ref<InstanceType<typeof Modal> | null>(null)
 const accountsState = useAccounts()
+const transactionsState = useTransactions()
 const notifications = useNotificationsStore()
-const categories = inject<Ref<CategoryAPI[]>>('categories')
+const categories = transactionsState.getCategories
 
 const fields = computed<FormField[]>(() => [
   {
@@ -36,8 +38,8 @@ const fields = computed<FormField[]>(() => [
   {
     key: 'category',
     title: 'Category',
-    default: categories?.value[0],
-    selectOptions: categories?.value,
+    default: categories[0],
+    selectOptions: categories,
     selectionKey: 'name',
     optionKey: 'name',
     value: '',

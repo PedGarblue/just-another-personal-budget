@@ -5,6 +5,7 @@ import { useAccounts } from '~~/stores/accounts'
 import { DisplayTransaction } from '~~/types/transactionTypes'
 import Modal from '~~/components/Modal.vue'
 import { useNotificationsStore } from '~~/stores/notifications'
+import { useTransactions } from '~~/stores/transactions'
 import { CategoryAPI } from '~~/types/categories'
 
 const emits = defineEmits(['form-finished'])
@@ -20,9 +21,10 @@ const props = defineProps({
 const { t } = useLang()
 const modal = ref<InstanceType<typeof Modal> | null>(null)
 const accountsState = useAccounts()
+const transactionsState = useTransactions()
 const accountsList = accountsState.getAccounts
 const notifications = useNotificationsStore()
-const categories = inject<Ref<CategoryAPI[]>>('categories')
+const categories = transactionsState.getCategories
 
 // methods
 
@@ -55,7 +57,7 @@ const fields = [
     key: 'category',
     title: 'Category',
     default: props.transaction.categoryData,
-    selectOptions: categories?.value,
+    selectOptions: categories,
     selectionKey: 'name',
     optionKey: 'name',
     value: props.transaction.categoryData,

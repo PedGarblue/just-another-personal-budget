@@ -1,18 +1,16 @@
 <script lang="ts" setup>
 import { useAccounts } from '~~/composables/useAccounts'
-import { useCategories } from '~~/composables/useCategories'
+import { useTransactions } from '~~/stores/transactions'
 
 definePageMeta({
   layout: 'dashboard',
 })
 
 const accounts = useAccounts()
-const { categories, loadCategories } = useCategories()
-
-provide('categories', categories)
+const { fetchCategories } = useTransactions()
 
 onMounted(() => {
-  loadCategories()
+  fetchCategories()
 })
 </script>
 

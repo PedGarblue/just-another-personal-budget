@@ -5,12 +5,14 @@ import { Ref } from 'vue'
 import type { FilterOption, Header, SortType } from 'vue3-easy-data-table'
 import type { TransactionAPI } from '~~/api/transactions'
 import { useAccounts } from '~~/stores/accounts'
+import { useTransactions } from '~~/stores/transactions'
 import { CategoryAPI } from '~~/types/categories'
 import { DisplayTransaction } from '~~/types/transactionTypes'
 
 const accounts = useAccounts()
+const transactionsStore = useTransactions()
 
-const categories = inject<Ref<CategoryAPI[]>>('categories')
+const categories = transactionsStore.getCategories
 
 // props
 
@@ -83,7 +85,7 @@ const displayTransactionsData = computed<DisplayTransaction[]>(() => {
           key: transaction.id,
           accountData: account,
           amountWithCurrency: `${account.currencyData.symbol}${transaction.amount}`,
-          categoryData: categories?.value?.find(
+          categoryData: categories.find(
             (category: CategoryAPI) => category.id === transaction.category
           ),
         }
