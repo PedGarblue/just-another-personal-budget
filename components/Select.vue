@@ -3,7 +3,7 @@ import { ref } from 'vue'
 
 const props = defineProps({
   modelValue: {
-    type: [String, Object],
+    type: [String, Object, Number],
     default() {
       return ''
     },
@@ -13,7 +13,7 @@ const props = defineProps({
     required: true,
   },
   default: {
-    type: [String, Object],
+    type: [String, Object, Number],
     required: false,
     default: null,
   },
