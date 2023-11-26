@@ -180,8 +180,8 @@ watch(
 }
 
 .items {
-  @apply flex flex-col w-max p-4 bg-white border border-t-0 rounded rounded-t-none gap-2 shadow-lg;
-  overflow: hidden;
+  @apply flex flex-col w-full min-w-32 lg:w-max p-4 bg-white border border-t-0 rounded rounded-t-none gap-2 shadow-lg max-h-96;
+  overflow-y: scroll;
   position: absolute;
   left: 0;
   right: 0;
