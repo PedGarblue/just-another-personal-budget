@@ -12,7 +12,7 @@ import { DisplayTransaction } from '~~/types/transactionTypes'
 const accounts = useAccounts()
 const transactionsStore = useTransactions()
 
-const categories = transactionsStore.getCategories
+const categories = computed(() => transactionsStore.getCategories)
 
 // props
 
@@ -85,7 +85,7 @@ const displayTransactionsData = computed<DisplayTransaction[]>(() => {
           key: transaction.id,
           accountData: account,
           amountWithCurrency: `${account.currencyData.symbol}${transaction.amount}`,
-          categoryData: categories.find(
+          categoryData: categories.value.find(
             (category: CategoryAPI) => category.id === transaction.category
           ),
         }

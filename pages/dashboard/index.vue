@@ -1,17 +1,11 @@
 <script lang="ts" setup>
 import { useAccounts } from '~~/composables/useAccounts'
-import { useTransactions } from '~~/stores/transactions'
 
 definePageMeta({
   layout: 'dashboard',
 })
 
 const accounts = useAccounts()
-const { fetchCategories } = useTransactions()
-
-onMounted(() => {
-  fetchCategories()
-})
 </script>
 
 <template>

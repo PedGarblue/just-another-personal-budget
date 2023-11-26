@@ -3,7 +3,10 @@ import { AppConfigInput } from '@nuxt/schema'
 import { AppSetup } from './utils/app'
 import { ITheme } from './utils/theme'
 import { useNotificationsStore } from '~~/stores/notifications'
+import { useTransactions } from '~~/stores/transactions'
+
 AppSetup()
+
 const theme = useState<ITheme>('theme.current')
 const themeDark = ref<ITheme>('dark')
 const locale = useState<string>('locale.setting')
@@ -11,6 +14,12 @@ const app = useAppConfig() as AppConfigInput
 // use Notification display
 const notificationStore = useNotificationsStore()
 const notifications = computed(() => notificationStore.notifications)
+
+const { fetchCategories } = useTransactions()
+
+onMounted(() => {
+  fetchCategories()
+})
 
 useHead({
   title: app.name,
