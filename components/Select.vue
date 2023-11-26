@@ -43,7 +43,9 @@ const emits = defineEmits(['update:modelValue', 'selection'])
 // data
 
 const selected = ref(
-  props.default
+  props.modelValue !== ''
+    ? props.modelValue
+    : props.default
     ? props.default
     : props.options.length > 0
     ? props.options[0]
@@ -51,25 +53,6 @@ const selected = ref(
 )
 
 const open = ref(false)
-
-// v-model update
-
-const updateValue = (option: String | Object) => {
-  selected.value = option !== '' ? option : props.default
-  open.value = false
-  emits('update:modelValue', option)
-  emits('selection', option)
-}
-
-// methods
-
-const openSelect = () => {
-  open.value = true
-}
-
-const closeSelect = () => {
-  open.value = false
-}
 
 // list styles
 const paddingStyles = reactive<{
@@ -89,11 +72,39 @@ const fontSizeStyles = reactive<{
   lg: 'text-lg',
 })
 
+// methods
+
+// v-model update
+const updateValue = (option: String | Object) => {
+  selected.value = option !== '' ? option : props.default
+  open.value = false
+  emits('update:modelValue', option)
+  emits('selection', option)
+}
+
+const openSelect = () => {
+  open.value = true
+}
+
+const closeSelect = () => {
+  open.value = false
+}
+
+// computed
+
 const selectedPaddingStyle = computed(
   () => paddingStyles[props.size] || paddingStyles.md
 )
 const selectedFontSizeStyle = computed(
   () => fontSizeStyles[props.size] || fontSizeStyles.md
+)
+
+// watch
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    selected.value = newValue
+  }
 )
 </script>
 

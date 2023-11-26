@@ -47,8 +47,8 @@ const headers: Header[] = [
   },
 ]
 const reports = ref<IReportApiItem[]>([])
-const accountCriteria = ref(accountsStore.getAccountsNames[0])
 const selectedReport = ref<IReportDisplayItem | null>(null)
+const accountCriteria = ref('')
 
 const sortBy: string[] = ['from_date']
 const sortType: SortType[] = ['desc']
@@ -56,26 +56,24 @@ const sortType: SortType[] = ['desc']
 // computed
 
 const displayReportsData = computed(() => {
-  return reports.value
-    ? reports.value
-        .map((report) => {
-          const account = accountsStore.getAccount(report.account)
-          const newReport: IReportDisplayItem = {
-            ...report,
-            accountData: account,
-            key: report.id,
-          }
-          return newReport
-        })
-        // filter by account
-        .filter((report) => report.accountData.name === accountCriteria.value)
-        // remove duplicated months
-        .filter((report, index, self) => {
-          return (
-            index === self.findIndex((t) => t.from_date === report.from_date)
-          )
-        })
-    : []
+  return (
+    reports.value
+      .map((report) => {
+        const account = accountsStore.getAccount(report.account)
+        const newReport: IReportDisplayItem = {
+          ...report,
+          accountData: account,
+          key: report.id,
+        }
+        return newReport
+      })
+      // filter by account
+      .filter((report) => report.accountData.name === accountCriteria.value)
+      // remove duplicated months
+      .filter((report, index, self) => {
+        return index === self.findIndex((t) => t.from_date === report.from_date)
+      })
+  )
 })
 
 const filterOptions = computed(() => {
@@ -111,6 +109,15 @@ const setReportSelected = (item: ClickRowArgument) => {
 onMounted(() => {
   getReports()
 })
+
+// watch
+
+// if accounts list set accountCriteria to first account
+watch(accountsNames, () => {
+  if (accountsNames.value.length > 0) {
+    accountCriteria.value = accountsNames.value[0]
+  }
+})
 </script>
 
 <template>
@@ -120,12 +127,7 @@ onMounted(() => {
       <ReportsChart :reports="displayReportsData" />
     </div>
     <div class="flex flex-row w-full gap-4 mb-2">
-      <Select
-        v-model="accountCriteria"
-        size="sm"
-        :default="accountsNames[0]"
-        :options="accountsNames"
-      />
+      <Select v-model="accountCriteria" size="sm" :options="accountsNames" />
       <ReportsCreate
         :account="accountCriteria"
         @form-finished="() => refreshTable()"
