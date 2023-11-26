@@ -108,10 +108,18 @@ const deleteItem = (item: CategoryAPI) => {
                   class="w-1/4"
                 >
                   <template #selected-value="item">
-                    {{ item.selected.name ?? 'None' }}
+                    {{
+                      typeof item.selected === 'object'
+                        ? (item.selected as CategoryAPI).name
+                        : 'None'
+                    }}
                   </template>
                   <template #item-value="item">
-                    {{ item.option.name }}
+                    {{
+                      typeof item.option === 'object'
+                        ? (item.option as CategoryAPI).name
+                        : 'None'
+                    }}
                   </template>
                 </Select>
                 <input
