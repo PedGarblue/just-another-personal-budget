@@ -33,6 +33,7 @@ const refreshTable = () => {
         default="All"
         :options="['All', ...accountsNames]"
       />
+      <SummaryCategoriesCreate class="ml-auto" />
     </div>
     <TransactionList
       :transactions="transactionsAPIData"

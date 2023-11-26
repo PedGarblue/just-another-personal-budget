@@ -9,3 +9,7 @@ export interface CategoryBase {
 export interface CategoryAPI extends CategoryBase {
   id: number
 }
+
+export interface CategoryForm extends CategoryBase {
+  parentData?: CategoryAPI
+}
