@@ -8,16 +8,18 @@ import {
   LinearScale,
   LineElement,
   PointElement,
+  ArcElement,
 } from 'chart.js'
 export default defineNuxtPlugin(() => {
   Chart.register(
-    CategoryScale,
     LinearScale,
-    BarElement,
+    CategoryScale,
     Title,
     Tooltip,
     Legend,
+    BarElement,
     LineElement,
-    PointElement
+    PointElement,
+    ArcElement
   )
 })

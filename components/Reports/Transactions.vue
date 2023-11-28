@@ -42,8 +42,11 @@ watch(
 )
 </script>
 <template>
-  <TransactionList
-    :transactions="transactionsAPIData"
-    :account-criteria="props.report.accountData.name"
-  />
+  <div class="flex flex-col gap-4">
+    <ReportsChartCategories :transactions="transactionsAPIData" />
+    <TransactionList
+      :transactions="transactionsAPIData"
+      :account-criteria="props.report.accountData.name"
+    />
+  </div>
 </template>

@@ -35,5 +35,8 @@ export const useTransactions = defineStore('transactions', {
     getCategories(): CategoryAPI[] {
       return this.categories
     },
+    getCategory(state): (id: number) => CategoryAPI | undefined {
+      return (pk: number) => this.getCategories.find((c) => c.id === pk)
+    },
   },
 })
