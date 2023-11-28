@@ -89,13 +89,13 @@ const chartOptions = ref({
 
 <template>
   <div class="flex max-w-full justify-center gap-4">
-    <div>
+    <div class="w-full">
       <div>
         <h2 class="text-center font-bold">Expenses</h2>
       </div>
       <Doughnut :data="expensesByCategory" :options="chartOptions" />
     </div>
-    <div>
+    <div class="w-full">
       <div>
         <h2 class="text-center font-bold">Income</h2>
       </div>
