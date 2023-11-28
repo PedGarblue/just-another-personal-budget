@@ -14,7 +14,7 @@ const props = defineProps({
 })
 
 const groupByCategory = (transactions: TransactionAPI[]) => {
-  return transactions.reduce(
+  const grouped = transactions.reduce(
     (acc, transaction) => {
       const amount = Number(transaction.amount)
       const category = transactionsStore.getCategory(transaction.category)
@@ -30,6 +30,10 @@ const groupByCategory = (transactions: TransactionAPI[]) => {
     },
     { 'No Category': 0 } as Record<string, number>
   )
+  const groupedSorted = Object.fromEntries(
+    Object.entries(grouped).sort(([, a], [, b]) => b - a)
+  )
+  return groupedSorted
 }
 
 const groupExpensesByCategory = (transactions: TransactionAPI[]) => {
@@ -59,7 +63,7 @@ const expensesByCategory = computed(() => {
   const datasets = [
     {
       data: Object.values(group),
-      backgroundColor: ['#fafafa', ...categoryColors],
+      backgroundColor: [...categoryColors, '#fafafa'],
       borderColor: ['#a0a0a0'],
     },
   ]
