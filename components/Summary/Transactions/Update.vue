@@ -24,7 +24,7 @@ const accountsState = useAccounts()
 const transactionsState = useTransactions()
 const accountsList = accountsState.getAccounts
 const notifications = useNotificationsStore()
-const categories = transactionsState.getCategories
+const categories = computed(() => transactionsState.getCategories)
 
 // methods
 

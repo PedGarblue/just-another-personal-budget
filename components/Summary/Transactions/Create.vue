@@ -16,7 +16,7 @@ const modal = ref<InstanceType<typeof Modal> | null>(null)
 const accountsState = useAccounts()
 const transactionsState = useTransactions()
 const notifications = useNotificationsStore()
-const categories = transactionsState.getCategories
+const categories = computed(() => transactionsState.getCategories)
 
 const fields = computed<FormField[]>(() => [
   {
@@ -38,7 +38,7 @@ const fields = computed<FormField[]>(() => [
   {
     key: 'category',
     title: 'Category',
-    default: categories[0],
+    default: categories.value[0],
     selectOptions: categories,
     selectionKey: 'name',
     optionKey: 'name',
