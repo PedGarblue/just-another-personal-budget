@@ -4,7 +4,12 @@ import { PropType } from 'vue'
 import { TransactionAPI } from '~~/api/transactions'
 import { useTransactions } from '~~/stores/transactions'
 
-const transactionsStore = useTransactions()
+type CategoryGroupItem = {
+  [key: string]: {
+    amount: number
+    color: string
+  }
+}
 
 const props = defineProps({
   transactions: {
@@ -13,41 +18,57 @@ const props = defineProps({
   },
 })
 
+const transactionsStore = useTransactions()
+
+const chartOptions = ref({
+  responsive: true,
+})
+
 const groupByCategory = (transactions: TransactionAPI[]) => {
   const grouped = transactions.reduce(
     (acc, transaction) => {
       const amount = Number(transaction.amount)
       const category = transactionsStore.getCategory(transaction.category)
       if (!category) {
-        acc['No Category'] += amount
+        acc['No Category'].amount += amount
+
         return acc
       }
       if (!acc[category.name]) {
-        acc[category.name] = 0
+        acc[category.name] = {
+          amount: 0,
+          color: category.color,
+        }
       }
-      acc[category.name] += amount
+      acc[category.name].amount += amount
       return acc
     },
-    { 'No Category': 0 } as Record<string, number>
+    { 'No Category': { amount: 0, color: 'fafafa' } } as CategoryGroupItem
   )
   const groupedSorted = Object.fromEntries(
-    Object.entries(grouped).sort(([, a], [, b]) => b - a)
+    Object.entries(grouped).sort(([, a], [, b]) => b.amount - a.amount)
   )
   return groupedSorted
 }
 
-const groupExpensesByCategory = (transactions: TransactionAPI[]) => {
-  const categories = groupByCategory(
-    transactions.filter((transaction) => Number(transaction.amount) < 0)
-  )
-  return categories
-}
-
-const groupIncomeByCategory = (transactions: TransactionAPI[]) => {
-  const categories = groupByCategory(
-    transactions.filter((transaction) => Number(transaction.amount) > 0)
-  )
-  return categories
+const toChartData = (transactions: TransactionAPI[]) => {
+  const groups = groupByCategory(transactions)
+  const labels = Object.keys(groups)
+  const values = Object.values(groups).map((item) => item.amount)
+  const backgroundColor = labels.map((label) => {
+    const category = categories.value.find(
+      (category) => category.name === label
+    )
+    return category ? category.color : '#fafafa'
+  })
+  const datasets = [
+    {
+      data: Object.values(values),
+      backgroundColor,
+      borderColor: ['#a0a0a0'],
+    },
+  ]
+  return { labels, datasets }
 }
 
 const categories = computed(() => {
@@ -55,39 +76,15 @@ const categories = computed(() => {
 })
 
 const expensesByCategory = computed(() => {
-  const group = groupExpensesByCategory(props.transactions)
-  const labels = Object.keys(group)
-  const categoryColors = categories.value
-    .filter((category) => labels.includes(category.name))
-    .map((category) => category.color)
-  const datasets = [
-    {
-      data: Object.values(group),
-      backgroundColor: [...categoryColors, '#fafafa'],
-      borderColor: ['#a0a0a0'],
-    },
-  ]
-  return { labels, datasets }
+  return toChartData(
+    props.transactions.filter((transaction) => Number(transaction.amount) < 0)
+  )
 })
 
 const incomeByCategory = computed(() => {
-  const group = groupIncomeByCategory(props.transactions)
-  const labels = Object.keys(group)
-  const categoryColors = categories.value
-    .filter((category) => labels.includes(category.name))
-    .map((category) => category.color)
-  const datasets = [
-    {
-      data: Object.values(group),
-      backgroundColor: ['#fafafa', ...categoryColors],
-      borderColor: ['#a0a0a0'],
-    },
-  ]
-  return { labels, datasets }
-})
-
-const chartOptions = ref({
-  responsive: true,
+  return toChartData(
+    props.transactions.filter((transaction) => Number(transaction.amount) > 0)
+  )
 })
 </script>
 
