@@ -35,8 +35,8 @@ const menus = computed((): IMenuItem[] => [
   },
   {
     type: 'link',
-    text: t('pages.reports.nav'),
-    route: { name: 'reports' },
+    text: t('pages.reports.account.nav'),
+    route: { name: 'reports.account' },
     icon: {
       obj: IconMdiFile,
     },

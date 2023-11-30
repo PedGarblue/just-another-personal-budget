@@ -107,6 +107,8 @@ pages:
       restart: Create Another Report
     update:
       success: Report Updated Successfully
+    account:
+      nav: Report by Account
 banners:
   welcome: hello, welcome to %{app_name}!
 others:
