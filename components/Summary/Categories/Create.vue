@@ -96,8 +96,8 @@ const deleteItem = (item: CategoryAPI) => {
                 <Select
                   v-model="newCategory.type"
                   size="sm"
-                  default="Expense"
-                  :options="['Expense', 'Income']"
+                  default="expense"
+                  :options="['expense', 'income']"
                   class="w-1/4"
                 />
                 <Select
