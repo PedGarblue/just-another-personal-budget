@@ -4,6 +4,8 @@ interface ITransactionQueryParams {
   from?: string
   to?: string
   account?: number
+  currency?: number
+  excludeSameCurrencyTransactions?: boolean
 }
 
 interface IUseTransactionsParams {
@@ -18,8 +20,16 @@ export const useTransactions = ({
     from = getTransactionsParams?.from,
     to = getTransactionsParams?.to,
     account = getTransactionsParams?.account,
+    currency = getTransactionsParams?.currency,
+    excludeSameCurrencyTransactions = getTransactionsParams?.excludeSameCurrencyTransactions,
   }: ITransactionQueryParams) => {
-    const response = await transactions(from, to, account)
+    const response = await transactions(
+      from,
+      to,
+      account,
+      currency,
+      excludeSameCurrencyTransactions
+    )
     if (response) {
       transactionsAPIData.value = response
     }

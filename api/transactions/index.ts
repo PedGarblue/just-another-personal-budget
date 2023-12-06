@@ -14,7 +14,9 @@ export interface TransactionAPI extends TransactionBase {
 export default async function (
   from?: string,
   to?: string,
-  account?: number
+  account?: number,
+  currency?: number,
+  excludeSameCurrencyTransactions?: boolean
 ): Promise<[TransactionAPI] | null> {
   const runtimeConfig = useRuntimeConfig()
   const params = new URLSearchParams()
@@ -26,6 +28,12 @@ export default async function (
   }
   if (account) {
     params.append('account', account.toString())
+  }
+  if (currency) {
+    params.append('currency', currency.toString())
+  }
+  if (excludeSameCurrencyTransactions) {
+    params.append('exclude_same_currency_exchanges', 'true')
   }
   const url = `${
     runtimeConfig.public.apiUrl

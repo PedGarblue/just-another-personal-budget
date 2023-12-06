@@ -15,6 +15,8 @@ const { transactionsAPIData, getTransactions } = useTransactions({
   getTransactionsParams: {
     from: props.report.from_date,
     to: props.report.to_date + 'T23:59:59Z',
+    currency: props.report.currencyData.id,
+    excludeSameCurrencyTransactions: true,
   },
 })
 
