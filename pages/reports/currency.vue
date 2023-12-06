@@ -4,7 +4,7 @@ const accountsStore = useAccounts()
 
 definePageMeta({
   layout: 'dashboard',
-  name: 'reports.account',
+  name: 'reports.currency',
 })
 
 onMounted(() => {
@@ -17,7 +17,7 @@ onMounted(() => {
       <PageTitle :text="$t('pages.reports.index.title')" class="capitalize" />
     </PageHeader>
     <PageBody>
-      <ReportsAccount></ReportsAccount>
+      <ReportsCurrency></ReportsCurrency>
     </PageBody>
   </PageWrapper>
 </template>

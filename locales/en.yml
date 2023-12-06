@@ -107,6 +107,8 @@ pages:
       restart: Create Another Report
     update:
       success: Report Updated Successfully
+    currency:
+      nav: Report by Currency
     account:
       nav: Report by Account
 banners:

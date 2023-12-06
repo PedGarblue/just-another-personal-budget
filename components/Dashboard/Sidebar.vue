@@ -43,6 +43,14 @@ const menus = computed((): IMenuItem[] => [
   },
   {
     type: 'link',
+    text: t('pages.reports.currency.nav'),
+    route: { name: 'reports.currency' },
+    icon: {
+      obj: IconMdiFile,
+    },
+  },
+  {
+    type: 'link',
     text: t('pages.investments.nav'),
     route: { name: 'investments' },
     icon: {

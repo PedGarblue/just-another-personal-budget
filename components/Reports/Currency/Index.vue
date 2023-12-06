@@ -5,8 +5,11 @@ import type {
   SortType,
   ClickRowArgument,
 } from 'vue3-easy-data-table'
-import type { IReportApiItem, IReportDisplayItem } from '~/types/reportsTypes'
-import { getReportList } from '~~/api/reports'
+import type {
+  IReportCurrencyApiItem,
+  IReportCurrencyDisplayItem,
+} from '~/types/reportsTypes'
+import { getReportByCurrencyList } from '~~/api/reports/currency'
 import { useAccounts } from '~~/stores/accounts'
 
 const accountsStore = useAccounts()
@@ -22,8 +25,8 @@ const headers: Header[] = [
     value: 'to_date',
   },
   {
-    text: 'Account',
-    value: 'accountData.name',
+    text: 'Currency',
+    value: 'currencyData.name',
   },
   {
     text: 'Initial Balance',
@@ -46,29 +49,31 @@ const headers: Header[] = [
     value: 'operation',
   },
 ]
-const reports = ref<IReportApiItem[]>([])
-const selectedReport = ref<IReportDisplayItem | null>(null)
-const accountCriteria = ref('')
+const reports = ref<IReportCurrencyApiItem[]>([])
+const selectedReport = ref<IReportCurrencyDisplayItem | null>(null)
+const currencyCriteria = ref('')
 
 const sortBy: string[] = ['from_date']
 const sortType: SortType[] = ['desc']
 
 // computed
 
+const currencyNames = computed(() => accountsStore.getCurrenciesNames)
+
 const displayReportsData = computed(() => {
   return (
     reports.value
       .map((report) => {
-        const account = accountsStore.getAccount(report.account)
-        const newReport: IReportDisplayItem = {
+        const currencyData = accountsStore.getCurrency(report.currency)
+        const newReport: IReportCurrencyDisplayItem = {
           ...report,
-          accountData: account,
+          currencyData,
           key: report.id,
         }
         return newReport
       })
-      // filter by account
-      .filter((report) => report.accountData.name === accountCriteria.value)
+      // filter by Currency
+      .filter((report) => report.currencyData.name === currencyCriteria.value)
       // remove duplicated months
       .filter((report, index, self) => {
         return index === self.findIndex((t) => t.from_date === report.from_date)
@@ -79,20 +84,18 @@ const displayReportsData = computed(() => {
 const filterOptions = computed(() => {
   const filterOptionArray: FilterOption[] = []
   filterOptionArray.push({
-    field: 'accountData.name',
+    field: 'currencyData.name',
     comparison: '=',
-    criteria: accountCriteria.value,
+    criteria: currencyCriteria.value,
   })
 
   return filterOptionArray
 })
 
-const accountsNames = computed(() => accountsStore.getAccountsNames)
-
 // methods
 
 const getReports = async () => {
-  const data = await getReportList()
+  const data = await getReportByCurrencyList()
   reports.value = data || []
 }
 
@@ -101,7 +104,7 @@ const refreshTable = () => {
 }
 
 const setReportSelected = (item: ClickRowArgument) => {
-  selectedReport.value = item as IReportDisplayItem
+  selectedReport.value = item as IReportCurrencyDisplayItem
 }
 
 // lifecycle
@@ -113,9 +116,9 @@ onMounted(() => {
 // watch
 
 // if accounts list set accountCriteria to first account
-watch(accountsNames, () => {
-  if (accountsNames.value.length > 0) {
-    accountCriteria.value = accountsNames.value[0]
+watch(currencyNames, () => {
+  if (currencyNames.value.length > 0) {
+    currencyCriteria.value = currencyNames.value[0]
   }
 })
 </script>
@@ -124,12 +127,12 @@ watch(accountsNames, () => {
   <PageSection>
     <PageSectionTitle> Report By Account </PageSectionTitle>
     <div class="mb-4">
-      <ReportsChart :reports="displayReportsData" />
+      <ReportsCurrencyChart :reports="displayReportsData" />
     </div>
     <div class="flex flex-row w-full gap-4 mb-2">
-      <Select v-model="accountCriteria" size="sm" :options="accountsNames" />
-      <ReportsCreate
-        :account="accountCriteria"
+      <Select v-model="currencyCriteria" size="sm" :options="currencyNames" />
+      <ReportsCurrencyCreate
+        :currency="currencyCriteria"
         @form-finished="() => refreshTable()"
       />
     </div>
@@ -172,13 +175,13 @@ watch(accountsNames, () => {
           </span>
         </template>
 
-        <template #item-operation="item">
+        <!-- <template #item-operation="item">
           <ReportsUpdate :report="item" @form-finished="() => refreshTable()" />
-        </template>
+        </template> -->
       </EasyDataTable>
     </div>
     <div v-if="selectedReport" class="mt-4">
-      <ReportsTransactions :report="selectedReport" />
+      <ReportsCurrencyTransactions :report="selectedReport" />
     </div>
   </PageSection>
 </template>

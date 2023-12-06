@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { PropType } from 'vue'
-import type { IReportDisplayItem } from '~/types/reportsTypes'
+import type { IReportAccountDisplayItem } from '~/types/reportsTypes'
 import { useNotificationsStore } from '~~/stores/notifications'
-import { updateReport } from '~~/api/reports'
+import { updateReportByAccount } from '~~/api/reports'
 
 // emits
 const emits = defineEmits(['form-finished'])
@@ -10,7 +10,7 @@ const emits = defineEmits(['form-finished'])
 // props
 const props = defineProps({
   report: {
-    type: Object as PropType<IReportDisplayItem>,
+    type: Object as PropType<IReportAccountDisplayItem>,
     required: true,
   },
 })
@@ -21,7 +21,7 @@ const notifications = useNotificationsStore()
 
 // methods
 const submitUpdateReport = () => {
-  updateReport({
+  updateReportByAccount({
     id: props.report.id,
     account: props.report.account,
     from_date: props.report.from_date,

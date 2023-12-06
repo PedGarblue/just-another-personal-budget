@@ -2,11 +2,11 @@
 import { Line } from 'vue-chartjs'
 import { PropType } from 'vue'
 import { format } from 'date-fns'
-import { IReportDisplayItem } from '~~/types/reportsTypes'
+import { IReportCurrencyDisplayItem } from '~~/types/reportsTypes'
 
 const props = defineProps({
   reports: {
-    type: Array as PropType<IReportDisplayItem[]>,
+    type: Array as PropType<IReportCurrencyDisplayItem[]>,
     required: true,
   },
 })

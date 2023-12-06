@@ -23,7 +23,11 @@ const props = defineProps({
   },
   accountCriteria: {
     type: String,
-    required: true,
+    default: 'All',
+  },
+  currencyCriteria: {
+    type: String,
+    default: 'All',
   },
 })
 
@@ -50,6 +54,7 @@ const headers: Header[] = [
   {
     text: 'Amount',
     value: 'amountWithCurrency',
+    sortable: true,
   },
   {
     text: 'Operation',
@@ -69,6 +74,13 @@ const filterOptions = computed((): FilterOption[] => {
       field: 'accountData.name',
       comparison: '=',
       criteria: props.accountCriteria,
+    })
+  }
+  if (props.currencyCriteria !== 'All') {
+    filterOptionArray.push({
+      field: 'accountData.currencyData.name',
+      comparison: '=',
+      criteria: props.currencyCriteria,
     })
   }
 

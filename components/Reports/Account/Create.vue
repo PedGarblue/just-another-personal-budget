@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { format } from 'date-fns'
-import { createReport } from '~~/api/reports'
+import { createReportByAccount } from '~~/api/reports'
 import Modal from '~~/components/Modal.vue'
 import { useAccounts } from '~~/stores/accounts'
 import { useNotificationsStore } from '~~/stores/notifications'
@@ -80,7 +80,7 @@ const submit = (data: any) => {
     'yyyy-MM-dd'
   )
 
-  return createReport({
+  return createReportByAccount({
     account: account.id,
     from_date: monthWithFirstDay,
     to_date: monthWithLastDay,

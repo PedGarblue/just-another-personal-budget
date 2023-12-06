@@ -1,15 +1,26 @@
+import { Currency } from '~~/api/currencies'
 import { AccountComplete } from '~~/stores/accounts'
 
 export interface ReportBase {
   from_date: string
   to_date: string
+}
+
+export interface IReportAccountItem extends ReportBase {
   account: number
 }
 
-export interface IReportUpdateItem extends ReportBase {
+export interface IReportCurrencyItem extends ReportBase {
+  currency: number
+}
+
+export interface IReportAccountUpdateItem extends IReportAccountItem {
   id: number
 }
-export interface IReportApiItem extends ReportBase {
+export interface IReportCurrencyUpdateItem extends IReportCurrencyItem {
+  id: number
+}
+export interface IReportApiItem {
   id: number
   initial_balance: string
   end_balance: string
@@ -18,7 +29,18 @@ export interface IReportApiItem extends ReportBase {
   total_expenses: string
 }
 
-export interface IReportDisplayItem extends IReportApiItem {
+export interface IReportAccountApiItem
+  extends IReportApiItem,
+    IReportAccountItem {}
+export interface IReportCurrencyApiItem
+  extends IReportApiItem,
+    IReportCurrencyItem {}
+
+export interface IReportAccountDisplayItem extends IReportAccountApiItem {
   key: number
   accountData: AccountComplete
+}
+export interface IReportCurrencyDisplayItem extends IReportCurrencyApiItem {
+  key: number
+  currencyData: Currency
 }

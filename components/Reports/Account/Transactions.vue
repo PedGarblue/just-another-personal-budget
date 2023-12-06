@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import type { PropType } from 'vue'
-import type { IReportDisplayItem } from '~/types/reportsTypes'
+import type { IReportAccountDisplayItem } from '~/types/reportsTypes'
 import { useTransactions } from '~~/composables/useTransactions'
 
 // props
 const props = defineProps({
   report: {
-    type: Object as PropType<IReportDisplayItem>,
+    type: Object as PropType<IReportAccountDisplayItem>,
     required: true,
   },
 })

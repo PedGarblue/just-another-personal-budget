@@ -69,6 +69,9 @@ export const useAccounts = defineStore('accounts', {
       return (pk: number): Currency =>
         state.currencies.find((item) => item.id === pk) || defaultCurrency
     },
+    getCurrenciesNames(state): string[] {
+      return state.currencies.map((currency) => currency.name)
+    },
     getAccounts(state): AccountComplete[] {
       return state.accounts.map((account) => {
         const currencyData = this.getCurrency(account.currency)
