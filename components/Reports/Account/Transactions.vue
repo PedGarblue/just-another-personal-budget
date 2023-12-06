@@ -43,7 +43,7 @@ watch(
 </script>
 <template>
   <div class="flex flex-col gap-4">
-    <ReportsChartCategories :transactions="transactionsAPIData" />
+    <ReportsAccountChartCategories :transactions="transactionsAPIData" />
     <TransactionList
       :transactions="transactionsAPIData"
       :account-criteria="props.report.accountData.name"
