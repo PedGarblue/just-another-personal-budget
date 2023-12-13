@@ -33,3 +33,15 @@ export async function createReportByCurrency(
   })
   return data.value
 }
+
+export async function updateReportByCurrency(
+  report: IReportCurrencyUpdateItem
+): Promise<IReportCurrencyApiItem | null> {
+  const runtimeConfig = useRuntimeConfig()
+  const url = `${runtimeConfig.public.apiUrl}/reports-currency/${report.id}/`
+  const { data } = await useFetch<IReportCurrencyApiItem>(url, {
+    method: 'PUT',
+    body: JSON.stringify(report),
+  })
+  return data.value
+}

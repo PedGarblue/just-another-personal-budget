@@ -175,9 +175,12 @@ watch(currencyNames, () => {
           </span>
         </template>
 
-        <!-- <template #item-operation="item">
-          <ReportsUpdate :report="item" @form-finished="() => refreshTable()" />
-        </template> -->
+        <template #item-operation="item">
+          <ReportsCurrencyUpdate
+            :report="item"
+            @form-finished="() => refreshTable()"
+          />
+        </template>
       </EasyDataTable>
     </div>
     <div v-if="selectedReport" class="mt-4">

@@ -176,7 +176,10 @@ watch(accountsNames, () => {
         </template>
 
         <template #item-operation="item">
-          <ReportsUpdate :report="item" @form-finished="() => refreshTable()" />
+          <ReportsAccountUpdate
+            :report="item"
+            @form-finished="() => refreshTable()"
+          />
         </template>
       </EasyDataTable>
     </div>
