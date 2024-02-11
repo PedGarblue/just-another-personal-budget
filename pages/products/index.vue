@@ -19,9 +19,15 @@ const listSelectComponent = ref<InstanceType<typeof ProductsListSelect> | null>(
 )
 
 const updateProductList = () => {
-  if (listViewComponent.value) {
+  if (listViewComponent.value && listSelectComponent.value) {
+    listSelectComponent.value.fetchProductLists()
     listViewComponent.value.fetchAll()
   }
+}
+
+const setProductList = (productList: ProductListAPI) => {
+  selectedProductList.value = productList
+  updateProductList()
 }
 
 const addProductToList = (productId: string) => {

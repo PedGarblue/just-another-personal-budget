@@ -145,7 +145,11 @@ defineExpose({
 <template>
   <div>
     <div class="w-full flex pt-4 pb-2">
-      <GenericDataPill title="Total" :text="productList?.total" size="sm" />
+      <GenericDataPill
+        title="Total"
+        :text="`${productList?.total}`"
+        size="sm"
+      />
     </div>
     <EasyDataTable :items="items" :headers="headers">
       <template #item-quantity="item">
