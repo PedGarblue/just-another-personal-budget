@@ -111,6 +111,24 @@ pages:
       nav: Report by Currency
     account:
       nav: Report by Account
+  products:
+    nav: Purchase Budget
+    index:
+      title: Products Budget Estimation
+    create:
+      title: create product
+      success: product created
+      restart: create another product
+    createList:
+      title: Create Product List
+      success: product list created
+      restart: create another product list
+    update:
+      title: update product
+      success: product updated
+    delete:
+      success: product deleted
+
 banners:
   welcome: hello, welcome to %{app_name}!
 others:

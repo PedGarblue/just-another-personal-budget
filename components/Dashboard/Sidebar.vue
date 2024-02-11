@@ -2,6 +2,7 @@
 import IconUilApps from '~icons/uil/apps'
 import IconMdiCashFast from '~icons/mdi/cash-fast'
 import IconMdiFile from '~icons/mdi/file'
+import IconMdiBaguette from '~icons/mdi/baguette'
 
 export interface IMenuItem {
   type: 'link' | 'button'
@@ -55,6 +56,14 @@ const menus = computed((): IMenuItem[] => [
     route: { name: 'investments' },
     icon: {
       obj: IconMdiCashFast,
+    },
+  },
+  {
+    type: 'link',
+    text: t('pages.products.nav'),
+    route: { name: 'products' },
+    icon: {
+      obj: IconMdiBaguette,
     },
   },
 ])
