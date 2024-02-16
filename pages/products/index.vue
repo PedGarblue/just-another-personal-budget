@@ -66,7 +66,9 @@ const addProductToList = (productId: string) => {
       <PageTitle :text="$t('pages.products.index.title')" class="capitalize" />
     </PageHeader>
     <PageBody>
-      <div class="grid grid-cols-2 w-full gap-4">
+      <div
+        class="grid grid-cols-1 lg:grid-cols-2 w-full gap-10 lg:gap-4 px-2 lg:px-0"
+      >
         <div>
           <!-- Select of Product/Purchase List -->
           <div class="flex flex-col gap-3">
