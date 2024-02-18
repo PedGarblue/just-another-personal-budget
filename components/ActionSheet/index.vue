@@ -49,7 +49,7 @@ onMounted(() => {
   </Teleport>
 </template>
 
-<style lang="scss">
+<style lang="postcss">
 .slide-fade-from-bottom-enter-active {
   transition: all 0.3s ease-out;
 }

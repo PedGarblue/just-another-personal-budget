@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-import { ProductListAPI } from '~~/types/products'
+import type { FormField } from '~~/types/formTypes'
 import { createProductList } from '~~/api/products'
-import { FormField } from '~~/types/formTypes'
 import Modal from '~~/components/Modal.vue'
 import { useNotificationsStore } from '~~/stores/notifications'
 

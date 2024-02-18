@@ -82,9 +82,7 @@ const leadingsText = computed(() => [
   </PageWrapper>
 </template>
 
-<style lang="scss">
-@import '../assets/sass/variables';
-
+<style lang="postcss">
 @keyframes anim-fg-1 {
   0%,
   16.667%,
@@ -140,8 +138,8 @@ const leadingsText = computed(() => [
   bottom: 0;
   left: 0;
   z-index: 0;
-  padding-left: $padding;
-  padding-right: $padding;
+  padding-left: 0.05em;
+  padding-right: 0.05em;
   &:before {
     content: var(--content);
     position: absolute;
@@ -152,16 +150,16 @@ const leadingsText = computed(() => [
     bottom: 0;
     left: 0;
     z-index: 0;
-    padding-left: $padding;
-    padding-right: $padding;
+    padding-left: 0.05em;
+    padding-right: 0.05em;
   }
 }
 .animated-text-fg {
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  padding-left: $padding;
-  padding-right: $padding;
+  padding-left: 0.05em;
+  padding-right: 0.05em;
   background-image: linear-gradient(
     90deg,
     var(--start-color),

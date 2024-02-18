@@ -1,5 +1,5 @@
-import { Currency } from '~~/api/currencies'
-import { AccountComplete } from '~~/stores/accounts'
+import type { Currency } from '~~/api/currencies'
+import type { AccountComplete } from '~~/stores/accounts'
 
 export interface ReportBase {
   from_date: string

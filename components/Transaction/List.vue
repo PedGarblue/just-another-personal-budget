@@ -1,13 +1,12 @@
 <script lang="ts" setup>
 import { format } from 'date-fns'
 import type { PropType } from 'vue'
-import { Ref } from 'vue'
 import type { FilterOption, Header, SortType } from 'vue3-easy-data-table'
 import type { TransactionAPI } from '~~/api/transactions'
 import { useAccounts } from '~~/stores/accounts'
 import { useTransactions } from '~~/stores/transactions'
-import { CategoryAPI } from '~~/types/categories'
-import { DisplayTransaction } from '~~/types/transactionTypes'
+import type { CategoryAPI } from '~~/types/categories'
+import type { DisplayTransaction } from '~~/types/transactionTypes'
 
 const accounts = useAccounts()
 const transactionsStore = useTransactions()

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import { createProductListItem } from '@/api/products'
+import type { ProductListAPI } from '~~/types/products'
 import type ProductsListView from '~~/components/Products/ListView.vue'
 import type ProductsListSelect from '~~/components/Products/ListSelect.vue'
 import { useNotificationsStore } from '~~/stores/notifications'
-import { ProductListAPI } from '~~/types/products'
 
 definePageMeta({
   layout: 'dashboard',
@@ -30,7 +30,7 @@ const setProductList = (productList: ProductListAPI) => {
   updateProductList()
 }
 
-const addProductToList = (productId: string) => {
+const addProductToList = (productId: string | number) => {
   if (!selectedProductList.value) {
     notifications.addNotification({
       type: 'error',
@@ -40,7 +40,7 @@ const addProductToList = (productId: string) => {
   }
   createProductListItem({
     product_list: selectedProductList.value.id,
-    product: parseInt(productId, 10),
+    product: parseInt(productId as string, 10),
     quantity: 1,
   })
     .then(() => {

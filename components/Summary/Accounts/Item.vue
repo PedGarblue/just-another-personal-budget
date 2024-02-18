@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { PropType } from 'vue'
+import type { PropType } from 'vue'
 import DataPill from '~~/components/generic/DataPill.vue'
-import { AccountComplete } from '~~/stores/accounts'
+import type { AccountComplete } from '~~/stores/accounts'
 
 const props = defineProps({
   account: {

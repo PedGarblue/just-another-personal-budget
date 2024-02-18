@@ -1,6 +1,9 @@
 import { defineStore } from 'pinia'
-import accountsFetch, { Account } from '~/api/accounts'
-import currenciesFetch, { Currency } from '~~/api/currencies'
+import type { Currency } from '~/api/currencies'
+import type { Account } from '~/api/accounts'
+
+import accountsFetch from '~/api/accounts'
+import currenciesFetch from '~~/api/currencies'
 
 export interface IAccountsState {
   accounts: Account[]

@@ -1,4 +1,4 @@
-import { TransactionAPI } from '../transactions'
+import type { TransactionAPI } from '../transactions'
 
 interface ExchangeFields {
   date: string

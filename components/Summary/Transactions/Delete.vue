@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { PropType } from 'vue'
+import type { PropType } from 'vue'
 import { deleteTransaction } from '~~/api/transactions'
 import { useNotificationsStore } from '~~/stores/notifications'
-import { DisplayTransaction } from '~~/types/transactionTypes'
+import type { DisplayTransaction } from '~~/types/transactionTypes'
 
 enum LoadingStatus {
   IDLE = 'IDLE',

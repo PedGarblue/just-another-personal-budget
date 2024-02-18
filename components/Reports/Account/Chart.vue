@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import { Line } from 'vue-chartjs'
-import { PropType } from 'vue'
+import type { PropType } from 'vue'
 import { format } from 'date-fns'
-import { IReportAccountDisplayItem } from '~~/types/reportsTypes'
+import type { IReportAccountDisplayItem } from '~~/types/reportsTypes'
 
 const props = defineProps({
   reports: {

@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import VueDatePicker from '@vuepic/vue-datepicker'
-import { PropType } from 'vue'
-import {
+import type { PropType } from 'vue'
+import type {
   FormField,
-  LoadingStatus,
   IDatePickerFormField,
   ISelectFormField,
 } from '~~/types/formTypes'
+import { LoadingStatus } from '~~/types/formTypes'
 
 const { t } = useLang()
 

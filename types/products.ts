@@ -1,4 +1,4 @@
-import { APIResourceResponse } from './api'
+import type { APIResourceResponse } from './api'
 
 export interface ProductBase {
   name: string

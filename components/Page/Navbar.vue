@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { AppConfigInput } from '@nuxt/schema'
-
 export interface IMenuItem {
   type: 'link' | 'button'
   text: string
@@ -9,7 +7,7 @@ export interface IMenuItem {
 }
 
 const { t } = useLang()
-const app = useAppConfig() as AppConfigInput
+const app = useAppConfig()
 const menus = computed((): IMenuItem[] => [
   { type: 'link', text: t('pages.setting.nav'), route: { name: 'setting' } },
   {

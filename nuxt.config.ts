@@ -19,8 +19,6 @@ export default defineNuxtConfig({
 
   // css
   css: [
-    '~/assets/sass/vendor.scss',
-    '~/assets/sass/app.scss',
     '~/assets/style.css',
     'vue3-easy-data-table/dist/style.css',
     '@vuepic/vue-datepicker/dist/main.css',
@@ -46,13 +44,7 @@ export default defineNuxtConfig({
     '@nuxt/content',
     '@vueuse/nuxt',
     'nuxt-windicss',
-    'shadcn-nuxt',
   ],
-
-  // experimental features
-  experimental: {
-    reactivityTransform: false,
-  },
 
   // auto import components
   components: true,
@@ -105,12 +97,6 @@ export default defineNuxtConfig({
       },
     },
     scan: true,
-  },
-
-  // shadcn
-  shadcn: {
-    prefix: '',
-    componentDir: './components/ui',
   },
 
   // content

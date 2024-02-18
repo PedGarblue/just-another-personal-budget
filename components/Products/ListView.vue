@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { Header } from 'vue3-easy-data-table'
+import type { Header } from 'vue3-easy-data-table'
 
-import { ProductListAPI, ProductListItemAPI } from '~~/types/products'
+import type { ProductListAPI, ProductListItemAPI } from '~~/types/products'
 import {
   getProductListItemIndex,
   getProductList,
