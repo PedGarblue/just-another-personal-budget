@@ -46,7 +46,6 @@ export default defineNuxtConfig({
     '@nuxt/content',
     '@vueuse/nuxt',
     'nuxt-windicss',
-    'shadcn-nuxt',
   ],
 
   // experimental features
@@ -105,12 +104,6 @@ export default defineNuxtConfig({
       },
     },
     scan: true,
-  },
-
-  // shadcn
-  shadcn: {
-    prefix: '',
-    componentDir: './components/ui',
   },
 
   // content
