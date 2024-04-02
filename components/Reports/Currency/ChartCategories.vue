@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Doughnut } from 'vue-chartjs'
-import { PropType } from 'vue'
-import { TransactionAPI } from '~~/api/transactions'
+import type { PropType } from 'vue'
+import type { TransactionAPI } from '~~/api/transactions'
 import { useTransactions } from '~~/stores/transactions'
 
 type CategoryGroupItem = {

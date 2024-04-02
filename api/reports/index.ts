@@ -1,5 +1,4 @@
-import {
-  ReportBase,
+import type {
   IReportAccountItem,
   IReportAccountUpdateItem,
   IReportAccountApiItem,

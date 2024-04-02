@@ -1,4 +1,4 @@
-import { CategoryAPI, CategoryBase } from '~~/types/categories'
+import type { CategoryAPI, CategoryBase } from '~~/types/categories'
 import { getCategoryList, createCategory } from '~~/api/categories'
 
 export function useCategories() {

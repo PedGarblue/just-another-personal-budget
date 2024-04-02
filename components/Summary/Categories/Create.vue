@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { Ref } from 'vue'
+import type { Ref } from 'vue'
 import type { Header } from 'vue3-easy-data-table'
-import { CategoryAPI, CategoryForm } from '~~/types/categories'
+import type { CategoryAPI, CategoryForm } from '~~/types/categories'
 import Modal from '~~/components/Modal.vue'
 import {
   createCategory,

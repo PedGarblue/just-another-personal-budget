@@ -4,7 +4,7 @@ import { createReceivable } from '~~/api/receivables'
 import Modal from '~~/components/Modal.vue'
 import { useAccounts } from '~~/stores/accounts'
 import { useNotificationsStore } from '~~/stores/notifications'
-import { FormField } from '~~/types/formTypes'
+import type { FormField } from '~~/types/formTypes'
 
 const emits = defineEmits(['form-finished'])
 

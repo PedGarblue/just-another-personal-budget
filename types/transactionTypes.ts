@@ -1,6 +1,6 @@
-import { CategoryAPI } from './categories'
-import { TransactionAPI } from '~~/api/transactions'
-import { AccountComplete } from '~~/stores/accounts'
+import type { CategoryAPI } from './categories'
+import type { TransactionAPI } from '~~/api/transactions'
+import type { AccountComplete } from '~~/stores/accounts'
 
 export interface DisplayTransaction extends TransactionAPI {
   key: number // needed for Vue3EasyDataTable

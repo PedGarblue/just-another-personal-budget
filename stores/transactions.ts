@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { CategoryAPI, CategoryBase } from '~~/types/categories'
+import type { CategoryAPI, CategoryBase } from '~~/types/categories'
 import {
   getCategoryList,
   createCategory,

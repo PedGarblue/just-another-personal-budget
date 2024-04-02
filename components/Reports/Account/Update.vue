@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { PropType } from 'vue'
+import type { PropType } from 'vue'
 import type { IReportAccountDisplayItem } from '~/types/reportsTypes'
 import { useNotificationsStore } from '~~/stores/notifications'
 import { updateReportByAccount } from '~~/api/reports'

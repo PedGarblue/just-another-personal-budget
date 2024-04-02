@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-import { AppConfigInput } from '@nuxt/schema'
 import { AppSetup } from './utils/app'
-import { ITheme } from './utils/theme'
+import type { ITheme } from './utils/theme'
 import { useNotificationsStore } from '~~/stores/notifications'
 import { useTransactions } from '~~/stores/transactions'
 
@@ -10,7 +9,7 @@ AppSetup()
 const theme = useState<ITheme>('theme.current')
 const themeDark = ref<ITheme>('dark')
 const locale = useState<string>('locale.setting')
-const app = useAppConfig() as AppConfigInput
+const app = useAppConfig()
 // use Notification display
 const notificationStore = useNotificationsStore()
 const notifications = computed(() => notificationStore.notifications)
@@ -37,7 +36,10 @@ useHead({
 </script>
 
 <template>
-  <Html :class="`${theme === themeDark ? themeDark : ''}`" :lang="locale">
+  <Html
+    :class="`${theme.value === themeDark ? themeDark : ''}`"
+    :lang="locale.value"
+  >
     <Body
       class="antialiased duration-300 transition-colors text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-900"
     >

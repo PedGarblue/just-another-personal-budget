@@ -1,5 +1,4 @@
-import {
-  ReportBase,
+import type {
   IReportCurrencyItem,
   IReportCurrencyUpdateItem,
   IReportCurrencyApiItem,

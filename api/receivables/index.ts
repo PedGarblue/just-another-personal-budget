@@ -1,4 +1,4 @@
-import { ReceivableBase } from '~~/types/receivablesTypes'
+import type { ReceivableBase } from '~~/types/receivablesTypes'
 
 export interface ReceivableAPIItem extends ReceivableBase {
   id: number

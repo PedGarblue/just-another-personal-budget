@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-import { PropType } from 'vue'
+import type { PropType } from 'vue'
 import { useAccounts } from '~~/stores/accounts'
 import Modal from '~~/components/Modal.vue'
 import { useNotificationsStore } from '~~/stores/notifications'
-import { ReceivableAPIItem, patchReceivable } from '~~/api/receivables'
+import type { ReceivableAPIItem } from '~~/api/receivables'
+import { patchReceivable } from '~~/api/receivables'
 
 const emits = defineEmits(['form-finished'])
 

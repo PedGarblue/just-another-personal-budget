@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ProductListAPI } from '@/types/products'
+import type { ProductListAPI } from '@/types/products'
 import { getProductListIndex } from '~~/api/products'
 
 const productListSelected = defineModel<ProductListAPI>()

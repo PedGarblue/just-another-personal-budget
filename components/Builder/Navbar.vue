@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { AppConfigInput } from '@nuxt/schema'
+import type { AppConfigInput } from '@nuxt/schema'
 
 // state
-const app = useAppConfig() as AppConfigInput
+const app = useAppConfig() as unknown as AppConfigInput
 const navbar = ref(null)
 const showDrawer = useState<boolean>('navbar.showDrawer', () => false)
 const showOptions = useState<boolean>('navbar.showOptions', () => false)
@@ -144,7 +144,7 @@ const toggleOptions = (show?: boolean) => {
   </div>
 </template>
 
-<style lang="scss">
+<style lang="postcss">
 .slide-fade-from-up-enter-active {
   transition: all 0.3s ease-out;
 }

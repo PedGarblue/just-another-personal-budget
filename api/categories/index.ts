@@ -1,4 +1,4 @@
-import { CategoryAPI, CategoryBase } from '~~/types/categories'
+import type { CategoryAPI, CategoryBase } from '~~/types/categories'
 
 export async function getCategoryList(): Promise<CategoryAPI[] | null> {
   const runtimeConfig = useRuntimeConfig()

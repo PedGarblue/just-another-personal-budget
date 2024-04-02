@@ -1,12 +1,10 @@
 <script lang="ts" setup>
-import { Ref } from 'vue'
 import { createTransaction } from '~~/api/transactions'
 import Modal from '~~/components/Modal.vue'
 import { useAccounts } from '~~/stores/accounts'
 import { useTransactions } from '~~/stores/transactions'
 import { useNotificationsStore } from '~~/stores/notifications'
-import { FormField } from '~~/types/formTypes'
-import { CategoryAPI } from '~~/types/categories'
+import type { FormField } from '~~/types/formTypes'
 
 const emits = defineEmits(['form-finished'])
 

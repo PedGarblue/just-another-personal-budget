@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { PropType, Ref } from 'vue'
+import type { PropType, Ref } from 'vue'
 import { updateTransaction } from '~~/api/transactions'
 import { useAccounts } from '~~/stores/accounts'
-import { DisplayTransaction } from '~~/types/transactionTypes'
+import type { DisplayTransaction } from '~~/types/transactionTypes'
 import Modal from '~~/components/Modal.vue'
 import { useNotificationsStore } from '~~/stores/notifications'
 import { useTransactions } from '~~/stores/transactions'
-import { CategoryAPI } from '~~/types/categories'
+import type { CategoryAPI } from '~~/types/categories'
 
 const emits = defineEmits(['form-finished'])
 

@@ -1,4 +1,5 @@
-import transactions, { TransactionAPI } from '~~/api/transactions'
+import type { TransactionAPI } from '~~/api/transactions'
+import transactions from '~~/api/transactions'
 
 interface ITransactionQueryParams {
   from?: string

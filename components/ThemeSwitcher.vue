@@ -6,7 +6,8 @@ import {
   ListboxOptions,
   ListboxOption,
 } from '@headlessui/vue'
-import { IThemeSettingOptions, availableThemes } from '~/utils/theme'
+import type { IThemeSettingOptions } from '~/utils/theme'
+import { availableThemes } from '~/utils/theme'
 
 // micro compiler
 const props = defineProps({
@@ -54,9 +55,9 @@ const currentStyle = toRef(props, 'type')
           :class="{
             'py-2 px-2 flex items-center cursor-pointer': true,
             'text-sky-500 bg-gray-100 dark:bg-gray-600/30':
-              themeSetting === theme.key,
+              themeSetting.value === theme.key,
             'hover:bg-gray-50 dark:hover:bg-gray-700/30':
-              themeSetting !== theme.key,
+              themeSetting.value !== theme.key,
           }"
         >
           <span class="text-sm mr-2 flex items-center">
