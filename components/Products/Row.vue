@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import { Input } from '../ui/input'
-
 import { useNotificationsStore } from '~~/stores/notifications'
 import { deleteProduct, updateProduct } from '~~/api/products'
 import type { ProductAPI } from '~~/types/products'
@@ -68,8 +66,8 @@ const onUpdateProduct = () => {
 </script>
 
 <template>
-  <TableRow>
-    <TableCell class="flex gap-4 items-center text-center font-bold">
+  <UiTableRow>
+    <UiTableCell class="flex gap-4 items-center text-center font-bold">
       <IconMdi:plusCircleOutline
         class="text-green-500 hover:text-green-600 cursor-pointer transition text-base"
         @click="() => onSelectedProduct(product.id)"
@@ -86,22 +84,24 @@ const onUpdateProduct = () => {
           {{ product.name }}
         </template>
       </span>
-    </TableCell>
-    <TableCell class="text-center">
+    </UiTableCell>
+
+    <UiTableCell class="text-center">
       <span class="w-full">
         <template v-if="isUpdating">
-          <Input
+          <UiInput
             v-model="productData.cost"
             type="number"
             class="h-5 text-center"
-          ></Input>
+          ></UiInput>
         </template>
         <template v-else>
           {{ product.cost }}
         </template>
       </span>
-    </TableCell>
-    <TableCell>
+    </UiTableCell>
+
+    <UiTableCell>
       <div class="flex flex-row gap-4 justify-end">
         <div class="h-5 w-5">
           <IconMdi:pencilCircleOutline
@@ -121,6 +121,6 @@ const onUpdateProduct = () => {
           />
         </div>
       </div>
-    </TableCell>
-  </TableRow>
+    </UiTableCell>
+  </UiTableRow>
 </template>

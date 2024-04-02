@@ -1,15 +1,5 @@
 <script lang="ts" setup>
 import { Ref } from 'vue'
-
-import {
-  Table,
-  TableHeader,
-  TableRow,
-  TableHead,
-  TableBody,
-  TableCell,
-  TableFooter,
-} from '../ui/table'
 import { useNotificationsStore } from '~~/stores/notifications'
 import { getProductIndex } from '~~/api/products'
 import type { ProductAPI } from '~~/types/products'
@@ -61,15 +51,15 @@ onMounted(() => {
 
 <template>
   <div>
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead class="text-center">Name</TableHead>
-          <TableHead class="text-center">Price</TableHead>
-          <TableHead class="text-center">Actions</TableHead>
-        </TableRow>
-        <TableRow v-if="prev || next">
-          <TableCell>
+    <UiTable>
+      <UiTableHeader>
+        <UiTableRow>
+          <UiTableHead class="text-center">Name</UiTableHead>
+          <UiTableHead class="text-center">Price</UiTableHead>
+          <UiTableHead class="text-center">Actions</UiTableHead>
+        </UiTableRow>
+        <UiTableRow v-if="prev || next">
+          <UiTableCell>
             <Button
               v-if="prev"
               size="xs"
@@ -78,9 +68,9 @@ onMounted(() => {
             >
               Prev
             </Button>
-          </TableCell>
-          <TableCell></TableCell>
-          <TableCell>
+          </UiTableCell>
+          <UiTableCell></UiTableCell>
+          <UiTableCell>
             <Button
               v-if="next"
               size="xs"
@@ -89,10 +79,10 @@ onMounted(() => {
             >
               Next
             </Button>
-          </TableCell>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
+          </UiTableCell>
+        </UiTableRow>
+      </UiTableHeader>
+      <UiTableBody>
         <ProductsCreateRow @created-product="() => onProductsUpdated()" />
         <ProductsRow
           v-for="product in products"
@@ -103,10 +93,10 @@ onMounted(() => {
           @product-deleted="() => onProductsUpdated()"
         >
         </ProductsRow>
-      </TableBody>
-      <TableFooter>
-        <TableRow v-if="prev || next">
-          <TableCell>
+      </UiTableBody>
+      <UiTableFooter>
+        <UiTableRow v-if="prev || next">
+          <UiTableCell>
             <Button
               v-if="prev"
               size="xs"
@@ -115,9 +105,9 @@ onMounted(() => {
             >
               Prev
             </Button>
-          </TableCell>
-          <TableCell></TableCell>
-          <TableCell>
+          </UiTableCell>
+          <UiTableCell></UiTableCell>
+          <UiTableCell>
             <Button
               v-if="next"
               size="xs"
@@ -126,9 +116,9 @@ onMounted(() => {
             >
               Next
             </Button>
-          </TableCell>
-        </TableRow>
-      </TableFooter>
-    </Table>
+          </UiTableCell>
+        </UiTableRow>
+      </UiTableFooter>
+    </UiTable>
   </div>
 </template>

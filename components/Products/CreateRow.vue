@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { TableRow, TableCell } from '../ui/table'
 import { createProduct } from '~~/api/products'
 import { useNotificationsStore } from '~~/stores/notifications'
 import type { ProductCreate } from '~~/types/products'
@@ -40,23 +39,23 @@ const submit = async () => {
 </script>
 
 <template>
-  <TableRow>
-    <TableCell>
-      <input
+  <UiTableRow>
+    <UiTableCell>
+      <UiInput
         ref="prodname"
         v-model="product.name"
         type="text"
         class="table-input"
         placeholder="New Product"
       />
-    </TableCell>
-    <TableCell>
+    </UiTableCell>
+    <UiTableCell>
       <input v-model="product.cost" type="number" class="table-input" />
-    </TableCell>
-    <TableCell>
+    </UiTableCell>
+    <UiTableCell>
       <Button class="w-max mx-auto" size="xs" @click="() => submit()">+</Button>
-    </TableCell>
-  </TableRow>
+    </UiTableCell>
+  </UiTableRow>
 </template>
 
 <style lang="postcss" scoped>
