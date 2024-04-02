@@ -5,7 +5,7 @@ import IconsResolver from 'unplugin-icons/resolver'
 export default defineNuxtConfig({
   runtimeConfig: {
     public: {
-      apiUrl: 'http://localhost:8000/api/v1',
+      apiUrl: process.env.API_URL || 'http://localhost:3000',
     },
   },
   // server side rendering mode
