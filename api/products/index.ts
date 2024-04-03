@@ -44,10 +44,11 @@ export async function createProduct(
 ): Promise<ProductAPI | null> {
   const runtimeConfig = useRuntimeConfig()
   const url = `${runtimeConfig.public.apiUrl}/products/`
-  const { data: created } = await useFetch<ProductAPI>(url, {
+  const options = {
     method: 'POST',
     body: data,
-  })
+  }
+  const { data: created } = await useFetch<ProductAPI>(url, options as object)
   return created.value
 }
 
@@ -57,10 +58,11 @@ export async function updateProduct(
 ): Promise<ProductAPI | null> {
   const runtimeConfig = useRuntimeConfig()
   const url = `${runtimeConfig.public.apiUrl}/products/${pk}/`
-  const { data: updated } = await useFetch<ProductAPI>(url, {
+  const options = {
     method: 'PUT',
     body: data,
-  })
+  }
+  const { data: updated } = await useFetch<ProductAPI>(url, options as object)
   return updated.value
 }
 
@@ -88,7 +90,7 @@ export async function createProductList(
   const { data: created } = await useFetch<ProductListAPI>(url, {
     method: 'POST',
     body: data,
-  })
+  } as object)
   return created.value
 }
 
@@ -101,7 +103,7 @@ export async function updateProductList(
   const { data: updated } = await useFetch<ProductListAPI>(url, {
     method: 'PUT',
     body: data,
-  })
+  } as object)
   return updated.value
 }
 
@@ -137,7 +139,7 @@ export async function createProductListItem(
   const { data: created } = await useFetch<ProductListItemAPI>(url, {
     method: 'POST',
     body: data,
-  })
+  } as object)
   return created.value
 }
 
@@ -150,7 +152,7 @@ export async function updateProductListItem(
   const { data: updated } = await useFetch<ProductListItemAPI>(url, {
     method: 'PUT',
     body: data,
-  })
+  } as object)
   return updated.value
 }
 

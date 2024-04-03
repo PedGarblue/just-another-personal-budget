@@ -57,7 +57,7 @@ export function ThemeManager() {
     }
   }
   watch(themeSetting, (val) => {
-    onThemeSettingChange(val.value)
+    onThemeSettingChange(val)
   })
   const onThemeSystemChange = () => {
     if (themeSetting.value === 'system') {

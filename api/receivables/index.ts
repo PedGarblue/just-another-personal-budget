@@ -19,7 +19,7 @@ export async function createReceivable(
   const { data: created } = await useFetch<ReceivableAPIItem>(url, {
     method: 'POST',
     body: data,
-  })
+  } as object)
   return created.value
 }
 
@@ -32,7 +32,7 @@ export async function updateReceivable(
   const { data: updated } = await useFetch<ReceivableAPIItem>(url, {
     method: 'PUT',
     body: data,
-  })
+  } as object)
   return updated.value
 }
 
@@ -45,7 +45,7 @@ export async function patchReceivable(
   const { data: updated } = await useFetch<ReceivableAPIItem>(url, {
     method: 'PATCH',
     body: data,
-  })
+  } as object)
   return updated.value
 }
 

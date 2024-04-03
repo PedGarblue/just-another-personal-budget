@@ -50,7 +50,7 @@ export async function createTransaction(
   const { data: created } = await useFetch<TransactionAPI>(url, {
     method: 'POST',
     body: data,
-  })
+  } as object)
   return created.value
 }
 
@@ -63,7 +63,7 @@ export async function updateTransaction(
   const { data: updated } = await useFetch<TransactionAPI>(url, {
     method: 'PUT',
     body: data,
-  })
+  } as object)
   return updated.value
 }
 

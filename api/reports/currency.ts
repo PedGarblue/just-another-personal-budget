@@ -29,7 +29,7 @@ export async function createReportByCurrency(
   const { data } = await useFetch<IReportCurrencyApiItem>(url, {
     method: 'POST',
     body: JSON.stringify(report),
-  })
+  } as object)
   return data.value
 }
 
@@ -41,6 +41,6 @@ export async function updateReportByCurrency(
   const { data } = await useFetch<IReportCurrencyApiItem>(url, {
     method: 'PUT',
     body: JSON.stringify(report),
-  })
+  } as object)
   return data.value
 }

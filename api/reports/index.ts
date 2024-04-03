@@ -27,7 +27,7 @@ export async function createReportByAccount(
   const { data } = await useFetch<IReportAccountApiItem>(url, {
     method: 'POST',
     body: JSON.stringify(report),
-  })
+  } as object)
   return data.value
 }
 
@@ -39,6 +39,6 @@ export async function updateReportByAccount(
   const { data } = await useFetch<IReportAccountApiItem>(url, {
     method: 'PUT',
     body: JSON.stringify(report),
-  })
+  } as object)
   return data.value
 }

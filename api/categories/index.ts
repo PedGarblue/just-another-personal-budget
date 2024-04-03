@@ -12,10 +12,11 @@ export async function createCategory(
 ): Promise<CategoryAPI | null> {
   const runtimeConfig = useRuntimeConfig()
   const url = `${runtimeConfig.public.apiUrl}/categories/`
-  const { data: created } = await useFetch<CategoryAPI>(url, {
+  const options = {
     method: 'POST',
     body: data,
-  })
+  }
+  const { data: created } = await useFetch<CategoryAPI>(url, options as object)
   return created.value
 }
 
@@ -25,10 +26,11 @@ export async function updateCategory(
 ): Promise<CategoryAPI | null> {
   const runtimeConfig = useRuntimeConfig()
   const url = `${runtimeConfig.public.apiUrl}/categories/${pk}/`
-  const { data: updated } = await useFetch<CategoryAPI>(url, {
+  const options = {
     method: 'PUT',
     body: data,
-  })
+  }
+  const { data: updated } = await useFetch<CategoryAPI>(url, options as object)
   return updated.value
 }
 
@@ -38,10 +40,11 @@ export async function patchCategory(
 ): Promise<CategoryAPI | null> {
   const runtimeConfig = useRuntimeConfig()
   const url = `${runtimeConfig.public.apiUrl}/categories/${pk}/`
-  const { data: updated } = await useFetch<CategoryAPI>(url, {
+  const options = {
     method: 'PATCH',
     body: data,
-  })
+  }
+  const { data: updated } = await useFetch<CategoryAPI>(url, options as object)
   return updated.value
 }
 
