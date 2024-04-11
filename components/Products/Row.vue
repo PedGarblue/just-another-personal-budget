@@ -1,7 +1,9 @@
 <script lang="ts" setup>
 import { useNotificationsStore } from '~~/stores/notifications'
+import { useTransactions } from '~~/stores/transactions'
 import { deleteProduct, updateProduct } from '~~/api/products'
 import type { ProductAPI } from '~~/types/products'
+import type { CategoryAPI } from '~~/types/categories'
 
 const emits = defineEmits<{
   (e: 'product-selected', payload: string | number): void
@@ -15,8 +17,17 @@ const props = defineProps<{
 
 // data
 const notifications = useNotificationsStore()
+const transactionsState = useTransactions()
 const isUpdating = ref(false)
 const productData = ref(props.product)
+
+const category = ref<CategoryAPI | undefined>(
+  transactionsState.getCategory(
+    props.product.category ? props.product.category : -1
+  )
+)
+
+const categories = computed(() => transactionsState.getCategories)
 
 // methods
 const onSelectedProduct = (id: string | number) => {
@@ -47,7 +58,12 @@ const submitDeleteProduct = async () => {
 }
 
 const onUpdateProduct = () => {
-  updateProduct(props.product.id, productData.value)
+  const data = {
+    ...productData.value,
+    category: category.value?.id,
+  }
+
+  updateProduct(props.product.id, data)
     .then((updatedProduct) => {
       notifications.addNotification({
         type: 'success',
@@ -74,11 +90,11 @@ const onUpdateProduct = () => {
       />
       <span class="w-full">
         <template v-if="isUpdating">
-          <Input
+          <UiInput
             v-model="productData.name"
             type="text"
             class="h-5 text-center"
-          ></Input>
+          ></UiInput>
         </template>
         <template v-else>
           {{ product.name }}
@@ -99,6 +115,27 @@ const onUpdateProduct = () => {
           {{ product.cost }}
         </template>
       </span>
+    </UiTableCell>
+
+    <UiTableCell class="flex">
+      <template v-if="isUpdating">
+        <Select v-model="category" :options="categories" class="table-input">
+          <template #selected-value="{ selected }">
+            <span>{{ selected.name }}</span>
+          </template>
+
+          <template #item-value="{ option }">
+            <span>{{ option.name }}</span>
+          </template>
+        </Select>
+      </template>
+      <template v-else>
+        <span
+          class="rounded-md px-4 py-1 font-bold mx-auto"
+          :style="{ backgroundColor: category?.color }"
+          >{{ category?.name }}</span
+        >
+      </template>
     </UiTableCell>
 
     <UiTableCell>

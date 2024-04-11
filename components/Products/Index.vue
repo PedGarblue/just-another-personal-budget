@@ -51,11 +51,12 @@ onMounted(() => {
 
 <template>
   <div>
-    <UiTable>
+    <UiTable class="h-full">
       <UiTableHeader>
         <UiTableRow>
           <UiTableHead class="text-center">Name</UiTableHead>
           <UiTableHead class="text-center">Price</UiTableHead>
+          <UiTableHead class="text-center">Category</UiTableHead>
           <UiTableHead class="text-center">Actions</UiTableHead>
         </UiTableRow>
         <UiTableRow v-if="prev || next">

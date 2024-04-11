@@ -5,6 +5,7 @@ export interface ProductBase {
   description?: string
   cost: string
   status: string
+  category?: number
   created_at: string
   update_at: string
 }
@@ -26,6 +27,7 @@ export interface ProductListBase {
 export interface ProductCreate {
   name: string
   description?: string
+  category?: number
   cost: string
 }
 
