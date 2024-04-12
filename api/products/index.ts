@@ -118,7 +118,7 @@ export async function getProductListItemIndex(
   }
 
   query.set('page', page.toString())
-  query.set('limit', limit.toString())
+  query.set('page_size', limit.toString())
 
   const url = `${
     runtimeConfig.public.apiUrl

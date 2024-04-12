@@ -54,6 +54,7 @@ const serverOptions = ref<ServerOptions>({
   page: 1,
   rowsPerPage: 10,
 })
+const rowsPerPageItems = [10, 20, 30]
 
 // methods
 
@@ -180,6 +181,7 @@ defineExpose({
       :loading="loading"
       :items="items"
       :headers="headers"
+      :rows-items="rowsPerPageItems"
     >
       <template #item-quantity="item">
         <div class="flex items-center">
