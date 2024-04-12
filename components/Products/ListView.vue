@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Header } from 'vue3-easy-data-table'
+import type { Header, Item, ServerOptions } from 'vue3-easy-data-table'
 
 import type { ProductListAPI, ProductListItemAPI } from '~~/types/products'
 import {
@@ -25,6 +25,8 @@ type ItemQuantityOperation = 'add' | 'subtract' | number
 const notifications = useNotificationsStore()
 const productList = ref<ProductListAPI | undefined>(undefined)
 const items = ref<ProductListItemAPI[]>([])
+const serverItemsLength = ref(0)
+const loading = ref(false)
 const headers: Header[] = [
   {
     text: 'Name',
@@ -48,6 +50,10 @@ const headers: Header[] = [
     value: 'actions',
   },
 ]
+const serverOptions = ref<ServerOptions>({
+  page: 1,
+  rowsPerPage: 10,
+})
 
 // methods
 
@@ -59,10 +65,17 @@ const fetchProductList = async () => {
 }
 
 const fetchProductListItems = async () => {
-  const fetched = await getProductListItemIndex(props.productListId)
+  loading.value = true
+  const fetched = await getProductListItemIndex(props.productListId, {
+    page: serverOptions.value.page,
+    limit: serverOptions.value.rowsPerPage,
+  })
   if (fetched) {
+    const { results, count } = fetched
     items.value = fetched.results
+    serverItemsLength.value = count
   }
+  loading.value = false
 }
 
 const fetchAll = async () => {
@@ -137,6 +150,16 @@ watch(
   }
 )
 
+watch(
+  () => serverOptions.value,
+  () => {
+    fetchProductListItems()
+  },
+  {
+    deep: true,
+  }
+)
+
 defineExpose({
   fetchAll,
   removeProductFromList,
@@ -151,7 +174,13 @@ defineExpose({
         size="sm"
       />
     </div>
-    <EasyDataTable :items="items" :headers="headers">
+    <EasyDataTable
+      v-model:server-options="serverOptions"
+      :server-items-length="serverItemsLength"
+      :loading="loading"
+      :items="items"
+      :headers="headers"
+    >
       <template #item-quantity="item">
         <div class="flex items-center">
           <IconMdi:minus

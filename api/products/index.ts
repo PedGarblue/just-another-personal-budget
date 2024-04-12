@@ -108,13 +108,18 @@ export async function updateProductList(
 }
 
 export async function getProductListItemIndex(
-  productListId: number | null = null
+  productListId: number | null = null,
+  { page = 1, limit = 10 }: { page?: number; limit?: number }
 ): Promise<ProductListItemAPIResponse | null> {
   const runtimeConfig = useRuntimeConfig()
   const query = new URLSearchParams()
   if (productListId) {
     query.set('product_list', productListId.toString())
   }
+
+  query.set('page', page.toString())
+  query.set('limit', limit.toString())
+
   const url = `${
     runtimeConfig.public.apiUrl
   }/products-list-item/?${query.toString()}`
