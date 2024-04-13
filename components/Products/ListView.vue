@@ -6,9 +6,9 @@ import {
   getProductListItemIndex,
   getProductList,
   updateProductListItem,
-  deleteProductListItem,
 } from '~~/api/products'
 import { useNotificationsStore } from '~~/stores/notifications'
+import { parseSortDataTableToSortAPI } from '~~/lib/utils'
 
 const emits = defineEmits<{
   (e: 'product-list-item-removed', id: string): void
@@ -34,6 +34,11 @@ const headers: Header[] = [
     sortable: true,
   },
   {
+    text: 'Category',
+    value: 'product__category',
+    sortable: true,
+  },
+  {
     text: 'Quantity',
     value: 'quantity',
   },
@@ -44,11 +49,14 @@ const headers: Header[] = [
   {
     text: 'Total',
     value: 'total',
+    sortable: true,
   },
 ]
 const serverOptions = ref<ServerOptions>({
   page: 1,
   rowsPerPage: 10,
+  sortBy: ['product__category', 'total'],
+  sortType: ['asc', 'desc'],
 })
 const rowsPerPageItems = [10, 20, 30]
 
@@ -63,9 +71,15 @@ const fetchProductList = async () => {
 
 const fetchProductListItems = async () => {
   loading.value = true
+  const ordering = parseSortDataTableToSortAPI(
+    serverOptions.value.sortBy || [],
+    serverOptions.value.sortType || []
+  )
+
   const fetched = await getProductListItemIndex(props.productListId, {
     page: serverOptions.value.page,
     limit: serverOptions.value.rowsPerPage,
+    ordering,
   })
   if (fetched) {
     const { results, count } = fetched
@@ -157,6 +171,7 @@ defineExpose({
       :items="items"
       :headers="headers"
       :rows-items="rowsPerPageItems"
+      multi-sort
     >
       <template #item-product_name="item">
         <ProductsListItemContextMenu
@@ -165,6 +180,18 @@ defineExpose({
         >
           {{ item.product_name }}
         </ProductsListItemContextMenu>
+      </template>
+
+      <template #item-product__category="item">
+        <div
+          class="border-2 rounded-md px-2 py-1 text-sm font-bold w-full text-center"
+          :style="{
+            'border-color': item.product_category_color,
+            'background-color': item.product_category_color + '20',
+          }"
+        >
+          {{ item.product__category }}
+        </div>
       </template>
 
       <template #item-quantity="item">
@@ -179,6 +206,10 @@ defineExpose({
             @click="() => updateProductListItemQuantity(item, 'add')"
           />
         </div>
+      </template>
+
+      <template #item-total="item">
+        <b>{{ item.total }}</b>
       </template>
     </EasyDataTable>
   </div>

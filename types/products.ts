@@ -51,6 +51,8 @@ export interface ProductListItemBase {
   product_name: string
   product_cost: string
   product_list: number
+  product__category: string
+  product_category_color: string
   quantity: number
   total: number
   created_at: string
