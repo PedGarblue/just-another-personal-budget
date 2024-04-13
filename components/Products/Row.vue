@@ -129,14 +129,15 @@ const onUpdateProduct = () => {
         </Select>
       </template>
       <template v-else>
-        <span
+        <div
           class="rounded-md px-4 py-1 font-bold mx-auto border-2"
           :style="{
             backgroundColor: `${category?.color}20`,
             borderColor: category?.color,
           }"
-          >{{ category?.name }}</span
         >
+          {{ category?.name }}
+        </div>
       </template>
     </UiTableCell>
 

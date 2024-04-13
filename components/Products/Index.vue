@@ -117,7 +117,6 @@ onMounted(() => {
             </Button>
           </UiTableCell>
           <UiTableCell></UiTableCell>
-          <UiTableCell></UiTableCell>
           <UiTableCell>
             <Button
               v-if="next"
@@ -156,7 +155,6 @@ onMounted(() => {
               Prev
             </Button>
           </UiTableCell>
-          <UiTableCell></UiTableCell>
           <UiTableCell></UiTableCell>
           <UiTableCell>
             <Button
