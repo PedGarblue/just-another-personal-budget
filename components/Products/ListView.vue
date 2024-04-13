@@ -45,10 +45,6 @@ const headers: Header[] = [
     text: 'Total',
     value: 'total',
   },
-  {
-    text: 'Actions',
-    value: 'actions',
-  },
 ]
 const serverOptions = ref<ServerOptions>({
   page: 1,
@@ -116,26 +112,6 @@ const updateProductListItemQuantity = async (
     })
 }
 
-const removeProductFromList = async (id: string) => {
-  alert('Are you sure you want to delete this item?')
-
-  await deleteProductListItem(parseInt(id, 10))
-    .then(() => {
-      notifications.addNotification({
-        type: 'success',
-        text: 'Product removed from list successfully',
-      })
-      fetchAll()
-    })
-    .catch((error) => {
-      notifications.addNotification({
-        type: 'error',
-        text: error.message,
-      })
-    })
-  emits('product-list-item-removed', id)
-}
-
 // events
 
 onMounted(() => {
@@ -163,7 +139,6 @@ watch(
 
 defineExpose({
   fetchAll,
-  removeProductFromList,
 })
 </script>
 <template>
@@ -183,6 +158,15 @@ defineExpose({
       :headers="headers"
       :rows-items="rowsPerPageItems"
     >
+      <template #item-product_name="item">
+        <ProductsListItemContextMenu
+          :item="item"
+          @product-list-item-removed="fetchAll"
+        >
+          {{ item.product_name }}
+        </ProductsListItemContextMenu>
+      </template>
+
       <template #item-quantity="item">
         <div class="flex items-center">
           <IconMdi:minus
@@ -195,14 +179,6 @@ defineExpose({
             @click="() => updateProductListItemQuantity(item, 'add')"
           />
         </div>
-      </template>
-      <template #item-actions="item">
-        <span>
-          <IconMdi:trashOutline
-            class="cursor-pointer text-red-800 hover:text-red-500 text-base transition"
-            @click="removeProductFromList(item.id)"
-          />
-        </span>
       </template>
     </EasyDataTable>
   </div>
