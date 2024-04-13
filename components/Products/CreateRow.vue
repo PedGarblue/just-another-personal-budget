@@ -61,9 +61,6 @@ const submit = async () => {
       />
     </UiTableCell>
     <UiTableCell>
-      <input v-model="product.cost" type="number" class="table-input" />
-    </UiTableCell>
-    <UiTableCell>
       <Select v-model="category" :options="categories" class="table-input">
         <template #selected-value="{ selected }">
           <span>{{ selected.name }}</span>
@@ -73,6 +70,9 @@ const submit = async () => {
           <span>{{ option.name }}</span>
         </template>
       </Select>
+    </UiTableCell>
+    <UiTableCell>
+      <input v-model="product.cost" type="number" class="table-input" />
     </UiTableCell>
     <UiTableCell>
       <Button class="w-max mx-auto" size="xs" @click="() => submit()">+</Button>

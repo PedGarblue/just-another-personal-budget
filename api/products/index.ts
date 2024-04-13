@@ -14,7 +14,8 @@ import type {
 } from '../../types/products'
 
 export async function getProductIndex(
-  baseUrlString: string | null = null
+  baseUrlString: string | null = null,
+  { ordering = [] }: { ordering?: Array<string> }
 ): Promise<ProductAPIResponse | null> {
   const runtimeConfig = useRuntimeConfig()
 
@@ -23,6 +24,8 @@ export async function getProductIndex(
     : ''
   const query = new URLSearchParams(baseUrlStringQuery)
   const url = new URL(`${runtimeConfig.public.apiUrl}/products/`)
+
+  query.set('ordering', ordering.join(','))
 
   if (query.size > 0) {
     url.search = query.toString()

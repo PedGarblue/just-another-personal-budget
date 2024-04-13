@@ -8,7 +8,7 @@ export function cn(...inputs: ClassValue[]) {
 
 export function parseSortDataTableToSortAPI(
   sortBy: string | string[],
-  sortType: SortType | SortType[]
+  sortType: SortType | SortType[] | string | string[]
 ) {
   return (typeof sortBy === 'string' ? [sortBy] : sortBy)?.map((field, index) =>
     sortType?.[index] === 'desc' ? `-${field}` : field

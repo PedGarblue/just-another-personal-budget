@@ -102,22 +102,7 @@ const onUpdateProduct = () => {
       </span>
     </UiTableCell>
 
-    <UiTableCell class="text-center">
-      <span class="w-full">
-        <template v-if="isUpdating">
-          <UiInput
-            v-model="productData.cost"
-            type="number"
-            class="h-5 text-center"
-          ></UiInput>
-        </template>
-        <template v-else>
-          {{ product.cost }}
-        </template>
-      </span>
-    </UiTableCell>
-
-    <UiTableCell class="flex">
+    <UiTableCell class="flex-inline text-center">
       <template v-if="isUpdating">
         <Select v-model="category" :options="categories" class="table-input">
           <template #selected-value="{ selected }">
@@ -131,11 +116,29 @@ const onUpdateProduct = () => {
       </template>
       <template v-else>
         <span
-          class="rounded-md px-4 py-1 font-bold mx-auto"
-          :style="{ backgroundColor: category?.color }"
+          class="rounded-md px-4 py-1 font-bold mx-auto border-2"
+          :style="{
+            backgroundColor: `${category?.color}20`,
+            borderColor: category?.color,
+          }"
           >{{ category?.name }}</span
         >
       </template>
+    </UiTableCell>
+
+    <UiTableCell class="text-center">
+      <span class="w-full">
+        <template v-if="isUpdating">
+          <UiInput
+            v-model="productData.cost"
+            type="number"
+            class="h-5 text-center"
+          ></UiInput>
+        </template>
+        <template v-else>
+          {{ product.cost }}
+        </template>
+      </span>
     </UiTableCell>
 
     <UiTableCell>
