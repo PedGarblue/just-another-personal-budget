@@ -72,10 +72,14 @@ const submit = async () => {
       </Select>
     </UiTableCell>
     <UiTableCell>
-      <input v-model="product.cost" type="number" class="table-input" />
-    </UiTableCell>
-    <UiTableCell>
-      <Button class="w-max mx-auto" size="xs" @click="() => submit()">+</Button>
+      <div class="flex gap-3">
+        <input v-model="product.cost" type="number" class="table-input" />
+
+        <IconMdi:burgerAdd
+          class="text-green-500 hover:text-green-600 cursor-pointer transition text-base my-auto h-8 w-8"
+          @click="submit"
+        />
+      </div>
     </UiTableCell>
   </UiTableRow>
 </template>

@@ -104,7 +104,6 @@ onMounted(() => {
               </template>
             </div>
           </UiTableHead>
-          <UiTableHead class="text-center">Actions</UiTableHead>
         </UiTableRow>
         <UiTableRow v-if="prev || next">
           <UiTableCell>
@@ -117,6 +116,7 @@ onMounted(() => {
               Prev
             </Button>
           </UiTableCell>
+          <UiTableCell></UiTableCell>
           <UiTableCell></UiTableCell>
           <UiTableCell>
             <Button
@@ -143,6 +143,7 @@ onMounted(() => {
         >
         </ProductsRow>
       </UiTableBody>
+
       <UiTableFooter>
         <UiTableRow v-if="prev || next">
           <UiTableCell>
@@ -155,6 +156,7 @@ onMounted(() => {
               Prev
             </Button>
           </UiTableCell>
+          <UiTableCell></UiTableCell>
           <UiTableCell></UiTableCell>
           <UiTableCell>
             <Button

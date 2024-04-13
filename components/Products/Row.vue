@@ -39,7 +39,7 @@ const toggleUpdating = () => {
 }
 
 const submitDeleteProduct = async () => {
-  alert('Are you sure you want to delete this product?')
+  if (!confirm('Are you sure you want to delete this product?')) return
   const deletedProduct = await deleteProduct(props.product.id).catch(
     (error) => {
       notifications.addNotification({
@@ -84,10 +84,18 @@ const onUpdateProduct = () => {
 <template>
   <UiTableRow>
     <UiTableCell class="flex gap-4 items-center text-center font-bold">
-      <IconMdi:plusCircleOutline
-        class="text-green-500 hover:text-green-600 cursor-pointer transition text-base"
-        @click="() => onSelectedProduct(product.id)"
-      />
+      <template v-if="isUpdating">
+        <IconMdi:checkCircleOutline
+          class="text-green-600 hover:text-green-400 transition cursor-pointer text-base h-6 w-6"
+          @click="() => onUpdateProduct()"
+        />
+      </template>
+      <template v-else>
+        <IconMdi:plusCircleOutline
+          class="text-green-500 hover:text-green-600 cursor-pointer transition text-base h-6 w-6"
+          @click="() => onSelectedProduct(product.id)"
+        />
+      </template>
       <span class="w-full">
         <template v-if="isUpdating">
           <UiInput
@@ -97,7 +105,13 @@ const onUpdateProduct = () => {
           ></UiInput>
         </template>
         <template v-else>
-          {{ product.name }}
+          <ProductsRowContextMenu
+            :product="product"
+            @product-contextmenu-selection-update="() => toggleUpdating()"
+            @product-contextmenu-selection-delete="() => submitDeleteProduct()"
+          >
+            {{ product.name }}
+          </ProductsRowContextMenu>
         </template>
       </span>
     </UiTableCell>
@@ -139,28 +153,6 @@ const onUpdateProduct = () => {
           {{ product.cost }}
         </template>
       </span>
-    </UiTableCell>
-
-    <UiTableCell>
-      <div class="flex flex-row gap-4 justify-end">
-        <div class="h-5 w-5">
-          <IconMdi:pencilCircleOutline
-            v-if="!isUpdating"
-            class="text-blue-600 hover:text-blue-400 transition cursor-pointer text-base"
-            @click="() => toggleUpdating()"
-          />
-          <IconMdi:checkCircleOutline
-            v-else
-            class="text-green-600 hover:text-green-400 transition cursor-pointer text-base"
-            @click="() => onUpdateProduct()"
-          />
-        </div>
-        <div class="h-5 w-5" @click="() => submitDeleteProduct()">
-          <IconMdi:trashOutline
-            class="text-red-800 hover:text-red-600 transition cursor-pointer text-base"
-          />
-        </div>
-      </div>
     </UiTableCell>
   </UiTableRow>
 </template>
