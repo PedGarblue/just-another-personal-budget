@@ -7,6 +7,10 @@ definePageMeta({
   name: 'reports.account',
 })
 
+useHead({
+  title: 'Account Reports',
+})
+
 onMounted(() => {
   accountsStore.fetchData()
 })

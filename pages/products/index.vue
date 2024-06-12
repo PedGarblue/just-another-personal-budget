@@ -9,6 +9,10 @@ definePageMeta({
   layout: 'dashboard',
 })
 
+useHead({
+  title: 'Making Budgets',
+})
+
 const notifications = useNotificationsStore()
 const selectedProductList = ref<ProductListAPI | undefined>(undefined)
 const listViewComponent = ref<InstanceType<typeof ProductsListView> | null>(

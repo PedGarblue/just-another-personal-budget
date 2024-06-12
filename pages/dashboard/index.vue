@@ -5,6 +5,10 @@ definePageMeta({
   layout: 'dashboard',
 })
 
+useHead({
+  title: 'Dashboard',
+})
+
 const accounts = useAccounts()
 </script>
 

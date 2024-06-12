@@ -6,6 +6,10 @@ definePageMeta({
 })
 
 const accounts = useAccounts()
+
+useHead({
+  title: 'Investments',
+})
 </script>
 
 <template>

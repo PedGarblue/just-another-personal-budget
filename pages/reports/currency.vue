@@ -7,6 +7,10 @@ definePageMeta({
   name: 'reports.currency',
 })
 
+useHead({
+  title: 'Currency Reports',
+})
+
 onMounted(() => {
   accountsStore.fetchData()
 })

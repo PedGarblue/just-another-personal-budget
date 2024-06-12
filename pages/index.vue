@@ -7,8 +7,21 @@ definePageMeta({
   layout: 'page',
 })
 
+useHead({
+  title: t('pages.index.title'),
+  meta: [
+    {
+      hid: 'description',
+      name: 'description',
+      content: t('pages.index.description'),
+    },
+  ],
+})
+
 // vars
-const titlesText = computed<string[]>(() => t('pages.index.title').split('[]'))
+const titlesText = computed<string[]>(() =>
+  t('pages.index.animated_title').split('[]')
+)
 const leadingsText = computed(() => [
   {
     text: titlesText.value[0],
