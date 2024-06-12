@@ -1,5 +1,5 @@
 export default defineAppConfig({
-  name: 'Personal Finance App',
+  name: 'Just Another Personal Budget',
   author: {
     name: 'budaredev',
     link: 'https://budare.dev',

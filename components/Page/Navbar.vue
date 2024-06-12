@@ -29,7 +29,7 @@ const menus = computed((): IMenuItem[] => [
           <Anchor
             class="underline font-bold"
             :text="$t('others.learn_more')"
-            href="https://github.com/viandwi24/nuxt3-awesome-starter"
+            href="https://github.com/PedGarblue/just-another-personal-budget"
           />
         </span>
       </div>

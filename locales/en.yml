@@ -6,7 +6,7 @@ components:
     change_theme: change theme
 pages:
   index:
-    title: Personal[]Finance[]App
+    title: Just[]Another[]Personal[]Budget
   404:
     title: page not found
   summary:

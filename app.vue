@@ -22,13 +22,13 @@ onMounted(() => {
 
 useHead({
   title: app.name,
-  titleTemplate: '%s - BUDareGET',
+  titleTemplate: '%s - Just Another Personal Budget App',
   meta: [
     { name: 'viewport', content: 'width=device-width, initial-scale=1' },
     {
-      hid: 'budareget',
-      name: 'budareget',
-      content: 'Personal Finances App',
+      hid: 'japb',
+      name: 'japb',
+      content: 'Just Another Personal Budget',
     },
   ],
   link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],

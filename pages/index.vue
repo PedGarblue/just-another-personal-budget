@@ -28,6 +28,12 @@ const leadingsText = computed(() => [
     endColor: '#F9CB28',
     delay: 4,
   },
+  {
+    text: titlesText.value[3],
+    startColor: '#7928CA',
+    endColor: '#FF0080',
+    delay: 6,
+  },
 ])
 </script>
 
@@ -48,7 +54,7 @@ const leadingsText = computed(() => [
     <PageBody class="flex-1 flex">
       <PageSection class="flex-1 flex items-center">
         <div class="flex-1 md:w-5/8 flex flex-col z-10">
-          <h1 class="text-center md:text-left mt-4">
+          <h1 class="text-center md:text-left mt-4 pl-40 pt-12">
             <span
               v-for="(item, i) in leadingsText"
               :key="i"
@@ -70,7 +76,7 @@ const leadingsText = computed(() => [
               text="Github"
               type="secondary"
               class="font-extrabold"
-              href="https://github.com/viandwi24/nuxt3-awesome-starter"
+              href="https://github.com/PedGarblue/just-another-personal-budget"
             />
           </div>
         </div>
@@ -111,6 +117,19 @@ const leadingsText = computed(() => [
 }
 
 @keyframes anim-fg-3 {
+  0%,
+  50%,
+  100% {
+    opacity: 0;
+  }
+
+  66.667%,
+  83.333% {
+    opacity: 1;
+  }
+}
+
+@keyframes anim-fg-4 {
   0%,
   50%,
   100% {
