@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { AppSetup } from './utils/app'
 import type { ITheme } from './utils/theme'
+import { useAuthStore } from './stores/auth'
 import { useNotificationsStore } from '~~/stores/notifications'
 import { useTransactions } from '~~/stores/transactions'
 
@@ -10,15 +11,13 @@ const theme = useState<ITheme>('theme.current')
 const themeDark = ref<ITheme>('dark')
 const locale = useState<string>('locale.setting')
 const app = useAppConfig()
-// use Notification display
 const notificationStore = useNotificationsStore()
+const { fetchCategories } = useTransactions()
+const authStore = useAuthStore()
+
 const notifications = computed(() => notificationStore.notifications)
 
-const { fetchCategories } = useTransactions()
-
-onMounted(() => {
-  fetchCategories()
-})
+let tokenRefreshInterval: NodeJS.Timeout | null = null
 
 useHead({
   title: app.name,
@@ -32,6 +31,21 @@ useHead({
     },
   ],
   link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+})
+
+onMounted(() => {
+  fetchCategories()
+
+  authStore.checkAndRefreshToken()
+  tokenRefreshInterval = setInterval(() => {
+    authStore.checkAndRefreshToken()
+  }, 60 * 1000)
+})
+
+onUnmounted(() => {
+  if (tokenRefreshInterval) {
+    clearInterval(tokenRefreshInterval)
+  }
 })
 </script>
 

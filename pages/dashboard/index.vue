@@ -3,6 +3,7 @@ import { useAccounts } from '~~/composables/useAccounts'
 
 definePageMeta({
   layout: 'dashboard',
+  middleware: ['auth'],
 })
 
 useHead({

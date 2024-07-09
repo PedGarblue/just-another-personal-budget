@@ -5,6 +5,7 @@ const accountsStore = useAccounts()
 definePageMeta({
   layout: 'dashboard',
   name: 'reports.currency',
+  middleware: 'auth',
 })
 
 useHead({

@@ -6,6 +6,10 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       apiUrl: process.env.API_URL || 'http://localhost:3000',
+      token: {
+        accessExpires: 60 * 60 * 1000, // 1 hour
+        refreshExpires: 24 * 3600 * 1000, // 1 day
+      },
     },
   },
   // server side rendering mode

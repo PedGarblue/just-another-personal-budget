@@ -10,6 +10,8 @@ pages:
     animated_title: Just[]Another[]Personal[]Budget
   404:
     title: page not found
+  login:
+    nav: login
   summary:
     nav: summary
     title: summary

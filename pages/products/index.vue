@@ -7,6 +7,7 @@ import { useNotificationsStore } from '~~/stores/notifications'
 
 definePageMeta({
   layout: 'dashboard',
+  middleware: 'auth',
 })
 
 useHead({

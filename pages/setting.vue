@@ -16,6 +16,7 @@ const screen = useScreen()
 // compiler macro
 definePageMeta({
   layout: 'page',
+  middleware: 'auth',
 })
 useHead(() => ({
   title: capitalize(t('pages.setting.title')),
