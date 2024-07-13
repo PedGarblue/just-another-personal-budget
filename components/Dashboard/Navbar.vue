@@ -2,6 +2,11 @@
 import { useAuthStore } from '~~/stores/auth'
 
 const auth = useAuthStore()
+
+const signOut = () => {
+  auth.logout()
+  navigateTo('/login')
+}
 </script>
 
 <template>
@@ -25,6 +30,14 @@ const auth = useAuthStore()
           >
             <IconMdi:github-face />
           </Anchor>
+          <span
+            class="flex flex-row capitalize flex self-center items-center cursor-pointer group"
+            @click="signOut"
+          >
+            <IconMdi:signOut
+              class="text-red-400 transition-colors group-hover:text-red-500"
+            />
+          </span>
         </div>
       </div>
     </template>
