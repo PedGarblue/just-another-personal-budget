@@ -1,4 +1,5 @@
 import type { TransactionAPI } from '../transactions'
+import { useAPI } from '~~/composables/useAPI'
 
 interface ExchangeFields {
   date: string
@@ -10,13 +11,12 @@ interface ExchangeFields {
 }
 
 export async function createExchange(data: ExchangeFields) {
-  const runtimeConfig = useRuntimeConfig()
-  const url = `${runtimeConfig.public.apiUrl}/exchanges/`
+  const url = `/exchanges/`
   const options = {
     method: 'POST',
     body: data,
   }
-  const { data: created } = await useFetch<[TransactionAPI]>(
+  const { data: created } = await useAPI<[TransactionAPI]>(
     url,
     options as object
   )

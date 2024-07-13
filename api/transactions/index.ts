@@ -1,3 +1,5 @@
+import { useAPI } from '@/composables/useAPI'
+
 export interface TransactionBase {
   amount: string
   description: string
@@ -38,7 +40,7 @@ export default async function (
   const url = `${
     runtimeConfig.public.apiUrl
   }/transactions/?${params.toString()}`
-  const { data: transactions } = await useFetch<[TransactionAPI]>(url)
+  const { data: transactions } = await useAPI<[TransactionAPI]>(url)
   return transactions.value
 }
 
@@ -47,7 +49,7 @@ export async function createTransaction(
 ): Promise<TransactionAPI | null> {
   const runtimeConfig = useRuntimeConfig()
   const url = `${runtimeConfig.public.apiUrl}/transactions/`
-  const { data: created } = await useFetch<TransactionAPI>(url, {
+  const { data: created } = await useAPI<TransactionAPI>(url, {
     method: 'POST',
     body: data,
   } as object)
@@ -60,7 +62,7 @@ export async function updateTransaction(
 ): Promise<TransactionAPI | null> {
   const runtimeConfig = useRuntimeConfig()
   const url = `${runtimeConfig.public.apiUrl}/transactions/${pk}/`
-  const { data: updated } = await useFetch<TransactionAPI>(url, {
+  const { data: updated } = await useAPI<TransactionAPI>(url, {
     method: 'PUT',
     body: data,
   } as object)
@@ -70,7 +72,7 @@ export async function updateTransaction(
 export async function deleteTransaction(pk: number) {
   const runtimeConfig = useRuntimeConfig()
   const url = `${runtimeConfig.public.apiUrl}/transactions/${pk}/`
-  await useFetch(url, {
+  await useAPI(url, {
     method: 'DELETE',
   })
 }
