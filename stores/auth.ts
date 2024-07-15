@@ -8,6 +8,7 @@ import {
   LoginForm,
   User,
   AppStoredToken,
+  RegisterForm,
 } from '~~/types/auth'
 
 export const useAuthStore = defineStore({
@@ -61,6 +62,13 @@ export const useAuthStore = defineStore({
     async login(loginForm: LoginForm): Promise<boolean> {
       await this.fetchToken(loginForm)
       await this.fetchUser()
+      return true
+    },
+    async register(registerForm: RegisterForm): Promise<boolean> {
+      await useAPI('/users/', {
+        method: 'POST',
+        body: registerForm,
+      } as object)
       return true
     },
     async refreshToken(): Promise<APITokenRefresh> {

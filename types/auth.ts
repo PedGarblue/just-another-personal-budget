@@ -10,6 +10,14 @@ export interface LoginForm {
   password: string
 }
 
+export interface RegisterForm {
+  email: string
+  username: string
+  password: string
+  first_name?: string
+  last_name?: string
+}
+
 export interface APIToken {
   refresh: string
   access: string

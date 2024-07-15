@@ -37,6 +37,12 @@ const menus = computed((): IMenuItem[] => [
     rules: [rules.notLoggedIn()],
   },
   {
+    type: 'link',
+    text: t('pages.sign-up.nav'),
+    route: { name: 'sign-up' },
+    rules: [rules.notLoggedIn()],
+  },
+  {
     type: 'button',
     text: t('pages.dashboard.nav'),
     route: { name: 'dashboard' },

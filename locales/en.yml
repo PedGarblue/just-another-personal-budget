@@ -10,8 +10,18 @@ pages:
     animated_title: Just[]Another[]Personal[]Budget
   404:
     title: page not found
+  sign-up:
+    nav: Sign Up
+    title: Start tracking your expenses!
+    username: Username
+    email: Email
+    submit: Sign Up
+    password:
+      label: Password
+      confirm: Repeat Password
+      mismatch: Passwords do not match
   login:
-    nav: login
+    nav: Sign In
   summary:
     nav: summary
     title: summary

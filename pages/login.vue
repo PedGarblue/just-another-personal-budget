@@ -9,7 +9,7 @@ definePageMeta({
 })
 
 useHead({
-  title: 'Login',
+  title: 'Sign-in',
 })
 
 const user = ref<LoginForm>({

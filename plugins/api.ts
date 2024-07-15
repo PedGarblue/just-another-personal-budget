@@ -7,7 +7,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   const api = $fetch.create({
     baseURL: runtimeConfig.public.apiUrl,
     onRequest({ request, options, error }) {
-      if (authStore.token) {
+      if (authStore.token && authStore.token.access) {
         const headers = (options.headers ||= {})
         if (Array.isArray(headers)) {
           headers.push(['Authorization', `Bearer ${authStore.token.access}`])
