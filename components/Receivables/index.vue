@@ -41,7 +41,9 @@ const headers: Header[] = [
 
 const getReceivables = async () => {
   const data = await getReceivableList()
-  receivables.value = data || []
+  if (data) {
+    receivables.value = data.results || []
+  }
 }
 
 const refreshTable = () => {

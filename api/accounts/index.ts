@@ -1,3 +1,5 @@
+import { APIResourceResponse } from '~~/types/api'
+
 export interface Account {
   id: number
   name: string
@@ -5,9 +7,12 @@ export interface Account {
   balance: number
 }
 
-export default async function (): Promise<[Account] | null> {
-  const runtimeConfig = useRuntimeConfig()
-  const urlAccounts = `${runtimeConfig.public.apiUrl}/accounts/`
-  const { data: accounts } = await useFetch<[Account]>(urlAccounts)
+export interface APIAccountResponse extends APIResourceResponse {
+  results: Account[]
+}
+
+export default async function (): Promise<APIAccountResponse | null> {
+  const urlAccounts = `/accounts/`
+  const { data: accounts } = await useAPI<APIAccountResponse>(urlAccounts)
   return accounts.value
 }

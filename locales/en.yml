@@ -105,6 +105,7 @@ pages:
       create:
         success: 'Receivable Created Successfully'
         title: 'Create a Receivable'
+        restart: 'Create Another Receivable'
       update:
         success: 'Receivable Updated Successfully'
         title: 'Update Receivable'

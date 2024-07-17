@@ -1,22 +1,25 @@
 import type { ReceivableBase } from '~~/types/receivablesTypes'
+import type { APIResourceResponse } from '~~/types/api'
 
 export interface ReceivableAPIItem extends ReceivableBase {
   id: number
 }
 
-export async function getReceivableList(): Promise<[ReceivableAPIItem] | null> {
-  const runtimeConfig = useRuntimeConfig()
-  const url = `${runtimeConfig.public.apiUrl}/receivables/`
-  const { data } = await useFetch<[ReceivableAPIItem]>(url)
+export interface APIReceivableListResponse extends APIResourceResponse {
+  results: ReceivableAPIItem[]
+}
+
+export async function getReceivableList(): Promise<APIReceivableListResponse | null> {
+  const url = `/receivables/`
+  const { data } = await useAPI<APIReceivableListResponse>(url)
   return data.value
 }
 
 export async function createReceivable(
   data: ReceivableBase
 ): Promise<ReceivableAPIItem | null> {
-  const runtimeConfig = useRuntimeConfig()
-  const url = `${runtimeConfig.public.apiUrl}/receivables/`
-  const { data: created } = await useFetch<ReceivableAPIItem>(url, {
+  const url = `/receivables/`
+  const { data: created } = await useAPI<ReceivableAPIItem>(url, {
     method: 'POST',
     body: data,
   } as object)
@@ -27,9 +30,8 @@ export async function updateReceivable(
   pk: number,
   data: ReceivableBase
 ): Promise<ReceivableAPIItem | null> {
-  const runtimeConfig = useRuntimeConfig()
-  const url = `${runtimeConfig.public.apiUrl}/receivables/${pk}/`
-  const { data: updated } = await useFetch<ReceivableAPIItem>(url, {
+  const url = `/receivables/${pk}/`
+  const { data: updated } = await useAPI<ReceivableAPIItem>(url, {
     method: 'PUT',
     body: data,
   } as object)
@@ -40,9 +42,8 @@ export async function patchReceivable(
   pk: number,
   data: ReceivableBase
 ): Promise<ReceivableAPIItem | null> {
-  const runtimeConfig = useRuntimeConfig()
-  const url = `${runtimeConfig.public.apiUrl}/receivables/${pk}/`
-  const { data: updated } = await useFetch<ReceivableAPIItem>(url, {
+  const url = `/receivables/${pk}/`
+  const { data: updated } = await useAPI<ReceivableAPIItem>(url, {
     method: 'PATCH',
     body: data,
   } as object)
@@ -50,9 +51,8 @@ export async function patchReceivable(
 }
 
 export async function deleteReceivable(pk: number) {
-  const runtimeConfig = useRuntimeConfig()
-  const url = `${runtimeConfig.public.apiUrl}/receivables/${pk}/`
-  await useFetch(url, {
+  const url = `/receivables/${pk}/`
+  await useAPI(url, {
     method: 'DELETE',
   })
 }

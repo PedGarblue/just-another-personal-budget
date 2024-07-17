@@ -1,3 +1,5 @@
+import { APIResourceResponse } from '~~/types/api'
+
 export interface Currency {
   id: number
   name: string
@@ -5,9 +7,12 @@ export interface Currency {
   balance: number
 }
 
-export default async function (): Promise<[Currency] | null> {
-  const runtimeConfig = useRuntimeConfig()
-  const urlAccounts = `${runtimeConfig.public.apiUrl}/currencies/`
-  const { data: currencies } = await useFetch<[Currency]>(urlAccounts)
+export interface APICurrencyResponse extends APIResourceResponse {
+  results: Currency[]
+}
+
+export default async function (): Promise<APICurrencyResponse | null> {
+  const urlAccounts = `/currencies/`
+  const { data: currencies } = await useAPI<APICurrencyResponse>(urlAccounts)
   return currencies.value
 }

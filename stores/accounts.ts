@@ -38,14 +38,14 @@ export const useAccounts = defineStore('accounts', {
     async fetchCurrencies() {
       const currenciesData = await currenciesFetch()
       if (currenciesData) {
-        this.currencies = currenciesData
+        this.currencies = currenciesData.results
         return this.currencies
       }
     },
     async fetchAccounts() {
       const accountsData = await accountsFetch()
       if (accountsData) {
-        this.accounts = accountsData
+        this.accounts = accountsData.results
       }
     },
     async fetchData() {
