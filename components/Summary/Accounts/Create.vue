@@ -84,7 +84,7 @@ const finishCreate = () => {
 
 <template>
   <div>
-    <button @click="openModal">
+    <button class="w-full" @click="openModal">
       <slot name="button"></slot>
     </button>
     <Modal ref="modal">
