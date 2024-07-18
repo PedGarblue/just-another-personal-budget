@@ -26,6 +26,30 @@ pages:
     nav: summary
     title: summary
     description: summary of accounts balances and recent transactions
+    accounts:
+      title: Accounts
+      create:
+        card_description: More accounts, better tracking.
+        card_description_no_accounts: You have no accounts yet. Create one now!
+        success: Account Created!
+        title: Create Account
+        restart: Create Another Account
+        fields:
+          name:
+            label: Account Name
+          currency:
+            label: Currency
+          amount:
+            label: Initial Amount
+          date:
+            label: Date
+            placeholder: Select Date
+            description: From when you want to start tracking this account?
+      update:
+        title: Update Account
+        success: Account Updated!
+      delete:
+        success: Account Deleted
     index:
       title: Summary
     transactions:
@@ -95,8 +119,8 @@ pages:
     nav: dashboard
     title: dashboard
     index:
-      nav: dashboard
-      title: My Dashboard
+      nav: summary
+      title: Summary and Transactions
   investments:
     nav: investments
     index:

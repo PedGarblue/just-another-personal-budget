@@ -91,5 +91,8 @@ export const useAccounts = defineStore('accounts', {
       return (pk: number): AccountComplete =>
         this.getAccounts.find((item) => item.id === pk) || defaultAccount
     },
+    hasAccounts(state): boolean {
+      return state.accounts.length > 0
+    },
   },
 })

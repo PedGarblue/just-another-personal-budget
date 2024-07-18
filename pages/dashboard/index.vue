@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useAccounts } from '~~/composables/useAccounts'
+import { useAccounts } from '~/stores/accounts'
 
 definePageMeta({
   layout: 'dashboard',
@@ -10,7 +10,7 @@ useHead({
   title: 'Dashboard',
 })
 
-const accounts = useAccounts()
+const accountsStore = useAccounts()
 </script>
 
 <template>
@@ -20,7 +20,7 @@ const accounts = useAccounts()
     </PageHeader>
     <PageBody>
       <SummaryAccounts />
-      <SummaryTransactions />
+      <SummaryTransactions v-if="accountsStore.getAccounts.length > 0" />
     </PageBody>
   </PageWrapper>
 </template>
