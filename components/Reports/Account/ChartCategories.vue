@@ -28,7 +28,7 @@ const groupByCategory = (transactions: TransactionAPI[]) => {
   const grouped = transactions.reduce(
     (acc, transaction) => {
       const amount = Number(transaction.amount)
-      const category = transactionsStore.getCategory(transaction.category)
+      const category = transactionsStore.getCategory(transaction.category || 0)
       if (!category) {
         acc['No Category'].amount += amount
 
