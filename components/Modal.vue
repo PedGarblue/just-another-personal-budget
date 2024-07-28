@@ -1,5 +1,5 @@
 <template>
-  <teleport to="body">
+  <teleport to="body" @keydown.esc="close">
     <transition name="modal">
       <div v-if="isVisible" class="modal-mask">
         <div class="modal-wrapper">
@@ -45,6 +45,27 @@ const close = () => {
 defineExpose({
   open,
   close,
+})
+
+const onEscape = (event: KeyboardEvent) => {
+  if (event.key === 'Escape') {
+    close()
+  }
+}
+
+const onMobileBack = (e: Event) => {
+  e.preventDefault()
+  close()
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', onEscape)
+  window.addEventListener('popstate', onMobileBack)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', onEscape)
+  window.removeEventListener('popstate', onMobileBack)
 })
 </script>
 
