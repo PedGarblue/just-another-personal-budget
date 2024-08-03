@@ -3,7 +3,6 @@ import { AppSetup } from './utils/app'
 import type { ITheme } from './utils/theme'
 import { useAuthStore } from './stores/auth'
 import { useNotificationsStore } from '~~/stores/notifications'
-import { useTransactions } from '~~/stores/transactions'
 
 AppSetup()
 
@@ -12,7 +11,6 @@ const themeDark = ref<ITheme>('dark')
 const locale = useState<string>('locale.setting')
 const app = useAppConfig()
 const notificationStore = useNotificationsStore()
-const { fetchCategories } = useTransactions()
 const authStore = useAuthStore()
 
 const notifications = computed(() => notificationStore.notifications)
@@ -34,8 +32,6 @@ useHead({
 })
 
 onMounted(() => {
-  fetchCategories()
-
   authStore.checkAndRefreshToken()
   tokenRefreshInterval = setInterval(() => {
     authStore.checkAndRefreshToken()

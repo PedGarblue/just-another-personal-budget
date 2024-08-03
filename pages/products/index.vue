@@ -4,6 +4,7 @@ import type { ProductListAPI } from '~~/types/products'
 import type ProductsListView from '~~/components/Products/ListView.vue'
 import type ProductsListSelect from '~~/components/Products/ListSelect.vue'
 import { useNotificationsStore } from '~~/stores/notifications'
+import { useTransactions } from '~~/stores/transactions'
 
 definePageMeta({
   layout: 'dashboard',
@@ -15,6 +16,8 @@ useHead({
 })
 
 const notifications = useNotificationsStore()
+const { fetchCategories } = useTransactions()
+
 const selectedProductList = ref<ProductListAPI | undefined>(undefined)
 const listViewComponent = ref<InstanceType<typeof ProductsListView> | null>(
   null
@@ -63,6 +66,10 @@ const addProductToList = (productId: string | number) => {
       })
     })
 }
+
+onMounted(() => {
+  fetchCategories()
+})
 </script>
 
 <template>

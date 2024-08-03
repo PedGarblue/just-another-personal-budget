@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { useAccounts } from '~/stores/accounts'
+import { useTransactions } from '~~/stores/transactions'
 
 definePageMeta({
   layout: 'dashboard',
@@ -11,6 +12,11 @@ useHead({
 })
 
 const accountsStore = useAccounts()
+const { fetchCategories } = useTransactions()
+
+onMounted(() => {
+  fetchCategories()
+})
 </script>
 
 <template>
