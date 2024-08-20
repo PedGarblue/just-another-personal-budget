@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { Ref } from 'vue'
-import type { Header } from 'vue3-easy-data-table'
+import type { Header, SortType } from 'vue3-easy-data-table'
 import type { CategoryAPI, CategoryForm } from '~~/types/categories'
 import Modal from '~~/components/Modal.vue'
 import {
@@ -23,18 +23,24 @@ const newCategory = reactive<CategoryForm>({
   parentData: undefined,
 })
 
+const sortBy: string[] = ['name', 'type', 'parentCategoryData.name']
+const sortType: SortType[] = ['desc', 'desc', 'desc']
+
 const headers: Header[] = [
   {
     text: 'Name',
     value: 'name',
+    sortable: true,
   },
   {
     text: 'Type',
     value: 'type',
+    sortable: true,
   },
   {
     text: 'Parent',
     value: 'parentCategoryData.name',
+    sortable: true,
   },
   {
     text: 'Color',
@@ -134,8 +140,13 @@ const deleteItem = (item: CategoryAPI) => {
             <div>
               <EasyDataTable
                 :headers="headers"
+                :sort-by="sortBy"
+                :sort-type="sortType"
                 :items="parsedCategories"
-                :rows-items="[10, 20, 30]"
+                :rows-items="[10, 15]"
+                rows-per-page="10"
+                class="h-full"
+                multi-sort
               >
                 <template #item-color="item">
                   <div
