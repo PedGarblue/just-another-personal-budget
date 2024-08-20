@@ -83,6 +83,8 @@ export const useAuthStore = defineStore({
       } as object)
 
       if (error.value || !data.value) {
+        // remove tokens if the refresh token is invalid
+        this.logout()
         throw error.value
       }
 

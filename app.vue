@@ -31,6 +31,18 @@ useHead({
   link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
 })
 
+const unsubscribeTokenRefresh = authStore.$onAction(({ name, onError }) => {
+  if (name === 'refreshToken') {
+    onError(() => {
+      if (tokenRefreshInterval) {
+        clearInterval(tokenRefreshInterval)
+      }
+      // TODO: Show a notification to the user that they have been logged out
+      navigateTo('/login')
+    })
+  }
+})
+
 onMounted(() => {
   authStore.checkAndRefreshToken()
   tokenRefreshInterval = setInterval(() => {
@@ -42,6 +54,7 @@ onUnmounted(() => {
   if (tokenRefreshInterval) {
     clearInterval(tokenRefreshInterval)
   }
+  unsubscribeTokenRefresh()
 })
 </script>
 
