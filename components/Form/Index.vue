@@ -133,45 +133,43 @@ const submit = async () => {
               v-bind="field.componentProps"
             />
           </div>
-          <div v-else-if="isSelectField(field)">
-            <Select
-              v-model="field.value"
-              v-bind="field.componentProps"
-              :default="field.default"
-              :options="field.selectOptions"
-              :title="field.title"
-            >
-              <template #selected-value="{ selected }">
-                {{
-                  selected
-                    ? typeof selected === 'object' && field.selectionKey
-                      ? selected[field.selectionKey as keyof typeof selected]
-                      : selected
-                    : ''
-                }}
-              </template>
-              <template #item-value="{ option }">
-                {{
-                  option
-                    ? typeof option === 'object' && field.selectionKey
-                      ? option[field.optionKey as keyof typeof option]
-                      : option
-                    : ''
-                }}
-              </template>
-            </Select>
-          </div>
-          <div v-else>
-            <FormTextInput
-              v-model="field.value"
-              :v-bind="field.componentProps"
-              size="md"
-              class="md:1/3"
-              :title="field.title"
-            >
-              <slot name="input-contents"></slot>
-            </FormTextInput>
-          </div>
+          <Select
+            v-else-if="isSelectField(field)"
+            v-model="field.value"
+            v-bind="field.componentProps"
+            :default="field.default"
+            :options="field.selectOptions"
+            :title="field.title"
+          >
+            <template #selected-value="{ selected }">
+              {{
+                selected
+                  ? typeof selected === 'object' && field.selectionKey
+                    ? selected[field.selectionKey as keyof typeof selected]
+                    : selected
+                  : ''
+              }}
+            </template>
+            <template #item-value="{ option }">
+              {{
+                option
+                  ? typeof option === 'object' && field.selectionKey
+                    ? option[field.optionKey as keyof typeof option]
+                    : option
+                  : ''
+              }}
+            </template>
+          </Select>
+          <FormTextInput
+            v-else
+            v-model="field.value"
+            :v-bind="field.componentProps"
+            size="md"
+            class="md:1/3"
+            :title="field.title"
+          >
+            <slot name="input-contents"></slot>
+          </FormTextInput>
         </template>
       </div>
     </CardContent>

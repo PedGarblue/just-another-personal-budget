@@ -165,7 +165,7 @@ watch(
   user-select: none;
 }
 
-/* 
+/*
 .custom-select .selected.open {
 }
 */
@@ -180,7 +180,7 @@ watch(
 }
 
 .items {
-  @apply flex flex-col w-full min-w-32 lg:w-max p-4 bg-white border border-t-0 rounded rounded-t-none gap-2 shadow-lg max-h-96;
+  @apply flex flex-col w-full min-w-max lg:w-max p-4 bg-white border border-t-0 rounded rounded-t-none gap-2 shadow-lg max-h-96;
   overflow-y: scroll;
   position: absolute;
   left: 0;
