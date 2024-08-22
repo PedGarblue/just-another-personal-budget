@@ -2,8 +2,12 @@
 // compiler macro
 const props = defineProps({
   modelValue: {
-    type: String,
+    type: [String, Number],
     default: '',
+  },
+  required: {
+    type: Boolean,
+    default: false,
   },
   placeholder: {
     type: String,
@@ -15,12 +19,20 @@ const props = defineProps({
   },
   type: {
     type: String,
-    default: 'default',
+    default: 'text',
   },
   title: {
     type: String,
     default: null,
     required: false,
+  },
+  tabindex: {
+    type: Number,
+    default: 0,
+  },
+  step: {
+    type: String,
+    default: 'any',
   },
 })
 const emit = defineEmits(['update:modelValue'])
@@ -94,6 +106,9 @@ const selectedFontSizeStyle = computed(
           } ${selectedBorderStyle} ${selectedOnHoverBorderStyle} ${selectedPaddingStyle} ${selectedFontSizeStyle}`"
           :type="type"
           :placeholder="placeholder"
+          :tabindex="tabindex"
+          :step="step"
+          :required="required"
         />
       </div>
       <div

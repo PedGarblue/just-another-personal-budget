@@ -36,6 +36,10 @@ const props = defineProps({
       return false
     },
   },
+  selectionKey: {
+    type: String,
+    default: 'name',
+  },
 })
 
 const emits = defineEmits(['update:modelValue', 'selection'])
@@ -52,7 +56,9 @@ const selected = ref(
     : null
 )
 
+const searchInput = ref<HTMLInputElement | null>(null)
 const open = ref(false)
+const itemSearch = ref('')
 
 // list styles
 const paddingStyles = reactive<{
@@ -74,20 +80,41 @@ const fontSizeStyles = reactive<{
 
 // methods
 
-// v-model update
 const updateValue = (option: String | Object) => {
   selected.value = option !== '' ? option : props.default
   open.value = false
+  itemSearch.value = ''
   emits('update:modelValue', option)
   emits('selection', option)
 }
 
-const openSelect = () => {
-  open.value = true
+const toggleSelect = (state?: boolean) => {
+  open.value = state || !open.value
 }
 
 const closeSelect = () => {
   open.value = false
+}
+
+const focusSearch = () => {
+  searchInput.value?.focus()
+}
+
+const onBlur = (e: FocusEvent) => {
+  // if is clicking on the search input or selecting an item, do not close the select
+  const whitelist = [searchInput]
+  const whitelistClass = ['item']
+  if (e.relatedTarget) {
+    const relatedTarget = e.relatedTarget as Element
+    if (
+      whitelist.some((el) => e.relatedTarget === el.value) ||
+      whitelistClass.some((c) => relatedTarget.classList.contains(c))
+    ) {
+      return
+    }
+  }
+
+  closeSelect()
 }
 
 // computed
@@ -99,6 +126,31 @@ const selectedFontSizeStyle = computed(
   () => fontSizeStyles[props.size] || fontSizeStyles.md
 )
 
+const selectedDisplayValue = computed(() => {
+  if (!selected.value || selected.value === '') {
+    return 'None'
+  }
+  if (typeof selected.value === 'object') {
+    return selected.value[
+      props.selectionKey as keyof typeof selected.value
+    ].toString()
+  }
+  return selected.value.toString() || ''
+})
+
+const displayOptions = computed(() => {
+  return props.options.filter((option) => {
+    if (typeof option === 'string') {
+      return option.toLowerCase().includes(itemSearch.value.toLowerCase())
+    } else {
+      return option[props.selectionKey as keyof typeof option]
+        .toString()
+        .toLowerCase()
+        .includes(itemSearch.value.toLowerCase())
+    }
+  })
+})
+
 // watch
 watch(
   () => props.modelValue,
@@ -106,6 +158,20 @@ watch(
     selected.value = newValue
   }
 )
+
+watch(open, (newValue) => {
+  if (newValue) {
+    itemSearch.value = ''
+    // TODO: find a way to focus searchInput after open.value is set to true
+    // when open.value is updated, the Vue Tick has not yet updated the DOM
+    // the setTimeout is a hack to wait for the DOM to update
+    setTimeout(() => {
+      focusSearch()
+    }, 100)
+    return
+  }
+  itemSearch.value = selectedDisplayValue.value
+})
 </script>
 
 <template>
@@ -113,20 +179,27 @@ watch(
     <div v-if="title" :class="`${selectedFontSizeStyle}`">
       {{ title }}
     </div>
-    <div class="custom-select" :tabindex="tabindex" @blur="closeSelect">
+    <div class="custom-select">
       <div
         class="selected"
         :class="[
           { open: open },
           `${selectedFontSizeStyle} ${selectedPaddingStyle}`,
         ]"
-        @click="($event) => (open = !open)"
+        @click="toggleSelect"
       >
-        <slot name="selected-value" :selected="selected">
-          {{ selected }}
-        </slot>
+        <input
+          ref="searchInput"
+          v-model="itemSearch"
+          class="w-full bg-transparent outline-none"
+          aria-label="Search Item"
+          :placeholder="selectedDisplayValue"
+          :tabindex="tabindex"
+          @focus="() => toggleSelect(true)"
+          @blur="onBlur"
+        />
       </div>
-      <div class="items" :class="{ selectHide: !open }">
+      <div ref="itemsListElement" class="items" :class="{ selectHide: !open }">
         <div
           v-if="!required"
           key="default"
@@ -136,11 +209,13 @@ watch(
           None
         </div>
         <div
-          v-for="(option, i) of options"
+          v-for="(option, i) of displayOptions"
           :key="i"
           class="item"
           :class="{ active: selected === option }"
+          :tabindex="tabindex + 1 + i"
           @click="($event) => updateValue(option)"
+          @keydown.enter="($event) => updateValue(option)"
         >
           <slot name="item-value" :option="option">
             {{ option }}
@@ -153,7 +228,7 @@ watch(
 
 <style lang="postcss" scoped>
 .custom-select {
-  @apply relative h-full w-full text-left outline-none border rounded px-2 z-50;
+  @apply relative h-full w-full text-left outline-none border rounded px-2;
   line-height: 1.5rem;
 }
 
@@ -180,12 +255,11 @@ watch(
 }
 
 .items {
-  @apply flex flex-col w-full min-w-max lg:w-max p-4 bg-white border border-t-0 rounded rounded-t-none gap-2 shadow-lg max-h-96;
+  @apply flex flex-col w-full min-w-max lg:w-max p-4 bg-white border border-t-0 rounded rounded-t-none gap-2 shadow-lg max-h-96 z-10;
   overflow-y: scroll;
   position: absolute;
   left: 0;
   right: 0;
-  z-index: 1;
 }
 
 .items.selectHide {

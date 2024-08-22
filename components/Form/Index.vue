@@ -140,16 +140,8 @@ const submit = async () => {
             :default="field.default"
             :options="field.selectOptions"
             :title="field.title"
+            :selection-key="field.selectionKey"
           >
-            <template #selected-value="{ selected }">
-              {{
-                selected
-                  ? typeof selected === 'object' && field.selectionKey
-                    ? selected[field.selectionKey as keyof typeof selected]
-                    : selected
-                  : ''
-              }}
-            </template>
             <template #item-value="{ option }">
               {{
                 option
@@ -160,16 +152,16 @@ const submit = async () => {
               }}
             </template>
           </Select>
-          <FormTextInput
+          <FormInput
             v-else
             v-model="field.value"
-            :v-bind="field.componentProps"
+            v-bind="field.componentProps"
             size="md"
             class="md:1/3"
             :title="field.title"
           >
             <slot name="input-contents"></slot>
-          </FormTextInput>
+          </FormInput>
         </template>
       </div>
     </CardContent>

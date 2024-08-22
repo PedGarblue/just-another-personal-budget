@@ -32,6 +32,10 @@ const fields = computed<FormField[]>(() => [
     selectionKey: 'name',
     optionKey: 'name',
     value: '',
+    componentProps: {
+      required: true,
+      tabindex: 20,
+    },
   },
   {
     key: 'category',
@@ -41,12 +45,19 @@ const fields = computed<FormField[]>(() => [
     selectionKey: 'name',
     optionKey: 'name',
     value: '',
+    componentProps: {
+      required: true,
+      tabindex: 30,
+    },
   },
   {
     key: 'description',
     title: 'Description',
     default: '',
     value: '',
+    componentProps: {
+      tabindex: 40,
+    },
   },
   {
     key: 'amount',
@@ -55,6 +66,9 @@ const fields = computed<FormField[]>(() => [
     value: 0,
     componentProps: {
       type: 'number',
+      tabindex: 50,
+      required: true,
+      step: '0.01',
     },
   },
 ])
