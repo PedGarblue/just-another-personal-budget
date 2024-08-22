@@ -186,7 +186,7 @@ watch(open, (newValue) => {
           { open: open },
           `${selectedFontSizeStyle} ${selectedPaddingStyle}`,
         ]"
-        @click="toggleSelect"
+        @click="() => toggleSelect()"
       >
         <input
           ref="searchInput"

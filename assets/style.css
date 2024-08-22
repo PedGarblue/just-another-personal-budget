@@ -30,7 +30,7 @@ html.dark {
   }
 }
 
-@import 'animations/transitions';
+@import './animations/transitions';
 
 .vue3-easy-data-table__body td {
   white-space: nowrap;
