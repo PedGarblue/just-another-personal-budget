@@ -11,6 +11,7 @@ export interface IFormField {
   default?: any
   value: any
   componentProps?: Object
+  tabindex?: number
 }
 
 export interface ISelectFormField extends IFormField {

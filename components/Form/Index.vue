@@ -8,6 +8,14 @@ import type {
 } from '~~/types/formTypes'
 import { LoadingStatus } from '~~/types/formTypes'
 
+const isDatePickerField = (field: FormField): field is IDatePickerFormField => {
+  return 'datePicker' in field
+}
+
+const isSelectField = (field: FormField): field is ISelectFormField => {
+  return 'selectOptions' in field
+}
+
 const { t } = useLang()
 
 const emits = defineEmits(['form-finished', 'form-error'])
@@ -40,28 +48,33 @@ const props = defineProps({
   },
 })
 
+const tabindexCount = ref(0)
+
 // data
 
 const loadingState = ref<LoadingStatus>(LoadingStatus.IDLE)
 const error = ref<any>()
 
+const getFieldTotalTabindex = (field: FormField): number => {
+  if (isSelectField(field)) {
+    return tabindexCount.value + field.selectOptions.length
+  }
+  return tabindexCount.value
+}
+
 const _fields = reactive<Array<FormField>>(
   props.fields.map((field: FormField) => {
+    const tabindex = tabindexCount.value
+    tabindexCount.value = getFieldTotalTabindex(field) + 1
     return {
       ...field,
       value: field.default || '',
+      tabindex,
     }
   })
 )
 
 // computed
-const isDatePickerField = (field: FormField): field is IDatePickerFormField => {
-  return 'datePicker' in field
-}
-
-const isSelectField = (field: FormField): field is ISelectFormField => {
-  return 'selectOptions' in field
-}
 
 // methods
 const clearForm = (): void => {
@@ -131,6 +144,7 @@ const submit = async () => {
             <VueDatePicker
               v-model="field.value"
               v-bind="field.componentProps"
+              :tabindex="field.tabindex"
             />
           </div>
           <Select
@@ -141,6 +155,7 @@ const submit = async () => {
             :options="field.selectOptions"
             :title="field.title"
             :selection-key="field.selectionKey"
+            :tabindex="field.tabindex"
           >
             <template #item-value="{ option }">
               {{
@@ -159,6 +174,7 @@ const submit = async () => {
             size="md"
             class="md:1/3"
             :title="field.title"
+            :tabindex="field.tabindex"
           >
             <slot name="input-contents"></slot>
           </FormInput>
