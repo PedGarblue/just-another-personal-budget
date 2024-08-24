@@ -88,8 +88,10 @@ const updateValue = (option: String | Object) => {
   emits('selection', option)
 }
 
-const toggleSelect = (state?: boolean) => {
-  open.value = state || !open.value
+const openSelect = () => {
+  if (!open.value) {
+    open.value = true
+  }
 }
 
 const closeSelect = () => {
@@ -159,8 +161,8 @@ watch(
   }
 )
 
-watch(open, (newValue) => {
-  if (newValue) {
+watch(open, (newValue, oldValue) => {
+  if (newValue && !oldValue) {
     itemSearch.value = ''
     // TODO: find a way to focus searchInput after open.value is set to true
     // when open.value is updated, the Vue Tick has not yet updated the DOM
@@ -168,9 +170,9 @@ watch(open, (newValue) => {
     setTimeout(() => {
       focusSearch()
     }, 100)
-    return
+  } else if (!newValue && oldValue) {
+    itemSearch.value = selectedDisplayValue.value
   }
-  itemSearch.value = selectedDisplayValue.value
 })
 </script>
 
@@ -186,7 +188,6 @@ watch(open, (newValue) => {
           { open: open },
           `${selectedFontSizeStyle} ${selectedPaddingStyle}`,
         ]"
-        @click="() => toggleSelect()"
       >
         <input
           ref="searchInput"
@@ -195,7 +196,7 @@ watch(open, (newValue) => {
           aria-label="Search Item"
           :placeholder="selectedDisplayValue"
           :tabindex="tabindex"
-          @focus="() => toggleSelect(true)"
+          @focus="() => openSelect()"
           @blur="onBlur"
         />
       </div>
