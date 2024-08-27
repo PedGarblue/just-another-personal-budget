@@ -5,6 +5,7 @@ import type { FilterOption, Header, SortType } from 'vue3-easy-data-table'
 import type { TransactionAPI } from '~~/api/transactions'
 import { useAccounts } from '~~/stores/accounts'
 import { useTransactions } from '~~/stores/transactions'
+import { convertColorValueToTailwindCompatible } from '~~/utils/colors'
 import type { CategoryAPI } from '~~/types/categories'
 import type { DisplayTransaction } from '~~/types/transactionTypes'
 
@@ -122,9 +123,12 @@ const displayTransactionsData = computed<DisplayTransaction[]>(() => {
 
     <template #item-categoryData="item">
       <span
-        class="rounded-md px-2 py-1 text-black font-bold"
+        class="rounded-md px-2 py-1 text-black dark:text-white font-bold border-2 bg-opacity-30"
         :style="{
-          'background-color': item.categoryData?.color,
+          'background-color': convertColorValueToTailwindCompatible(
+            item.categoryData?.color
+          ),
+          'border-color': item.categoryData?.color,
         }"
       >
         {{ item.categoryData?.name }}

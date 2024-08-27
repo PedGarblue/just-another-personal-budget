@@ -28,6 +28,20 @@ html.dark {
   ::-webkit-scrollbar-thumb:hover {
     background-color: theme('colors.slate.400');
   }
+
+  --easy-table-border: 1px solid theme('colors.slate.700');
+  --easy-table-row-border: 1px solid theme('colors.slate.700');
+
+  --easy-table-header-font-color: theme('colors.slate.100');
+  --easy-table-header-background-color: theme('colors.slate.800');
+
+  --easy-table-body-row-font-color: theme('colors.slate.100');
+  --easy-table-body-row-background-color: theme('colors.slate.800');
+  --easy-table-body-row-hover-font-color: theme('colors.slate.100');
+  --easy-table-body-row-hover-background-color: theme('colors.slate.700');
+
+  --easy-table-footer-font-color: theme('colors.slate.100');
+  --easy-table-footer-background-color: theme('colors.slate.800');
 }
 
 @import './animations/transitions';
