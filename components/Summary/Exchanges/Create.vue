@@ -15,6 +15,12 @@ const notifications = useNotificationsStore()
 
 const fields = computed<FormField[]>(() => [
   {
+    key: 'description',
+    title: 'Description',
+    default: '',
+    value: '',
+  },
+  {
     key: 'date',
     title: 'Date',
     default: new Date(),
@@ -23,12 +29,6 @@ const fields = computed<FormField[]>(() => [
     componentProps: {
       required: true,
     },
-  },
-  {
-    key: 'description',
-    title: 'Description',
-    default: '',
-    value: '',
   },
   {
     key: 'from_account',

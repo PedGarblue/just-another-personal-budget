@@ -141,16 +141,27 @@ const selectedDisplayValue = computed(() => {
 })
 
 const displayOptions = computed(() => {
-  return props.options.filter((option) => {
-    if (typeof option === 'string') {
-      return option.toLowerCase().includes(itemSearch.value.toLowerCase())
-    } else {
-      return option[props.selectionKey as keyof typeof option]
-        .toString()
-        .toLowerCase()
-        .includes(itemSearch.value.toLowerCase())
-    }
-  })
+  return props.options
+    .filter((option) => {
+      if (typeof option === 'string') {
+        return option.toLowerCase().includes(itemSearch.value.toLowerCase())
+      } else {
+        return option[props.selectionKey as keyof typeof option]
+          .toString()
+          .toLowerCase()
+          .includes(itemSearch.value.toLowerCase())
+      }
+    })
+    .sort((a, b) => {
+      // sort to put the selected first always
+      if (a === selected.value) {
+        return -1
+      }
+      if (b === selected.value) {
+        return 1
+      }
+      return 0
+    })
 })
 
 // watch

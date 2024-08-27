@@ -145,6 +145,8 @@ const submit = async () => {
               v-model="field.value"
               v-bind="field.componentProps"
               :tabindex="field.tabindex"
+              text-input
+              dark
             />
           </div>
           <Select
@@ -186,13 +188,21 @@ const submit = async () => {
         v-if="loadingState === LoadingStatus.FINISHED"
         class="flex flex-row gap-6"
       >
-        <Button @click="() => clearForm()">
+        <Button
+          :tabindex="tabindexCount"
+          @click="() => clearForm()"
+          @keyup.enter="() => clearForm()"
+        >
           {{ restartTitle || t('pages.summary.transactions.create.restart') }}
         </Button>
       </div>
-      <Button v-else @click="() => submit()">{{
-        submitTitle || t('others.submit')
-      }}</Button>
+      <Button
+        v-else
+        :tabindex="tabindexCount"
+        @click="() => submit()"
+        @keyup.enter="() => submit()"
+        >{{ submitTitle || t('others.submit') }}</Button
+      >
     </CardFooter>
   </Card>
 </template>

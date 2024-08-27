@@ -18,6 +18,13 @@ const categories = computed(() => transactionsState.getCategories)
 
 const fields = computed<FormField[]>(() => [
   {
+    key: 'description',
+    title: 'Description',
+    default: '',
+    value: '',
+    componentProps: {},
+  },
+  {
     key: 'date',
     title: 'Date',
     default: new Date(),
@@ -40,20 +47,13 @@ const fields = computed<FormField[]>(() => [
     key: 'category',
     title: 'Category',
     default: categories.value[0],
-    selectOptions: categories,
+    selectOptions: categories.value,
     selectionKey: 'name',
     optionKey: 'name',
     value: '',
     componentProps: {
       required: true,
     },
-  },
-  {
-    key: 'description',
-    title: 'Description',
-    default: '',
-    value: '',
-    componentProps: {},
   },
   {
     key: 'amount',

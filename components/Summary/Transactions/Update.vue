@@ -38,6 +38,12 @@ const closeModal = () => {
 
 const fields = [
   {
+    key: 'description',
+    title: 'Description',
+    default: props.transaction.description,
+    value: props.transaction.description,
+  },
+  {
     key: 'date',
     title: 'Date',
     default: props.transaction.date,
@@ -57,16 +63,10 @@ const fields = [
     key: 'category',
     title: 'Category',
     default: props.transaction.categoryData,
-    selectOptions: categories,
+    selectOptions: categories.value,
     selectionKey: 'name',
     optionKey: 'name',
     value: props.transaction.categoryData,
-  },
-  {
-    key: 'description',
-    title: 'Description',
-    default: props.transaction.description,
-    value: props.transaction.description,
   },
   {
     key: 'amount',
