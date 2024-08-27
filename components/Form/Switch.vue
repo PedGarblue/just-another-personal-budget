@@ -66,7 +66,7 @@ onMounted(() => {
   </label>
 </template>
 
-<style>
+<style lang="postcss">
 .switch-checkbox:checked {
   right: 0;
 }

@@ -48,7 +48,7 @@ const props = defineProps({
   },
 })
 
-const tabindexCount = ref(0)
+const tabindexCount = ref(1)
 
 // data
 
