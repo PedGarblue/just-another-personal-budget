@@ -65,7 +65,9 @@ export async function updateProduct(
 }
 
 export async function getProductListIndex(): Promise<ProductListAPIResponse | null> {
-  const url = `/products-list/`
+  const query = new URLSearchParams()
+  query.append('ordering', '-updated_at')
+  const url = `/products-list/?${query.toString()}`
   const { data } = await useAPI<ProductListAPIResponse>(url)
   return data.value
 }
