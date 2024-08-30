@@ -1,43 +1,64 @@
 <script lang="ts" setup>
 import { format } from 'date-fns'
 import type { PropType } from 'vue'
-import type { FilterOption, Header, SortType } from 'vue3-easy-data-table'
+import {
+  ServerOptions,
+  type FilterOption,
+  type Header,
+  type SortType,
+} from 'vue3-easy-data-table'
 import type { TransactionAPI } from '~~/api/transactions'
 import { useAccounts } from '~~/stores/accounts'
-import { useTransactions } from '~~/stores/transactions'
+import { useTransactions as useTransactionsStore } from '~~/stores/transactions'
 import { convertColorValueToTailwindCompatible } from '~~/utils/colors'
 import type { CategoryAPI } from '~~/types/categories'
 import type { DisplayTransaction } from '~~/types/transactionTypes'
-
-const accounts = useAccounts()
-const transactionsStore = useTransactions()
-
-const categories = computed(() => transactionsStore.getCategories)
+import transactions from '~~/api/transactions'
 
 // props
 
 const props = defineProps({
-  transactions: {
-    type: Array as PropType<TransactionAPI[]>,
-    required: true,
-  },
   accountCriteria: {
-    type: String,
-    default: 'All',
+    type: Number,
+    required: false,
+    default: 0,
   },
   currencyCriteria: {
+    type: Number,
+    default: 0,
+  },
+  fromDate: {
     type: String,
-    default: 'All',
+    required: false,
+    default: '',
+  },
+  toDate: {
+    type: String,
+    required: false,
+    default: '',
   },
 })
 
 // data
 
+const serverOptions = ref<ServerOptions>({
+  page: 1,
+  rowsPerPage: 50,
+})
+const serverItemsLength = ref(0)
+const loading = ref(false)
+
+const items = ref<TransactionAPI[]>([])
+
+const accounts = useAccounts()
+const transactionsStore = useTransactionsStore()
+
+const categories = computed(() => transactionsStore.getCategories)
+
 const headers: Header[] = [
   {
     text: 'Date',
     value: 'dateFormatted',
-    sortable: true,
   },
   {
     text: 'Description',
@@ -54,7 +75,6 @@ const headers: Header[] = [
   {
     text: 'Amount',
     value: 'amountWithCurrency',
-    sortable: true,
   },
   {
     text: 'Operation',
@@ -62,34 +82,11 @@ const headers: Header[] = [
   },
 ]
 
-const sortBy: string[] = ['dateFormatted']
-const sortType: SortType[] = ['desc']
-
 // computed
 
-const filterOptions = computed((): FilterOption[] => {
-  const filterOptionArray: FilterOption[] = []
-  if (props.accountCriteria !== 'All') {
-    filterOptionArray.push({
-      field: 'accountData.name',
-      comparison: '=',
-      criteria: props.accountCriteria,
-    })
-  }
-  if (props.currencyCriteria !== 'All') {
-    filterOptionArray.push({
-      field: 'accountData.currencyData.name',
-      comparison: '=',
-      criteria: props.currencyCriteria,
-    })
-  }
-
-  return filterOptionArray
-})
-
 const displayTransactionsData = computed<DisplayTransaction[]>(() => {
-  return props.transactions
-    ? props.transactions.map((transaction) => {
+  return items.value
+    ? items.value.map((transaction) => {
         const account = accounts.getAccount(transaction.account)
         const newTransaction: DisplayTransaction = {
           ...transaction,
@@ -106,16 +103,59 @@ const displayTransactionsData = computed<DisplayTransaction[]>(() => {
     : []
 })
 // methods
+const fetchTransactions = async () => {
+  loading.value = true
+  const fetched = await transactions({
+    page: serverOptions.value.page,
+    pageSize: serverOptions.value.rowsPerPage,
+    currency: props.currencyCriteria > 0 ? props.currencyCriteria : undefined,
+    account: props.accountCriteria > 0 ? props.accountCriteria : undefined,
+    from: props.fromDate !== '' ? props.fromDate : undefined,
+    to: props.toDate !== '' ? props.toDate : undefined,
+  })
+  if (fetched) {
+    const { results, count } = fetched
+    items.value = results
+    serverItemsLength.value = count
+  }
+  loading.value = false
+}
+watch(
+  () => serverOptions.value,
+  () => {
+    fetchTransactions()
+  },
+  {
+    deep: true,
+  }
+)
+
+watch(
+  () => props.accountCriteria,
+  () => {
+    fetchTransactions()
+  }
+)
+
+defineExpose({
+  refreshTable: fetchTransactions,
+  transactions: displayTransactionsData,
+  transactionsRaw: items,
+})
+
+onMounted(() => {
+  fetchTransactions()
+})
 </script>
 
 <template>
   <EasyDataTable
+    v-model:server-options="serverOptions"
+    :server-items-length="serverItemsLength"
     :headers="headers"
+    :loading="loading"
     :items="displayTransactionsData"
-    :sort-by="sortBy"
-    :sort-type="sortType"
-    :filter-options="filterOptions"
-    multi-sort
+    :rows-items="[50, 100]"
   >
     <template v-for="(_, name) in $slots" #[name]="slotData">
       <slot :name="name" v-bind="slotData" />

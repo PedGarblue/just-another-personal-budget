@@ -1,4 +1,5 @@
 import { useAPI } from '@/composables/useAPI'
+import { APITransactionResponse } from '~~/types/transactionTypes'
 
 export interface TransactionBase {
   amount: string
@@ -13,15 +14,40 @@ export interface TransactionAPI extends TransactionBase {
   id: number
 }
 
-export default async function (
-  from?: string,
-  to?: string,
-  account?: number,
-  currency?: number,
+export interface FetchTransactionsParams {
+  page: number
+  pageSize: number
+  from?: string
+  to?: string
+  account?: number
+  currency?: number
   excludeSameCurrencyTransactions?: boolean
-): Promise<[TransactionAPI] | null> {
+}
+
+export default async function fetchTransactions(
+  {
+    page,
+    pageSize,
+    from,
+    to,
+    account,
+    currency,
+    excludeSameCurrencyTransactions,
+  }: FetchTransactionsParams = {
+    page: 1,
+    pageSize: 10,
+  }
+): Promise<APITransactionResponse | null> {
   const runtimeConfig = useRuntimeConfig()
   const params = new URLSearchParams()
+
+  if (page) {
+    params.append('page', page.toString())
+  }
+  if (pageSize) {
+    params.append('page_size', pageSize.toString())
+  }
+
   if (from) {
     params.append('start_date', from)
   }
@@ -40,7 +66,7 @@ export default async function (
   const url = `${
     runtimeConfig.public.apiUrl
   }/transactions/?${params.toString()}`
-  const { data: transactions } = await useAPI<[TransactionAPI]>(url)
+  const { data: transactions } = await useAPI<APITransactionResponse>(url)
   return transactions.value
 }
 

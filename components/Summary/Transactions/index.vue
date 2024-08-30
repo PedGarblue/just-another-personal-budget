@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import { useAccounts } from '~~/stores/accounts'
-import { useTransactions } from '~~/composables/useTransactions'
 
-const { transactionsAPIData, getTransactions } = useTransactions()
 const accounts = useAccounts()
 
 // TODO: Date Range selector
@@ -13,10 +11,14 @@ const accountCriteria = ref('All')
 
 // computed
 const accountsNames = computed(() => accounts.getAccountsNames)
+const getSelectedAccount = computed(() => {
+  return accounts.getAccounts.find(
+    (account) => account.name === accountCriteria.value
+  )
+})
 
 // methods
 const refreshTable = () => {
-  getTransactions({})
   // should i be doing this?
   accounts.fetchAccounts()
 }
@@ -35,10 +37,7 @@ const refreshTable = () => {
       />
       <SummaryCategoriesCreate class="ml-auto" />
     </div>
-    <TransactionList
-      :transactions="transactionsAPIData"
-      :account-criteria="accountCriteria"
-    >
+    <TransactionList :account-criteria="getSelectedAccount?.id">
       <template #item-operation="transaction">
         <div class="flex flex-row gap-1 justify-center">
           <SummaryTransactionsUpdate

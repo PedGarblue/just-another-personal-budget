@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import type { PropType } from 'vue'
 import type { IReportAccountDisplayItem } from '~/types/reportsTypes'
-import { useTransactions } from '~~/composables/useTransactions'
+import type { TransactionAPI } from '~~/api/transactions'
+import TransactionList from '~~/components/Transaction/List.vue'
 
 // props
 const props = defineProps({
@@ -10,43 +11,29 @@ const props = defineProps({
     required: true,
   },
 })
-
-const { transactionsAPIData, getTransactions } = useTransactions({
-  getTransactionsParams: {
-    account: props.report.account,
-    from: props.report.from_date,
-    to: props.report.to_date + 'T23:59:59Z',
-  },
-})
+const transactionList = ref<InstanceType<typeof TransactionList> | null>(null)
 
 // methods
-
-const refreshTable = () => {
-  getTransactions({
-    account: props.report.account,
-    from: props.report.from_date,
-    to: parseDate(props.report.to_date),
-  })
-}
-
-const parseDate = (date: string) => {
-  return date + 'T23:59:59Z'
-}
+const transactions = computed<TransactionAPI[]>(() => {
+  return transactionList.value?.transactionsRaw ?? []
+})
 
 watch(
   () => props.report,
   () => {
-    refreshTable()
+    transactionList.value?.refreshTable()
   },
   { immediate: true }
 )
 </script>
 <template>
   <div class="flex flex-col gap-4">
-    <ReportsAccountChartCategories :transactions="transactionsAPIData" />
+    <ReportsAccountChartCategories :transactions="transactions" />
     <TransactionList
-      :transactions="transactionsAPIData"
-      :account-criteria="props.report.accountData.name"
+      ref="transactionList"
+      :from-date="report.from_date"
+      :to-date="report.to_date"
+      :account-criteria="props.report.accountData.id"
     />
   </div>
 </template>

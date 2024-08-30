@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import type { PropType } from 'vue'
 import type { IReportCurrencyDisplayItem } from '~/types/reportsTypes'
-import { useTransactions } from '~~/composables/useTransactions'
+import type { TransactionAPI } from '~~/api/transactions'
+import TransactionList from '~~/components/Transaction/List.vue'
 
 // props
 const props = defineProps({
@@ -10,43 +11,29 @@ const props = defineProps({
     required: true,
   },
 })
+const transactionList = ref<InstanceType<typeof TransactionList> | null>(null)
 
-const { transactionsAPIData, getTransactions } = useTransactions({
-  getTransactionsParams: {
-    from: props.report.from_date,
-    to: props.report.to_date + 'T23:59:59Z',
-    currency: props.report.currencyData.id,
-    excludeSameCurrencyTransactions: true,
-  },
+const transactions = computed<TransactionAPI[]>(() => {
+  return transactionList.value?.transactionsRaw ?? []
 })
 
 // methods
-
-const refreshTable = () => {
-  getTransactions({
-    from: props.report.from_date,
-    to: parseDate(props.report.to_date),
-  })
-}
-
-const parseDate = (date: string) => {
-  return date + 'T23:59:59Z'
-}
-
 watch(
   () => props.report,
   () => {
-    refreshTable()
+    transactionList.value?.refreshTable()
   },
   { immediate: true }
 )
 </script>
 <template>
   <div class="flex flex-col gap-4">
-    <ReportsCurrencyChartCategories :transactions="transactionsAPIData" />
+    <ReportsCurrencyChartCategories :transactions="transactions" />
     <TransactionList
-      :transactions="transactionsAPIData"
-      :currency-criteria="props.report.currencyData.name"
+      ref="transactionList"
+      :from-date="report.from_date"
+      :to-date="report.to_date"
+      :currency-criteria="props.report.currencyData.id"
     />
   </div>
 </template>
