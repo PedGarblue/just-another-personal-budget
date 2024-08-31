@@ -17,7 +17,9 @@ export interface APIAccountResponse extends APIResourceResponse {
 }
 
 export default async function (): Promise<APIAccountResponse | null> {
-  const urlAccounts = `/accounts/`
+  const queryParams = new URLSearchParams()
+  queryParams.set('page_size', '20')
+  const urlAccounts = `/accounts/?${queryParams.toString()}`
   const { data: accounts } = await useAPI<APIAccountResponse>(urlAccounts)
   return accounts.value
 }
