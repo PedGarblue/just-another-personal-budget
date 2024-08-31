@@ -1,13 +1,14 @@
 <script lang="ts" setup>
 import { useAccounts } from '~~/stores/accounts'
-
-const accounts = useAccounts()
+import TransactionList from '~~/components/Transaction/List.vue'
 
 // TODO: Date Range selector
 // const startMonthDate = format(new Date(), 'yyyy-MM-01')
 
 // data refs
 const accountCriteria = ref('All')
+const transactionList = ref<InstanceType<typeof TransactionList> | null>(null)
+const accounts = useAccounts()
 
 // computed
 const accountsNames = computed(() => accounts.getAccountsNames)
@@ -21,6 +22,7 @@ const getSelectedAccount = computed(() => {
 const refreshTable = () => {
   // should i be doing this?
   accounts.fetchAccounts()
+  transactionList.value?.refreshTable()
 }
 </script>
 
@@ -37,7 +39,10 @@ const refreshTable = () => {
       />
       <SummaryCategoriesCreate class="ml-auto" />
     </div>
-    <TransactionList :account-criteria="getSelectedAccount?.id">
+    <TransactionList
+      ref="transactionList"
+      :account-criteria="getSelectedAccount?.id"
+    >
       <template #item-operation="transaction">
         <div class="flex flex-row gap-1 justify-center">
           <SummaryTransactionsUpdate
