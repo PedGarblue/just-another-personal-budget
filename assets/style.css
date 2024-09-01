@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap");
+@import './animations/transitions';
 
 ::-webkit-scrollbar {
   width: 16px;
@@ -16,6 +17,11 @@
 ::-webkit-scrollbar-thumb:hover {
   background-color: theme('colors.slate.400');
 }
+
+:root {
+  --dp-border-radius: 1rem;
+}
+
 html.dark {
   ::-webkit-scrollbar-track {
     background: theme('colors.slate.800');
@@ -29,6 +35,7 @@ html.dark {
     background-color: theme('colors.slate.400');
   }
 
+  /* Easy Date Table */
   --easy-table-border: 1px solid theme('colors.slate.700');
   --easy-table-row-border: 1px solid theme('colors.slate.700');
 
@@ -42,9 +49,15 @@ html.dark {
 
   --easy-table-footer-font-color: theme('colors.slate.100');
   --easy-table-footer-background-color: theme('colors.slate.800');
+
 }
 
-@import './animations/transitions';
+html .dp__theme_dark {
+  /* Vue 3 Datepicker */
+  --dp-background-color: theme('colors.slate.900');
+  --dp-border-color: theme('colors.gray.700');
+}
+
 
 .vue3-easy-data-table__body td {
   white-space: nowrap;

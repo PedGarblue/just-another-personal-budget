@@ -240,7 +240,7 @@ watch(open, (newValue, oldValue) => {
 
 <style lang="postcss" scoped>
 .custom-select {
-  @apply relative h-full w-full text-left outline-none border rounded px-2;
+  @apply relative h-full w-full text-left outline-none border border-gray-700 rounded-full px-2;
   line-height: 1.5rem;
 }
 
