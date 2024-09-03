@@ -14,10 +14,7 @@ onMounted(() => {
 <template>
   <PageSection>
     <div>
-      <div
-        v-if="accountsStore.getAccounts.length > 0"
-        class="grid lg:grid-cols-3 gap-4"
-      >
+      <div class="grid lg:grid-cols-3 gap-4">
         <div
           v-for="currency in currenciesData"
           :key="currency.id"
