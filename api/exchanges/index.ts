@@ -1,5 +1,5 @@
 import type { TransactionAPI } from '../transactions'
-import { useAPI } from '~~/composables/useAPI'
+import { useAPIAuth as useAPI } from '~~/composables/useAPIAuth'
 
 interface ExchangeFields {
   date: string

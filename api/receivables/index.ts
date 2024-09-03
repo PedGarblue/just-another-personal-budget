@@ -1,5 +1,6 @@
 import type { ReceivableBase } from '~~/types/receivablesTypes'
 import type { APIResourceResponse } from '~~/types/api'
+import { useAPIAuth as useAPI } from '~~/composables/useAPIAuth'
 
 export interface ReceivableAPIItem extends ReceivableBase {
   id: number

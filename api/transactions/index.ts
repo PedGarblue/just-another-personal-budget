@@ -1,4 +1,4 @@
-import { useAPI } from '@/composables/useAPI'
+import { useAPIAuth as useAPI } from '@/composables/useAPIAuth'
 import { APITransactionResponse } from '~~/types/transactionTypes'
 
 export interface TransactionBase {

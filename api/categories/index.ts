@@ -1,4 +1,4 @@
-import { useAPI } from '~~/composables/useAPI'
+import { useAPIAuth as useAPI } from '~~/composables/useAPIAuth'
 import type { CategoryAPI, CategoryBase } from '~~/types/categories'
 
 export async function getCategoryList(): Promise<CategoryAPI[] | null> {

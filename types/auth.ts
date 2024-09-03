@@ -35,4 +35,6 @@ export interface APITokenRefresh {
 export interface AuthState {
   user: User | null
   token: AppStoredToken | null
+  status: 'idle' | 'loading' | 'error'
+  refreshTokenPromise: Promise<APITokenRefresh> | null
 }

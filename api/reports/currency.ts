@@ -3,6 +3,7 @@ import type {
   IReportCurrencyUpdateItem,
   IReportCurrencyApiItem,
 } from '~~/types/reportsTypes'
+import { useAPIAuth as useAPI } from '~~/composables/useAPIAuth'
 
 export async function getReportByCurrencyList(): Promise<
   [IReportCurrencyApiItem] | null

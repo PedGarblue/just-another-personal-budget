@@ -1,9 +1,9 @@
-import type { APIResourceResponse } from '~~/types/api'
 import type {
   IReportAccountItem,
   IReportAccountUpdateItem,
   IReportAccountApiItem,
 } from '~~/types/reportsTypes'
+import { useAPIAuth as useAPI } from '~~/composables/useAPIAuth'
 
 export async function getReportAccountList(): Promise<
   [IReportAccountApiItem] | null

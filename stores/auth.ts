@@ -17,11 +17,16 @@ export const useAuthStore = defineStore({
     /* Initialize state from local storage to enable user to stay logged in */
     user: JSON.parse(localStorage.getItem('user') || '{}'),
     token: JSON.parse(localStorage.getItem('token') || '{}'),
+    status: 'idle',
+    refreshTokenPromise: null,
   }),
   getters: {
     isLoggedIn: (state) => !!state.token?.access,
     isAccessTokenExpiringSoon: (state) =>
       state.token && Date.now() + 60 * 1000 > state.token.access_expires,
+    getStatus: (state) => state.status,
+    getToken: (state) => state.token,
+    getRefreshTokenPromise: (state) => state.refreshTokenPromise,
   },
   actions: {
     async fetchToken(loginForm: LoginForm): Promise<boolean> {
@@ -49,7 +54,14 @@ export const useAuthStore = defineStore({
       return true
     },
     async fetchUser(): Promise<User> {
-      const { data: apiUser, error } = await useAPI<User>('/user/me/')
+      const token = this.getToken
+      const { data: apiUser, error } = await useAPI<User>('/user/me/', {
+        onRequest({ options }) {
+          options.headers = {
+            Authorization: `Bearer ${token?.access}`,
+          }
+        },
+      })
       if (error.value || !apiUser.value) {
         throw error.value
       }
@@ -60,8 +72,15 @@ export const useAuthStore = defineStore({
       return apiUser.value
     },
     async login(loginForm: LoginForm): Promise<boolean> {
-      await this.fetchToken(loginForm)
-      await this.fetchUser()
+      this.status = 'loading'
+      try {
+        await this.fetchToken(loginForm)
+        await this.fetchUser()
+      } catch (error) {
+        this.status = 'error'
+        throw error
+      }
+      this.status = 'idle'
       return true
     },
     async register(registerForm: RegisterForm): Promise<boolean> {
@@ -72,9 +91,11 @@ export const useAuthStore = defineStore({
       return true
     },
     async refreshToken(): Promise<APITokenRefresh> {
+      this.status = 'loading'
       if (!this.token || Date.now() > this.token.refresh_expires) {
         // make the user login again if the refresh token is expired
         this.logout()
+        this.status = 'idle'
         throw new Error('Token expired')
       }
       const { data, error } = await useAPI<APITokenRefresh>('/token/refresh/', {
@@ -85,6 +106,7 @@ export const useAuthStore = defineStore({
       if (error.value || !data.value) {
         // remove tokens if the refresh token is invalid
         this.logout()
+        this.status = 'error'
         throw error.value
       }
 
@@ -95,12 +117,20 @@ export const useAuthStore = defineStore({
         Date.now() + runtimeConfig.public.token.accessExpires
 
       localStorage.setItem('token', JSON.stringify(this.token))
-
+      this.status = 'idle'
       return data.value
     },
     async checkAndRefreshToken(): Promise<void> {
       if (this.isAccessTokenExpiringSoon) {
-        await this.refreshToken()
+        this.refreshTokenPromise = this.refreshToken()
+
+        await this.refreshTokenPromise
+          .then(() => {
+            this.refreshTokenPromise = null
+          })
+          .catch(() => {
+            this.refreshTokenPromise = null
+          })
       }
     },
     logout() {

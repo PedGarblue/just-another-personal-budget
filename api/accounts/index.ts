@@ -1,4 +1,5 @@
 import { APIResourceResponse } from '~~/types/api'
+import { useAPIAuth as useAPI } from '~~/composables/useAPIAuth'
 
 export interface Account {
   id: number

@@ -12,6 +12,7 @@ import type {
   ProductListItemBase,
   ProductListItemCreate,
 } from '../../types/products'
+import { useAPIAuth as useAPI } from '~~/composables/useAPIAuth'
 
 export async function getProductIndex(
   baseUrlString: string | null = null,
