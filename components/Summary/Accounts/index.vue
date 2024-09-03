@@ -1,6 +1,5 @@
 <script setup>
 import { useAccounts } from '~/stores/accounts'
-import DataPill from '~~/components/generic/DataPill.vue'
 
 const { t } = useLang()
 const accountsStore = useAccounts()
@@ -25,25 +24,21 @@ onMounted(() => {
           class="bg-gray-100 dark:bg-gray-900 rounded-md border-2 border-gray-200 dark:border-gray-800"
         >
           <div class="flex flex-row">
-            <div class="bg-green-600 px-4 py-1 font-bold w-1/2">
+            <div class="px-4 py-1 font-bold">
               {{ currency.name }}
             </div>
-            <div
-              class="w-full flex items-center bg-gray-800 px-4 font-semibold w-full"
-            >
+            <div class="flex items-center px-4 font-bold ml-auto">
               <span class="self-center">
-                {{ currency.balance }}
+                {{ `${currency.symbol} ${currency.balance}` }}
               </span>
             </div>
           </div>
-          <div class="flex flex-col flex-wrap gap-0.5">
-            <div
+          <div class="flex flex-col flex-wrap">
+            <SummaryAccountsItem
               v-for="account in currency.accounts"
               :key="account.id"
-              class="lg:w-auto"
-            >
-              <SummaryAccountsItem :account="account" />
-            </div>
+              :account="account"
+            />
           </div>
         </div>
         <SummaryAccountsCreate @form-finished="accountsStore.fetchData()">

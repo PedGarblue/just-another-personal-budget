@@ -11,12 +11,24 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="flex flex-row w-full">
-    <div class="bg-emerald-800 px-4 py-1 w-1/2 font-semibold">
+  <div class="account">
+    <div class="px-4 py-1 font-semibold">
       {{ account.name }}
     </div>
-    <div class="w-full flex items-center px-4 font-medium bg-gray-700">
-      {{ account.currencyData.symbol }}{{ account.balance }}
+    <div class="flex items-center px-4 font-semibold ml-auto">
+      {{ `${account.currencyData.symbol} ${account.balance}` }}
     </div>
   </div>
 </template>
+
+<style lang="postcss">
+.account {
+  @apply flex flex-row w-full;
+}
+.account:nth-child(odd) {
+  @apply bg-gray-200 dark:bg-slate-800;
+}
+.account:nth-child(even) {
+  @apply bg-gray-100 dark:bg-green-500 dark:text-gray-900;
+}
+</style>
