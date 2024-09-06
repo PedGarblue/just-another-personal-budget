@@ -4,7 +4,11 @@ import { useAccounts } from '~/stores/accounts'
 const { t } = useLang()
 const accountsStore = useAccounts()
 
-const currenciesData = computed(() => accountsStore.getCurrenciesWithAccounts)
+const currenciesData = computed(() =>
+  accountsStore.getCurrenciesWithAccounts.filter(
+    (currency) => currency.accounts.length > 0
+  )
+)
 
 onMounted(() => {
   accountsStore.fetchData()
@@ -18,7 +22,7 @@ onMounted(() => {
         <div
           v-for="currency in currenciesData"
           :key="currency.id"
-          class="bg-gray-100 dark:bg-gray-900 rounded-md border-2 border-gray-200 dark:border-gray-800"
+          class="flex flex-col bg-gray-100 dark:bg-gray-900 rounded-md border-2 border-gray-200 dark:border-gray-800 overflow-hidden"
         >
           <div class="flex flex-row">
             <div class="px-4 py-1 font-bold">
@@ -30,7 +34,7 @@ onMounted(() => {
               </span>
             </div>
           </div>
-          <div class="flex flex-col flex-wrap">
+          <div class="flex flex-1 flex-col flex-wrap">
             <SummaryAccountsItem
               v-for="account in currency.accounts"
               :key="account.id"
@@ -38,6 +42,7 @@ onMounted(() => {
             />
             <SummaryAccountsCreate
               :currency="currency"
+              class="flex mt-auto"
               @form-finished="accountsStore.fetchData()"
             >
               <template #button>

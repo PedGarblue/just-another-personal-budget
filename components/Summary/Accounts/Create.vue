@@ -12,8 +12,9 @@ const emits = defineEmits(['form-finished'])
 
 const props = defineProps({
   currency: {
-    type: Object as PropType<Currency>,
-    required: true,
+    type: Object as PropType<Currency | null>,
+    required: false,
+    default: () => ({}),
   },
 })
 
@@ -24,7 +25,7 @@ const accountsState = useAccounts()
 const notifications = useNotificationsStore()
 
 const defaultCurrency = computed(() =>
-  accountsState.getCurrencies.find((c) => c.id === props.currency.id)
+  accountsState.getCurrencies.find((c) => c.id === props.currency?.id)
 )
 
 const fields = computed<FormField[]>(() => [
