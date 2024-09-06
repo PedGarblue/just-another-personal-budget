@@ -175,3 +175,5 @@ others:
   enabled: enabled
   disabled: disabled
   close: Close
+transactions:
+  no_category: No Category

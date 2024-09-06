@@ -143,7 +143,7 @@ const deleteItem = (item: CategoryAPI) => {
                 :sort-type="sortType"
                 :items="parsedCategories"
                 :rows-items="[10, 15]"
-                rows-per-page="10"
+                :rows-per-page="10"
                 class="h-full"
                 multi-sort
               >

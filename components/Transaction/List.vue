@@ -41,6 +41,8 @@ const props = defineProps({
 
 // data
 
+const { t } = useLang()
+
 const serverOptions = ref<ServerOptions>({
   page: 1,
   rowsPerPage: 50,
@@ -171,7 +173,11 @@ onMounted(() => {
           'border-color': item.categoryData?.color,
         }"
       >
-        {{ item.categoryData?.name }}
+        {{
+          item.categoryData
+            ? item.categoryData.name
+            : t('transactions.no_category')
+        }}
       </span>
     </template>
 
