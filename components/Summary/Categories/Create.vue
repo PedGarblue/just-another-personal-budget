@@ -92,26 +92,24 @@ const deleteItem = (item: CategoryAPI) => {
               <h3 class="text-2xl font-bold">Categories</h3>
             </div>
             <!-- Create Category Inline Form -->
-            <div class="border border-gray-200 rounded-xl p-2 mb-2">
+            <div class="py-2 mb-2">
               <div class="flex flex-row gap-2 pb-2">
-                <input
+                <FormInput
                   v-model="newCategory.name"
                   placeholder="Name"
-                  class="w-1/4 border border-gray-200 rounded-md px-2"
+                  class="w-1/2 rounded-md"
                 />
                 <Select
                   v-model="newCategory.type"
                   size="sm"
                   default="expense"
                   :options="['expense', 'income']"
-                  class="w-1/4"
                 />
                 <Select
                   v-model="newCategory.parentData"
                   size="sm"
                   default="None"
                   :options="categories"
-                  class="w-1/4"
                 >
                   <template #selected-value="item">
                     {{
@@ -128,10 +126,11 @@ const deleteItem = (item: CategoryAPI) => {
                     }}
                   </template>
                 </Select>
-                <input
+                <FormInput
                   v-model="newCategory.color"
                   type="color"
-                  class="w-1/4 h-8 rounded-md"
+                  size="xs"
+                  input-class="h-10 w-10"
                 />
               </div>
               <Button class="w-full" @click="submit"> Create </Button>

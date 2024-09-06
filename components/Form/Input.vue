@@ -13,6 +13,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  inputClass: {
+    type: String,
+    default: '',
+  },
   size: {
     type: String,
     default: 'md',
@@ -65,10 +69,10 @@ const havePreEl = computed(
 )
 const haveSuEl = computed(() => typeof slots.suffix !== 'undefined')
 const selectedBorderStyle = computed(
-  () => 'border-gray-900/10 dark:border-gray-50/[0.2]'
+  () => 'border-gray-900/10 dark:border-gray-600/[0.2]'
 )
 const selectedOnHoverBorderStyle = computed(
-  () => 'dark:focus:border-white focus:border-gray-900'
+  () => 'dark:focus:border-slate-600 focus:border-gray-900'
 )
 const selectedPaddingStyle = computed(
   () => paddingStyles[props.size] || paddingStyles.md
@@ -99,11 +103,12 @@ const selectedFontSizeStyle = computed(
       <div class="text-input-wrapper relative flex flex-1">
         <input
           v-model="modelValue"
-          :class="`text-input w-full flex-1 bg-transparent outline-none border ${
+          :class="`transition-colors text-input w-full flex-1 bg-transparent outline-none border ${
             havePreEl ? '' : 'rounded-l-full'
           } ${
             haveSuEl ? '' : 'rounded-r-full'
-          } ${selectedBorderStyle} ${selectedOnHoverBorderStyle} ${selectedPaddingStyle} ${selectedFontSizeStyle}`"
+          } ${selectedBorderStyle} ${selectedOnHoverBorderStyle} ${selectedPaddingStyle} ${selectedFontSizeStyle}
+          ${inputClass}`"
           :type="type"
           :placeholder="placeholder"
           :tabindex="tabindex"

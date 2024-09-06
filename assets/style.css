@@ -62,3 +62,13 @@ html .dp__theme_dark {
 .vue3-easy-data-table__body td {
   white-space: nowrap;
 }
+
+input[type=color]::-webkit-color-swatch {
+  border: none;
+  border-radius: 9999px;
+}
+
+input[type=color]::-webkit-color-swatch-wrapper {
+    border: none;
+    border-radius: 9999px;
+}
