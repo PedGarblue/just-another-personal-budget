@@ -1,5 +1,7 @@
 <script lang="ts" setup>
+import { PropType } from 'vue'
 import { createAccount } from '~~/api/accounts'
+import { Currency } from '~~/api/currencies'
 import { createTransaction } from '~~/api/transactions'
 import Modal from '~~/components/Modal.vue'
 import { useAccounts } from '~~/stores/accounts'
@@ -8,17 +10,28 @@ import type { FormField } from '~~/types/formTypes'
 
 const emits = defineEmits(['form-finished'])
 
+const props = defineProps({
+  currency: {
+    type: Object as PropType<Currency>,
+    required: true,
+  },
+})
+
 // data
 const { t } = useLang()
 const modal = ref<InstanceType<typeof Modal> | null>(null)
 const accountsState = useAccounts()
 const notifications = useNotificationsStore()
 
+const defaultCurrency = computed(() =>
+  accountsState.getCurrencies.find((c) => c.id === props.currency.id)
+)
+
 const fields = computed<FormField[]>(() => [
   {
     key: 'currency',
     title: t('pages.summary.accounts.create.fields.currency.label'),
-    default: accountsState.getCurrencies[0],
+    default: defaultCurrency.value || accountsState.getCurrencies[0],
     selectOptions: accountsState.getCurrencies,
     selectionKey: 'name',
     optionKey: 'name',

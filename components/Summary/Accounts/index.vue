@@ -36,6 +36,18 @@ onMounted(() => {
               :key="account.id"
               :account="account"
             />
+            <SummaryAccountsCreate
+              :currency="currency"
+              @form-finished="accountsStore.fetchData()"
+            >
+              <template #button>
+                <div
+                  class="flex w-full bg-gray-400 dark:bg-gray-700 py-1 text-green-500 transition-colors hover:text-green-400 dark:hover:bg-gray-600"
+                >
+                  <IconMdi:plusCircleOutline class="mx-auto text-lg" />
+                </div>
+              </template>
+            </SummaryAccountsCreate>
           </div>
         </div>
         <SummaryAccountsCreate @form-finished="accountsStore.fetchData()">
