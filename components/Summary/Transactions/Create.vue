@@ -19,21 +19,21 @@ const categories = computed(() => transactionsState.getCategories)
 const fields = computed<FormField[]>(() => [
   {
     key: 'description',
-    title: 'Description',
+    title: t('transactions.create.form.description'),
     default: '',
     value: '',
     componentProps: {},
   },
   {
     key: 'date',
-    title: 'Date',
+    title: t('transactions.create.form.date'),
     default: new Date(),
     datePicker: true,
     value: '',
   },
   {
     key: 'account',
-    title: 'Account',
+    title: t('transactions.create.form.account'),
     default: accountsState.getAccounts[0],
     selectOptions: accountsState.getAccounts,
     selectionKey: 'name',
@@ -45,7 +45,7 @@ const fields = computed<FormField[]>(() => [
   },
   {
     key: 'category',
-    title: 'Category',
+    title: t('transactions.create.form.category'),
     default: categories.value[0],
     selectOptions: categories.value,
     selectionKey: 'name',
@@ -57,7 +57,7 @@ const fields = computed<FormField[]>(() => [
   },
   {
     key: 'amount',
-    title: 'Amount',
+    title: t('transactions.create.form.amount'),
     default: 0,
     value: 0,
     componentProps: {
@@ -96,7 +96,9 @@ const finishCreate = () => {
 
 <template>
   <div>
-    <Button @click="openModal">Create</Button>
+    <Button @click="openModal">{{
+      t('pages.summary.transactions.create.title')
+    }}</Button>
     <Modal ref="modal">
       <template #contents>
         <Form

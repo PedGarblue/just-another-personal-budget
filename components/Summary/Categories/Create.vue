@@ -11,6 +11,7 @@ import {
 import { useNotificationsStore } from '~~/stores/notifications'
 import { useTransactions } from '~~/stores/transactions'
 
+const { t } = useLang()
 const notifications = useNotificationsStore()
 const modal = ref<InstanceType<typeof Modal> | null>(null)
 const transactionsStore = useTransactions()
@@ -28,26 +29,26 @@ const sortType: SortType[] = ['desc', 'desc', 'desc']
 
 const headers: Header[] = [
   {
-    text: 'Name',
+    text: t('categories.table.name'),
     value: 'name',
     sortable: true,
   },
   {
-    text: 'Type',
+    text: t('categories.table.type'),
     value: 'type',
     sortable: true,
   },
   {
-    text: 'Parent',
+    text: t('categories.table.parent'),
     value: 'parentCategoryData.name',
     sortable: true,
   },
   {
-    text: 'Color',
+    text: t('categories.table.color'),
     value: 'color',
   },
   {
-    text: 'Actions',
+    text: t('categories.table.actions'),
     value: 'operation',
   },
 ]
@@ -83,20 +84,20 @@ const deleteItem = (item: CategoryAPI) => {
 
 <template>
   <div>
-    <Button @click="openModal">Categories</Button>
+    <Button @click="openModal">{{ t('categories.title') }}</Button>
     <Modal ref="modal">
       <template #contents>
         <Card class="form-card form-card-modal">
           <div class="p-4">
             <div>
-              <h3 class="text-2xl font-bold">Categories</h3>
+              <h3 class="text-2xl font-bold">{{ t('categories.title') }}</h3>
             </div>
             <!-- Create Category Inline Form -->
             <div class="py-2 mb-2">
               <div class="flex flex-row gap-2 pb-2">
                 <FormInput
                   v-model="newCategory.name"
-                  placeholder="Name"
+                  :placeholder="t('categories.create.form.name')"
                   class="w-1/2 rounded-md"
                 />
                 <Select
@@ -133,7 +134,9 @@ const deleteItem = (item: CategoryAPI) => {
                   input-class="h-10 w-10"
                 />
               </div>
-              <Button class="w-full" @click="submit"> Create </Button>
+              <Button class="w-full" @click="submit"
+                >{{ t('categories.create.title') }}
+              </Button>
             </div>
             <!-- Categories List -->
             <div>

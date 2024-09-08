@@ -39,20 +39,20 @@ const closeModal = () => {
 const fields = [
   {
     key: 'description',
-    title: 'Description',
+    title: t('transactions.create.form.description'),
     default: props.transaction.description,
     value: props.transaction.description,
   },
   {
     key: 'date',
-    title: 'Date',
+    title: t('transactions.create.form.date'),
     default: props.transaction.date,
     datePicker: true,
     value: props.transaction.date,
   },
   {
     key: 'account',
-    title: 'Account',
+    title: t('transactions.create.form.account'),
     default: props.transaction.accountData,
     selectOptions: accountsList,
     selectionKey: 'name',
@@ -61,7 +61,7 @@ const fields = [
   },
   {
     key: 'category',
-    title: 'Category',
+    title: t('transactions.create.form.category'),
     default: props.transaction.categoryData,
     selectOptions: categories.value,
     selectionKey: 'name',
@@ -70,7 +70,7 @@ const fields = [
   },
   {
     key: 'amount',
-    title: 'Amount',
+    title: t('transactions.create.form.amount'),
     default: props.transaction.amount,
     value: props.transaction.amount,
     componentProps: {

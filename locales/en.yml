@@ -176,4 +176,26 @@ others:
   disabled: disabled
   close: Close
 transactions:
+  create:
+    form:
+      description: 'Description'
+      date: 'Date'
+      account: 'Account'
+      category: 'Category'
+      amount: 'Amount'
+  date: Date
+  description: Description
+  account: Account
+  category: Category
+  amount: Amount
+  operation: Operations
   no_category: No Category
+exchanges:
+  create:
+    form:
+      description: 'Description'
+      date: 'Date'
+      sender_account: 'Sender Account'
+      sender_amount: 'Sender Amount'
+      receiver_account: 'Receiver Account'
+      receiver_amount: 'Receiver Amount'

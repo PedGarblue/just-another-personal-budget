@@ -59,27 +59,27 @@ const categories = computed(() => transactionsStore.getCategories)
 
 const headers: Header[] = [
   {
-    text: 'Date',
+    text: t('transactions.date'),
     value: 'dateFormatted',
   },
   {
-    text: 'Description',
+    text: t('transactions.description'),
     value: 'description',
   },
   {
-    text: 'Account',
+    text: t('transactions.account'),
     value: 'accountData.name',
   },
   {
-    text: 'Category',
+    text: t('transactions.category'),
     value: 'categoryData',
   },
   {
-    text: 'Amount',
+    text: t('transactions.amount'),
     value: 'amountWithCurrency',
   },
   {
-    text: 'Operation',
+    text: t('transactions.operation'),
     value: 'operation',
   },
 ]

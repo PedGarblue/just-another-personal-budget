@@ -16,13 +16,13 @@ const notifications = useNotificationsStore()
 const fields = computed<FormField[]>(() => [
   {
     key: 'description',
-    title: 'Description',
+    title: t('exchanges.create.form.description'),
     default: '',
     value: '',
   },
   {
     key: 'date',
-    title: 'Date',
+    title: t('exchanges.create.form.date'),
     default: new Date(),
     datePicker: true,
     value: '',
@@ -32,7 +32,7 @@ const fields = computed<FormField[]>(() => [
   },
   {
     key: 'from_account',
-    title: 'Sender Account',
+    title: t('exchanges.create.form.sender_account'),
     default: accountsState.getAccounts[0],
     selectOptions: accountsState.getAccounts,
     selectionKey: 'name',
@@ -44,7 +44,7 @@ const fields = computed<FormField[]>(() => [
   },
   {
     key: 'from_amount',
-    title: 'Sender Amount',
+    title: t('exchanges.create.form.sender_amount'),
     default: 0,
     value: 0,
     componentProps: {
@@ -54,7 +54,7 @@ const fields = computed<FormField[]>(() => [
   },
   {
     key: 'to_account',
-    title: 'Recipient Account',
+    title: t('exchanges.create.form.receiver_account'),
     default: accountsState.getAccounts[1],
     selectOptions: accountsState.getAccounts,
     selectionKey: 'name',
@@ -66,7 +66,7 @@ const fields = computed<FormField[]>(() => [
   },
   {
     key: 'to_amount',
-    title: 'Recipient Amount',
+    title: t('exchanges.create.form.receiver_amount'),
     default: 0,
     value: 0,
     componentProps: {
