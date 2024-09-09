@@ -103,9 +103,10 @@ const finishCreate = () => {
 
 <template>
   <div>
-    <Button @click="openModal">{{
-      t('pages.summary.exchanges.create.title')
-    }}</Button>
+    <Button type="secondary" @click="openModal">
+      <IconMdi:cashSync class="mr-1 text-lg" />
+      {{ t('pages.summary.exchanges.create.title') }}</Button
+    >
     <Modal ref="modal">
       <template #contents>
         <Form

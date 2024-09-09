@@ -1,5 +1,11 @@
 <script lang="ts" setup>
+import { cn } from '~~/lib/utils'
+
 const props = defineProps({
+  class: {
+    type: String,
+    default: '',
+  },
   text: {
     type: String,
     default: '',
@@ -72,13 +78,13 @@ const onClick = (event: MouseEvent) => {
     v-if="to"
     tag="a"
     :to="to"
-    :class="`${defaultStyle} ${selectedStyle} ${selectedSize}`"
+    :class="cn(`${defaultStyle} ${selectedStyle} ${selectedSize}`, props.class)"
   >
     <slot>{{ text }}</slot>
   </NuxtLink>
   <a
     v-else
-    :class="`${defaultStyle} ${selectedStyle} ${selectedSize}`"
+    :class="cn(`${defaultStyle} ${selectedStyle} ${selectedSize}`, props.class)"
     :href="href"
     @click="onClick"
   >

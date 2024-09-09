@@ -84,7 +84,10 @@ const deleteItem = (item: CategoryAPI) => {
 
 <template>
   <div>
-    <Button @click="openModal">{{ t('categories.title') }}</Button>
+    <Button @click="openModal">
+      <IconMdi:categoryPlusOutline class="mx-auto mr-1 text" />
+      {{ t('categories.title') }}
+    </Button>
     <Modal ref="modal">
       <template #contents>
         <Card class="form-card form-card-modal">
@@ -134,8 +137,9 @@ const deleteItem = (item: CategoryAPI) => {
                   input-class="h-10 w-10"
                 />
               </div>
-              <Button class="w-full" @click="submit"
-                >{{ t('categories.create.title') }}
+              <Button class="w-full" @click="submit">
+                <IconMdi:categoryPlusOutline class="mr-1 text" />
+                {{ t('categories.create.title') }}
               </Button>
             </div>
             <!-- Categories List -->
