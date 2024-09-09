@@ -199,3 +199,25 @@ exchanges:
       sender_amount: 'Sender Amount'
       receiver_account: 'Receiver Account'
       receiver_amount: 'Receiver Amount'
+categories:
+  title: Categories
+  table:
+    name: Name
+    description: Description
+    type: Type
+    parent: Parent Category
+    color: Color
+    actions: Actions
+  create:
+    form:
+      name: Name
+      type: Type
+      parent: Parent Category
+    title: Create Category
+    success: Category Created
+    restart: Restart
+  update:
+    title: Update Category
+    success: Category Updated
+  delete:
+    success: Category Deleted
