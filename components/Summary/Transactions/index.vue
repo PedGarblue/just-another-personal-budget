@@ -21,7 +21,7 @@ const getSelectedAccount = computed(() => {
 // methods
 const refreshTable = () => {
   // should i be doing this?
-  accounts.fetchAccounts()
+  accounts.fetchData()
   transactionList.value?.refreshTable()
 }
 </script>
@@ -36,6 +36,7 @@ const refreshTable = () => {
         size="sm"
         default="All"
         :options="['All', ...accountsNames]"
+        required
       />
       <SummaryCategoriesCreate class="ml-auto" />
     </div>
