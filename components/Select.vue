@@ -211,40 +211,43 @@ watch(open, (newValue, oldValue) => {
           @blur="onBlur"
         />
       </div>
-      <div ref="itemsListElement" class="items" :class="{ selectHide: !open }">
-        <div
-          v-if="!required"
-          key="default"
-          class="item bg-gray-100"
-          @click="($event) => updateValue('')"
-        >
-          None
+      <Transition name="fade-from-top-left">
+        <div v-if="open" ref="itemsListElement" class="items">
+          <div
+            v-if="!required"
+            key="default"
+            class="item"
+            @click="($event) => updateValue('')"
+          >
+            None
+          </div>
+          <div
+            v-for="(option, i) of displayOptions"
+            :key="i"
+            class="item"
+            :class="{ active: selected === option }"
+            :tabindex="tabindex + 1 + i"
+            @click="($event) => updateValue(option)"
+            @keydown.enter="($event) => updateValue(option)"
+          >
+            <slot name="item-value" :option="option">
+              {{ option }}
+            </slot>
+          </div>
         </div>
-        <div
-          v-for="(option, i) of displayOptions"
-          :key="i"
-          class="item"
-          :class="{ active: selected === option }"
-          :tabindex="tabindex + 1 + i"
-          @click="($event) => updateValue(option)"
-          @keydown.enter="($event) => updateValue(option)"
-        >
-          <slot name="item-value" :option="option">
-            {{ option }}
-          </slot>
-        </div>
-      </div>
+      </Transition>
     </div>
   </div>
 </template>
 
 <style lang="postcss" scoped>
 .custom-select {
-  @apply relative h-full w-full text-left outline-none border border-gray-700 rounded-full px-2;
+  @apply relative flex flex-col h-full w-full text-left outline-none border border-gray-700 rounded-full px-2;
   line-height: 1.5rem;
 }
 
 .custom-select .selected {
+  margin: auto 0;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -267,29 +270,26 @@ watch(open, (newValue, oldValue) => {
 }
 
 .items {
-  @apply flex flex-col w-full min-w-max lg:w-max p-4 bg-white border border-t-0 rounded rounded-t-none gap-2 shadow-lg max-h-96 z-10;
+  @apply flex flex-col w-full min-w-max p-2 bg-white border border-gray-500 rounded-lg gap-2 shadow-lg max-h-96 z-10 lg:w-max dark:bg-gray-900;
   overflow-y: scroll;
+  overflow-x: hidden;
   position: absolute;
-  left: 0;
+  top: 2.75rem;
+  left: 0.5rem;
   right: 0;
 }
 
-.items.selectHide {
-  display: none;
-}
-
 .item {
-  @apply text-gray-800 rounded-md border text-center py-1 px-2 transition min-w-full;
+  @apply text-gray-800 rounded-md text-center py-1 px-2 transition min-w-full font-semibold dark:text-white;
   cursor: pointer;
-  box-shadow: 0 4px 6px 0 rgb(191, 219, 254, 0.75);
   user-select: none;
 }
 
 .item.active {
-  @apply bg-blue-400 text-white;
+  @apply bg-primary text-white;
 }
 
 .item:hover {
-  @apply bg-blue-100 text-gray-800;
+  @apply bg-primary-600 text-white;
 }
 </style>
