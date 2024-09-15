@@ -1,17 +1,11 @@
 <template>
-  <teleport to="body" @keydown.esc="close">
-    <transition name="modal">
+  <Teleport to="body" @keydown.esc="close">
+    <Transition name="fade">
       <div v-if="isVisible" class="modal-mask">
         <div class="modal-wrapper">
-          <transition name="modal">
-            <div
-              v-if="isVisible"
-              class="fixed inset-0 transform transition-all"
-              @click="close"
-            >
-              <div class="absolute inset-0 bg-gray-800 opacity-50"></div>
-            </div>
-          </transition>
+          <div class="fixed inset-0 transform transition-all" @click="close">
+            <div class="absolute inset-0 bg-gray-800 opacity-50"></div>
+          </div>
           <div class="modal-contents">
             <slot name="contents">
               <Card class="modal-card">
@@ -29,8 +23,8 @@
           </div>
         </div>
       </div>
-    </transition>
-  </teleport>
+    </Transition>
+  </Teleport>
 </template>
 
 <script lang="ts" setup>
@@ -42,10 +36,6 @@ const open = () => {
 const close = () => {
   isVisible.value = false
 }
-defineExpose({
-  open,
-  close,
-})
 
 const onEscape = (event: KeyboardEvent) => {
   if (event.key === 'Escape') {
@@ -57,6 +47,10 @@ const onMobileBack = (e: Event) => {
   e.preventDefault()
   close()
 }
+defineExpose({
+  open,
+  close,
+})
 
 onMounted(() => {
   window.addEventListener('keydown', onEscape)
@@ -93,27 +87,19 @@ onUnmounted(() => {
   transition: all 0.3s ease;
   overflow: visible;
 }
+</style>
 
-/*
-* The following styles are auto-applied to elements with
-* transition="modal" when their visibility is toggled
-* by Vue.js.
-*
-* You can easily play with the modal transition by editing
-* these styles.
-*/
-
-.modal-enter {
-  opacity: 0;
+<style lang="postcss">
+.fade-enter-active .modal-contents {
+  transition: all 0.1s ease-out;
+}
+.fade-leave-active .modal-contents {
+  transition: all 0.1s cubic-bezier(1, 0.5, 0.8, 1);
 }
 
-.modal-leave-active {
+.fade-enter-from .modal-contents,
+.fade-leave-to .modal-contents {
+  transform: translateY(5rem);
   opacity: 0;
-}
-
-.modal-enter .modal-container,
-.modal-leave-active .modal-container {
-  -webkit-transform: scale(1.1);
-  transform: scale(1.1);
 }
 </style>
