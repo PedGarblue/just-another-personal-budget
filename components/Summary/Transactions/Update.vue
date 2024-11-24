@@ -7,6 +7,7 @@ import Modal from '~~/components/Modal.vue'
 import { useNotificationsStore } from '~~/stores/notifications'
 import { useTransactions } from '~~/stores/transactions'
 import type { CategoryAPI } from '~~/types/categories'
+import { FormField } from '~~/types/formTypes'
 
 const emits = defineEmits(['form-finished'])
 
@@ -36,7 +37,7 @@ const closeModal = () => {
   modal.value?.close()
 }
 
-const fields = [
+const fields: FormField[] = [
   {
     key: 'description',
     title: t('transactions.create.form.description'),
@@ -60,22 +61,39 @@ const fields = [
     value: props.transaction.accountData,
   },
   {
-    key: 'category',
-    title: t('transactions.create.form.category'),
-    default: props.transaction.categoryData,
-    selectOptions: categories.value,
-    selectionKey: 'name',
-    optionKey: 'name',
-    value: props.transaction.categoryData,
-  },
-  {
     key: 'amount',
     title: t('transactions.create.form.amount'),
     default: props.transaction.amount,
     value: props.transaction.amount,
     componentProps: {
       type: 'number',
+      required: true,
+      step: '0.01',
     },
+  },
+  {
+    key: 'category',
+    title: t('transactions.create.form.category'),
+    default: props.transaction.categoryData,
+    selectOptions: categories.value,
+    selectOptionsMutator: (options, fields) => {
+      const amountField = fields.find((field) => field.key === 'amount')
+      if (amountField) {
+        const amount = amountField.value
+        return options.filter((option) => {
+          if (typeof option === 'object' && 'type' in option) {
+            return amount > 0
+              ? option.type === 'income'
+              : option.type === 'expense'
+          }
+          return false
+        })
+      }
+      return options
+    },
+    selectionKey: 'name',
+    optionKey: 'name',
+    value: props.transaction.categoryData,
   },
 ]
 

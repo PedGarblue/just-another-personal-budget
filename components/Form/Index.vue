@@ -66,6 +66,7 @@ const _fields = reactive<Array<FormField>>(
   props.fields.map((field: FormField) => {
     const tabindex = tabindexCount.value
     tabindexCount.value = getFieldTotalTabindex(field) + 1
+
     return {
       ...field,
       value: field.default || '',
@@ -77,6 +78,13 @@ const _fields = reactive<Array<FormField>>(
 // computed
 
 // methods
+
+const getSelectOptions = (field: ISelectFormField) => {
+  if (field.selectOptionsMutator) {
+    return field.selectOptionsMutator(field.selectOptions, _fields)
+  }
+  return field.selectOptions
+}
 const clearForm = (): void => {
   for (let index = 0; index < _fields.length; index++) {
     const field = _fields[index]
@@ -154,7 +162,7 @@ const submit = async () => {
             v-model="field.value"
             v-bind="field.componentProps"
             :default="field.default"
-            :options="field.selectOptions"
+            :options="getSelectOptions(field)"
             :title="field.title"
             :selection-key="field.selectionKey"
             :tabindex="field.tabindex"

@@ -44,18 +44,6 @@ const fields = computed<FormField[]>(() => [
     },
   },
   {
-    key: 'category',
-    title: t('transactions.create.form.category'),
-    default: categories.value[0],
-    selectOptions: categories.value,
-    selectionKey: 'name',
-    optionKey: 'name',
-    value: '',
-    componentProps: {
-      required: true,
-    },
-  },
-  {
     key: 'amount',
     title: t('transactions.create.form.amount'),
     default: 0,
@@ -64,6 +52,33 @@ const fields = computed<FormField[]>(() => [
       type: 'number',
       required: true,
       step: '0.01',
+    },
+  },
+  {
+    key: 'category',
+    title: t('transactions.create.form.category'),
+    default: categories.value[0],
+    selectOptions: categories.value,
+    selectOptionsMutator: (options, fields) => {
+      const amountField = fields.find((field) => field.key === 'amount')
+      if (amountField) {
+        const amount = amountField.value
+        return options.filter((option) => {
+          if (typeof option === 'object' && 'type' in option) {
+            return amount > 0
+              ? option.type === 'income'
+              : option.type === 'expense'
+          }
+          return false
+        })
+      }
+      return options
+    },
+    selectionKey: 'name',
+    optionKey: 'name',
+    value: '',
+    componentProps: {
+      required: true,
     },
   },
 ])
@@ -97,7 +112,7 @@ const finishCreate = () => {
 <template>
   <div>
     <Button @click="openModal">
-      <IconMdi:cashPlus class="mx-auto mr-1 text-lg" />
+      <IconMdi:cashPlus class="mr-1 text-lg" />
       {{ t('pages.summary.transactions.create.title') }}
     </Button>
     <Modal ref="modal">

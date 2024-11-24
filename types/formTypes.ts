@@ -16,6 +16,10 @@ export interface IFormField {
 
 export interface ISelectFormField extends IFormField {
   selectOptions: Array<Object | string>
+  selectOptionsMutator?: (
+    options: Array<Object | string>,
+    fields: Array<IFormField>
+  ) => Array<Object | string>
   selectionKey?: string
   optionKey?: string
 }
