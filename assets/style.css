@@ -50,6 +50,7 @@ html.dark {
   --easy-table-footer-font-color: theme('colors.slate.100');
   --easy-table-footer-background-color: theme('colors.slate.800');
 
+  --easy-table-rows-per-page-selector-z-index: 1000;
 }
 
 html .dp__theme_dark {
