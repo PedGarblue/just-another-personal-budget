@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { Doughnut } from 'vue-chartjs'
+import { Doughnut, Bar } from 'vue-chartjs'
 import type { PropType } from 'vue'
+import IconMdiChartDoughnut from '~icons/mdi/chart-doughnut'
+import IconMdiChartBar from '~icons/mdi/chart-bar'
 import type { TransactionAPI } from '~~/api/transactions'
 import { useTransactions } from '~~/stores/transactions'
 
@@ -11,12 +13,26 @@ type CategoryGroupItem = {
   }
 }
 
+type ChartTypes = 'Doughnut' | 'Bar'
+
 const props = defineProps({
   transactions: {
     type: Array as PropType<TransactionAPI[]>,
     required: true,
   },
 })
+
+const chartType = ref<ChartTypes>('Doughnut')
+const chartTypeList: ChartTypes[] = ['Doughnut', 'Bar']
+const chartTypeIcons = {
+  Doughnut: IconMdiChartDoughnut,
+  Bar: IconMdiChartBar,
+}
+const chartsAvailable = {
+  Doughnut,
+  Bar,
+}
+const currentChart = computed(() => chartsAvailable[chartType.value])
 
 const transactionsStore = useTransactions()
 
@@ -63,6 +79,7 @@ const toChartData = (transactions: TransactionAPI[]) => {
   })
   const datasets = [
     {
+      label: 'Dataset',
       data: Object.values(values),
       backgroundColor,
       borderColor: ['#a0a0a0'],
@@ -77,7 +94,13 @@ const categories = computed(() => {
 
 const expensesByCategory = computed(() => {
   return toChartData(
-    props.transactions.filter((transaction) => Number(transaction.amount) < 0)
+    props.transactions
+      .filter((transaction) => Number(transaction.amount) < 0)
+      // make absolute value
+      .map((transaction) => ({
+        ...transaction,
+        amount: Math.abs(Number(transaction.amount)).toString(),
+      }))
   )
 })
 
@@ -89,18 +112,40 @@ const incomeByCategory = computed(() => {
 </script>
 
 <template>
-  <div class="flex max-w-full justify-center gap-4">
-    <div class="w-full">
-      <div>
-        <h2 class="text-center font-bold">Expenses</h2>
-      </div>
-      <Doughnut :data="expensesByCategory" :options="chartOptions" />
+  <div
+    class="grid grid-cols-1 md:grid-cols-2 max-w-full justify-center gap-10 md:gap-4"
+  >
+    <div class="col-span-2">
+      <Button
+        v-for="type in chartTypeList"
+        :key="type"
+        class="inline-flex mr-1"
+        type="secondary"
+        size="sm"
+        @click="chartType = type"
+      >
+        <component :is="chartTypeIcons[type]" class="h-4" />
+      </Button>
     </div>
-    <div class="w-full">
-      <div>
-        <h2 class="text-center font-bold">Income</h2>
+    <div class="md:w-full">
+      <div class="mb-2">
+        <h2 class="text-2xl md:text-base text-center font-bold">Expenses</h2>
       </div>
-      <Doughnut :data="incomeByCategory" :options="chartOptions" />
+      <component
+        :is="currentChart"
+        :data="expensesByCategory"
+        :options="chartOptions"
+      />
+    </div>
+    <div class="md:w-full">
+      <div class="mb-2">
+        <h2 class="text-2xl md:text-base text-center font-bold">Income</h2>
+      </div>
+      <component
+        :is="currentChart"
+        :data="incomeByCategory"
+        :options="chartOptions"
+      />
     </div>
   </div>
 </template>
