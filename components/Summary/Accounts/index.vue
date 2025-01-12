@@ -28,9 +28,35 @@ onMounted(() => {
             <div class="px-4 py-1 font-bold">
               {{ currency.name }}
             </div>
-            <div class="flex items-center px-4 font-bold ml-auto">
-              <span class="self-center">
+            <div class="flex items-center px-2 font-bold ml-auto">
+              <span class="self-right">
                 {{ `${currency.symbol} ${currency.balance}` }}
+              </span>
+            </div>
+            <div
+              v-if="currency.latest_conversion_rate_to_main"
+              class="flex items-center px-2 font-bold bg-green-600 text-white text-xs"
+              :title="
+                t('pages.summary.accounts.rate_tooltip', {
+                  rate: currency.latest_conversion_rate_to_main,
+                })
+              "
+            >
+              <span class="self-center">
+                {{
+                  `${currency.symbol}${currency.latest_conversion_rate_to_main}`
+                }}
+              </span>
+            </div>
+            <div
+              v-if="currency.balance_as_main_currency"
+              class="flex items-center px-2 font-bold bg-gray-600 text-white text-sm"
+              :title="
+                t('pages.summary.accounts.balance_to_main_currency_tooltip')
+              "
+            >
+              <span class="self-center">
+                {{ `$${currency.balance_as_main_currency}` }}
               </span>
             </div>
           </div>

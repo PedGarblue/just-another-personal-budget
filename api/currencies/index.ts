@@ -5,7 +5,9 @@ export interface Currency {
   id: number
   name: string
   symbol: string
-  balance: number
+  balance: string
+  balance_as_main_currency?: string
+  latest_conversion_rate_to_main?: string
 }
 
 export interface APICurrencyResponse extends APIResourceResponse {

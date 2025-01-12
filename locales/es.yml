@@ -50,6 +50,8 @@ pages:
         success: ¡cuenta actualizada!
       delete:
         success: Cuenta eliminada
+      rate_tooltip: 'Tipo de cambio: %{rate}'
+      balance_to_main_currency_tooltip: 'Saldo en USD'
     index:
       title: Resumen
     transactions:

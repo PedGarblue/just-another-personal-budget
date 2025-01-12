@@ -18,7 +18,7 @@ const defaultCurrency: Currency = {
   id: 0,
   name: 'N/A',
   symbol: 'N/A',
-  balance: 0,
+  balance: '0',
 }
 
 const defaultAccount: AccountComplete = {

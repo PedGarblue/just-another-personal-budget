@@ -50,6 +50,8 @@ pages:
         success: Account Updated!
       delete:
         success: Account Deleted
+      rate_tooltip: 'Exchange rate: %{rate}'
+      balance_to_main_currency_tooltip: 'Balance in USD'
     index:
       title: Summary
     transactions:
