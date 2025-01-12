@@ -5,7 +5,8 @@ export interface Account {
   id: number
   name: string
   currency: number
-  balance: number
+  balance: string
+  balance_as_main_currency?: string
 }
 
 export interface AccountForm {

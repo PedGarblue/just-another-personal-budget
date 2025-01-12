@@ -24,18 +24,29 @@ onMounted(() => {
           :key="currency.id"
           class="flex flex-col bg-gray-100 dark:bg-gray-900 rounded-md border-2 border-gray-200 dark:border-gray-800 overflow-hidden"
         >
-          <div class="flex flex-row">
+          <div
+            class="grid"
+            :class="{
+              'grid-cols-6': currency.latest_conversion_rate_to_main,
+              'grid-cols-2': !currency.latest_conversion_rate_to_main,
+            }"
+          >
             <div class="px-4 py-1 font-bold">
               {{ currency.name }}
             </div>
-            <div class="flex items-center px-2 font-bold ml-auto">
+            <div
+              class="flex items-center px-2 font-bold ml-auto"
+              :class="{
+                'col-span-3': currency.latest_conversion_rate_to_main,
+              }"
+            >
               <span class="self-right">
                 {{ `${currency.symbol} ${currency.balance}` }}
               </span>
             </div>
             <div
               v-if="currency.latest_conversion_rate_to_main"
-              class="flex items-center px-2 font-bold bg-green-600 text-white text-xs"
+              class="flex items-center justify-end px-1 font-bold bg-green-600 text-white text-xs"
               :title="
                 t('pages.summary.accounts.rate_tooltip', {
                   rate: currency.latest_conversion_rate_to_main,
@@ -50,7 +61,7 @@ onMounted(() => {
             </div>
             <div
               v-if="currency.balance_as_main_currency"
-              class="flex items-center px-2 font-bold bg-gray-600 text-white text-sm"
+              class="flex items-center px-2 font-bold bg-gray-600 text-white text-xs"
               :title="
                 t('pages.summary.accounts.balance_to_main_currency_tooltip')
               "

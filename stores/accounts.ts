@@ -26,7 +26,7 @@ const defaultAccount: AccountComplete = {
   name: 'N/A',
   currency: defaultCurrency.id,
   currencyData: defaultCurrency,
-  balance: 0,
+  balance: '0',
 }
 
 export const useAccounts = defineStore('accounts', {
