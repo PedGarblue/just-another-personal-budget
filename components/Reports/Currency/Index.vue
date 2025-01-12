@@ -52,6 +52,13 @@ const headers: Header[] = [
 const reports = ref<IReportCurrencyApiItem[]>([])
 const selectedReport = ref<IReportCurrencyDisplayItem | null>(null)
 const currencyCriteria = ref('')
+const numberOfReports = ref(12)
+const numberOfReportsOptions = [
+  { text: '1 Year', value: 12 },
+  { text: '2 Years', value: 24 },
+  { text: '3 Years', value: 36 },
+  { text: '4 Years', value: 48 },
+]
 
 const sortBy: string[] = ['from_date']
 const sortType: SortType[] = ['desc']
@@ -78,6 +85,7 @@ const displayReportsData = computed(() => {
       .filter((report, index, self) => {
         return index === self.findIndex((t) => t.from_date === report.from_date)
       })
+      .slice(0, numberOfReports.value)
   )
 })
 
@@ -125,8 +133,20 @@ watch(currencyNames, () => {
 
 <template>
   <PageSection>
-    <PageSectionTitle> Report By Account </PageSectionTitle>
+    <PageSectionTitle> Report By Currency </PageSectionTitle>
     <div class="mb-4">
+      <div class="mb-2">
+        <Button
+          v-for="option in numberOfReportsOptions"
+          :key="option.value"
+          type="secondary"
+          size="sm"
+          class="inline mx-2"
+          @click="numberOfReports = option.value"
+        >
+          {{ option.text }}
+        </Button>
+      </div>
       <ReportsCurrencyChart :reports="displayReportsData" />
     </div>
     <div class="flex flex-row w-full gap-4 mb-2">

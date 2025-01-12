@@ -17,7 +17,7 @@ const reportsChartData = computed(() => {
     // add utc offset to date
     const date = new Date(report.from_date)
     date.setMinutes(date.getMinutes() + date.getTimezoneOffset())
-    return format(new Date(date), 'MMM')
+    return format(new Date(date), 'MMM yy')
   })
   const balanceData: number[] = props.reports.map((report) =>
     Number(report.end_balance)
