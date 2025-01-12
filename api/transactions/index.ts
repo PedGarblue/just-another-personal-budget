@@ -3,6 +3,7 @@ import { APITransactionResponse } from '~~/types/transactionTypes'
 
 export interface TransactionBase {
   amount: string
+  to_main_currency_amount?: string
   description: string
   account: number
   category?: number

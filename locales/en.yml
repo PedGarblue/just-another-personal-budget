@@ -190,6 +190,7 @@ transactions:
   amount: Amount
   operation: Operations
   no_category: No Category
+  to_main_currency_amount: 'To USD'
 exchanges:
   create:
     form:

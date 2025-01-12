@@ -79,6 +79,10 @@ const headers: Header[] = [
     value: 'amountWithCurrency',
   },
   {
+    text: t('transactions.to_main_currency_amount'),
+    value: 'toMainCurrencyAmount',
+  },
+  {
     text: t('transactions.operation'),
     value: 'operation',
   },
@@ -96,6 +100,7 @@ const displayTransactionsData = computed<DisplayTransaction[]>(() => {
           key: transaction.id,
           accountData: account,
           amountWithCurrency: `${account.currencyData.symbol}${transaction.amount}`,
+          toMainCurrencyAmount: `$${transaction.to_main_currency_amount}`,
           categoryData: categories.value.find(
             (category: CategoryAPI) => category.id === transaction.category
           ),
@@ -190,6 +195,18 @@ onMounted(() => {
         class="font-bold"
       >
         {{ item.amountWithCurrency }}
+      </span>
+    </template>
+
+    <template #item-toMainCurrencyAmount="item">
+      <span
+        :class="{
+          'text-green-500': !item.amount.includes('-'),
+          'text-red-500': item.amount.includes('-'),
+        }"
+        class="font-bold"
+      >
+        {{ item.toMainCurrencyAmount }}
       </span>
     </template>
   </EasyDataTable>

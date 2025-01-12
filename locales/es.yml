@@ -188,6 +188,7 @@ transactions:
       account: 'Cuenta'
       category: 'Categoría'
       amount: 'Monto'
+      to_main_currency_amount: 'Monto USD'
   date: Fecha
   description: Descripción
   account: Cuenta

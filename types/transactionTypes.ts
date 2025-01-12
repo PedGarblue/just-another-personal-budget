@@ -12,5 +12,6 @@ export interface DisplayTransaction extends TransactionAPI {
   dateFormatted: string
   accountData: AccountComplete
   amountWithCurrency: string
+  toMainCurrencyAmount?: string
   categoryData?: CategoryAPI
 }
