@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { onMounted, onUnmounted } from 'vue'
 import { createTransaction } from '~~/api/transactions'
 import Modal from '~~/components/Modal.vue'
 import { useAccounts } from '~~/stores/accounts'
@@ -107,6 +108,21 @@ const finishCreate = () => {
   closeModal()
   emits('form-finished')
 }
+
+const handleKeybind = (e: KeyboardEvent) => {
+  if (e.altKey && (e.key === 't' || e.key === 'T')) {
+    openModal()
+  }
+}
+
+// Add keyboard event listener
+onMounted(() => {
+  window.addEventListener('keydown', handleKeybind)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeybind)
+})
 </script>
 
 <template>

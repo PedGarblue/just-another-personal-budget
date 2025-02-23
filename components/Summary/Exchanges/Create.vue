@@ -99,6 +99,21 @@ const finishCreate = () => {
   closeModal()
   emits('form-finished')
 }
+
+const handleKeybind = (e: KeyboardEvent) => {
+  if (e.altKey && (e.key === 'e' || e.key === 'E')) {
+    openModal()
+  }
+}
+
+// Add keyboard event listener
+onMounted(() => {
+  window.addEventListener('keydown', handleKeybind)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeybind)
+})
 </script>
 
 <template>
