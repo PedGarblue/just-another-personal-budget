@@ -92,7 +92,13 @@ onMounted(() => {
             </SummaryAccountsCreate>
           </div>
         </div>
-        <SummaryAccountsCreate @form-finished="accountsStore.fetchData()">
+        <SummaryAccountsCreate
+          v-if="
+            accountsStore.getCurrenciesWithAccounts.length <
+            accountsStore.getCurrencies.length
+          "
+          @form-finished="accountsStore.fetchData()"
+        >
           <template #button>
             <div
               class="flex flex-col items-center justify-center gap-2 min-w-60 w-full py-4 border border-gray-800 rounded-lg cursor-pointer transition-shadow hover:shadow hover:shadow-gray-700"
