@@ -18,6 +18,21 @@ onMounted(() => {
 <template>
   <PageSection>
     <div>
+      <div class="mb-4">
+        <SummaryAccountsCreate
+          v-if="
+            accountsStore.getCurrenciesWithAccounts.length <
+              accountsStore.getCurrencies.length &&
+            accountsStore.getCurrenciesWithAccounts.length >= 3
+          "
+          button-class="w-auto flex items-center py-2 px-4 justify-center gap-2 border border-gray-800 rounded-full cursor-pointer transition-shadow hover:shadow hover:shadow-gray-700 font-semibold"
+        >
+          <template #button>
+            <IconMdi:plusCircleOutline class="text-xl text-green-500" />
+            {{ t('pages.summary.accounts.create.button') }}
+          </template>
+        </SummaryAccountsCreate>
+      </div>
       <div class="grid lg:grid-cols-3 gap-4">
         <div
           v-for="currency in currenciesData"
@@ -95,17 +110,14 @@ onMounted(() => {
         <SummaryAccountsCreate
           v-if="
             accountsStore.getCurrenciesWithAccounts.length <
-            accountsStore.getCurrencies.length
+              accountsStore.getCurrencies.length &&
+            accountsStore.getCurrenciesWithAccounts.length < 3
           "
           @form-finished="accountsStore.fetchData()"
         >
           <template #button>
             <div
-              class="flex flex-col items-center justify-center gap-2 min-w-60 w-full py-4 border border-gray-800 rounded-lg cursor-pointer transition-shadow hover:shadow hover:shadow-gray-700"
-              :class="{
-                'h-60': accountsStore.getAccounts.length < 3,
-                'h-full': accountsStore.getAccounts.length >= 3,
-              }"
+              class="h-60 flex flex-col items-center justify-center gap-2 min-w-60 w-full py-4 border border-gray-800 rounded-lg cursor-pointer transition-shadow hover:shadow hover:shadow-gray-700"
             >
               <div>
                 <IconMdi:plusCircleOutline class="text-4xl text-green-500" />

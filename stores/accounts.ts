@@ -58,15 +58,17 @@ export const useAccounts = defineStore('accounts', {
       return this.currencies
     },
     getCurrenciesWithAccounts(state): Currency[] {
-      return state.currencies.map((currency) => {
-        const accounts = this.getAccounts.filter(
-          (account) => account.currency === currency.id
-        )
-        return {
-          ...currency,
-          accounts,
-        }
-      })
+      return state.currencies
+        .map((currency) => {
+          const accounts = this.getAccounts.filter(
+            (account) => account.currency === currency.id
+          )
+          return {
+            ...currency,
+            accounts,
+          }
+        })
+        .filter((currency) => currency.accounts.length > 0)
     },
     getCurrency(state) {
       return (pk: number): Currency =>

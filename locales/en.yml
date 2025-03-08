@@ -29,6 +29,7 @@ pages:
     accounts:
       title: Accounts
       create:
+        button: Add Account
         card_description: More accounts, better tracking.
         card_description_no_accounts: You have no accounts yet. Create one now!
         success: Account Created!

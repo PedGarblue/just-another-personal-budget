@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { PropType } from 'vue'
+import { twMerge } from 'tailwind-merge'
 import { createAccount } from '~~/api/accounts'
 import { Currency } from '~~/api/currencies'
 import { createTransaction } from '~~/api/transactions'
@@ -15,6 +16,11 @@ const props = defineProps({
     type: Object as PropType<Currency | null>,
     required: false,
     default: () => ({}),
+  },
+  buttonClass: {
+    type: String,
+    required: false,
+    default: '',
   },
 })
 
@@ -98,7 +104,7 @@ const finishCreate = () => {
 
 <template>
   <div>
-    <button class="w-full" @click="openModal">
+    <button :class="twMerge('w-full', buttonClass)" @click="openModal">
       <slot name="button"></slot>
     </button>
     <Modal ref="modal">
