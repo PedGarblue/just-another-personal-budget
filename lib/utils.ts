@@ -14,3 +14,11 @@ export function parseSortDataTableToSortAPI(
     sortType?.[index] === 'desc' ? `-${field}` : field
   )
 }
+
+export function debounce(func: Function, delay: number) {
+  let timeout: ReturnType<typeof setTimeout>
+  return function (this: unknown, ...args: any[]) {
+    clearTimeout(timeout)
+    timeout = setTimeout(() => func.apply(this, args), delay)
+  }
+}

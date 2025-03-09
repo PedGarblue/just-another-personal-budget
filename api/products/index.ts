@@ -16,7 +16,7 @@ import { useAPIAuth as useAPI } from '~~/composables/useAPIAuth'
 
 export async function getProductIndex(
   baseUrlString: string | null = null,
-  { ordering = [] }: { ordering?: Array<string> }
+  { ordering = [], search = '' }: { ordering?: Array<string>; search?: string }
 ): Promise<ProductAPIResponse | null> {
   const baseUrlStringQuery = baseUrlString
     ? `?${baseUrlString.split('?')[1]}`
@@ -24,6 +24,8 @@ export async function getProductIndex(
   const query = new URLSearchParams(baseUrlStringQuery)
 
   query.set('ordering', ordering.join(','))
+  query.set('search', search)
+
   let url = `/products/`
 
   if (query.size > 0) {

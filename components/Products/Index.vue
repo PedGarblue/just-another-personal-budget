@@ -3,7 +3,7 @@ import { Ref } from 'vue'
 import { useNotificationsStore } from '~~/stores/notifications'
 import { getProductIndex } from '~~/api/products'
 import type { ProductAPI } from '~~/types/products'
-import { parseSortDataTableToSortAPI } from '~~/lib/utils'
+import { parseSortDataTableToSortAPI, debounce } from '~~/lib/utils'
 
 // events
 const emits = defineEmits<{
@@ -19,6 +19,7 @@ const next = ref<string | null>(null)
 const prev = ref<string | null>(null)
 const sortBy = ref<string[]>(['category', 'cost'])
 const sortType = reactive<string[]>(['asc', 'desc'])
+const searchTerm = ref<string>('')
 
 // methods
 
@@ -26,6 +27,7 @@ const fetchProducts = async (urlString: string = '') => {
   const ordering = parseSortDataTableToSortAPI(sortBy.value, sortType)
   const data = await getProductIndex(urlString, {
     ordering,
+    search: searchTerm.value,
   }).catch((error) => {
     notifications.addNotification({
       type: 'error',
@@ -62,12 +64,48 @@ const onProductsUpdated = () => {
 onMounted(() => {
   fetchProducts()
 })
+
+const debouncedFetchProducts = debounce(fetchProducts, 500)
+
+watch(searchTerm, debouncedFetchProducts)
 </script>
 
 <template>
   <div>
     <UiTable class="h-full">
       <UiTableHeader>
+        <UiTableRow>
+          <UiTableCell>
+            <UiInput v-model="searchTerm" placeholder="Search" />
+          </UiTableCell>
+        </UiTableRow>
+
+        <UiTableRow v-if="prev || next">
+          <UiTableCell>
+            <Button
+              v-if="prev"
+              size="xs"
+              class="w-max mx-auto"
+              @click="() => fetchProducts(prev ? prev : undefined)"
+            >
+              Prev
+            </Button>
+          </UiTableCell>
+          <UiTableCell></UiTableCell>
+          <UiTableCell>
+            <Button
+              v-if="next"
+              size="xs"
+              class="w-max mx-auto"
+              @click="() => fetchProducts(next ? next : undefined)"
+            >
+              Next
+            </Button>
+          </UiTableCell>
+        </UiTableRow>
+
+        <ProductsCreateRow @created-product="() => onProductsUpdated()" />
+
         <UiTableRow>
           <UiTableHead class="text-center">Name</UiTableHead>
           <UiTableHead class="text-center">
@@ -105,33 +143,9 @@ onMounted(() => {
             </div>
           </UiTableHead>
         </UiTableRow>
-        <UiTableRow v-if="prev || next">
-          <UiTableCell>
-            <Button
-              v-if="prev"
-              size="xs"
-              class="w-max mx-auto"
-              @click="() => fetchProducts(prev ? prev : undefined)"
-            >
-              Prev
-            </Button>
-          </UiTableCell>
-          <UiTableCell></UiTableCell>
-          <UiTableCell>
-            <Button
-              v-if="next"
-              size="xs"
-              class="w-max mx-auto"
-              @click="() => fetchProducts(next ? next : undefined)"
-            >
-              Next
-            </Button>
-          </UiTableCell>
-        </UiTableRow>
       </UiTableHeader>
 
       <UiTableBody>
-        <ProductsCreateRow @created-product="() => onProductsUpdated()" />
         <ProductsRow
           v-for="product in products"
           :key="product.id"
