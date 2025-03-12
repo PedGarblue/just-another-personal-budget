@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 import { Ref } from 'vue'
 import { useNotificationsStore } from '~~/stores/notifications'
+import { useTransactions } from '~~/stores/transactions'
 import { getProductIndex } from '~~/api/products'
 import type { ProductAPI } from '~~/types/products'
 import { parseSortDataTableToSortAPI, debounce } from '~~/lib/utils'
+import { CategoryAPI } from '~~/types/categories'
 
 // events
 const emits = defineEmits<{
@@ -14,12 +16,18 @@ const emits = defineEmits<{
 // data
 
 const notifications = useNotificationsStore()
+const transactionsState = useTransactions()
 const products: Ref<ProductAPI[]> = ref([])
 const next = ref<string | null>(null)
 const prev = ref<string | null>(null)
 const sortBy = ref<string[]>(['category', 'cost'])
 const sortType = reactive<string[]>(['asc', 'desc'])
 const searchTerm = ref<string>('')
+const byCategory = ref<CategoryAPI | undefined>(undefined)
+const minPrice = ref<number>(0)
+const maxPrice = ref<number>(0)
+
+const categories = computed(() => transactionsState.getCategories)
 
 // methods
 
@@ -28,6 +36,9 @@ const fetchProducts = async (urlString: string = '') => {
   const data = await getProductIndex(urlString, {
     ordering,
     search: searchTerm.value,
+    category: byCategory.value?.id,
+    minPrice: minPrice.value,
+    maxPrice: maxPrice.value,
   }).catch((error) => {
     notifications.addNotification({
       type: 'error',
@@ -65,9 +76,12 @@ onMounted(() => {
   fetchProducts()
 })
 
-const debouncedFetchProducts = debounce(fetchProducts, 500)
+const debouncedFetchProducts = debounce(() => fetchProducts(), 500)
 
 watch(searchTerm, debouncedFetchProducts)
+watch(byCategory, debouncedFetchProducts)
+watch(minPrice, debouncedFetchProducts)
+watch(maxPrice, debouncedFetchProducts)
 </script>
 
 <template>
@@ -77,6 +91,17 @@ watch(searchTerm, debouncedFetchProducts)
         <UiTableRow>
           <UiTableCell>
             <UiInput v-model="searchTerm" placeholder="Search" />
+          </UiTableCell>
+          <UiTableCell>
+            <Select v-model="byCategory" :options="categories">
+              <template #selected-value="{ selected }">
+                <span>{{ selected.name }}</span>
+              </template>
+
+              <template #item-value="{ option }">
+                <span>{{ option.name }}</span>
+              </template>
+            </Select>
           </UiTableCell>
         </UiTableRow>
 
