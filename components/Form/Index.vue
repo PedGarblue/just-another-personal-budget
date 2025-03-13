@@ -15,6 +15,12 @@ const isDatePickerField = (field: FormField): field is IDatePickerFormField => {
 const isSelectField = (field: FormField): field is ISelectFormField => {
   return 'selectOptions' in field
 }
+const isNumericField = (field: FormField): boolean => {
+  return (
+    (field.componentProps && (field.componentProps as any).type === 'number') ||
+    false
+  )
+}
 
 const { t } = useLang()
 
@@ -104,6 +110,19 @@ const getFieldsValues = computed((): Object => {
   }, {})
 })
 
+const handleKeyPress = (field: FormField, event: KeyboardEvent) => {
+  // Handle converting to negative number when the minus key is pressed
+  if (event.key === '-' && isNumericField(field)) {
+    // Convert value to number and toggle its sign
+    const numValue = parseFloat(field.value)
+    if (!isNaN(numValue)) {
+      field.value = numValue * -1
+      // Prevent the minus from being added to the input
+      event.preventDefault()
+    }
+  }
+}
+
 const submit = async () => {
   if (loadingState.value !== LoadingStatus.IDLE) return
   const data = getFieldsValues.value
@@ -185,6 +204,7 @@ const submit = async () => {
             class="md:1/3"
             :title="field.title"
             :tabindex="field.tabindex"
+            @keyup="(event: KeyboardEvent) => handleKeyPress(field, event)"
           >
             <slot name="input-contents"></slot>
           </FormInput>
