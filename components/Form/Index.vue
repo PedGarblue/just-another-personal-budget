@@ -220,6 +220,6 @@ const submit = async () => {
   overflow: visible;
 }
 .form-card-modal {
-  @apply m-auto max-w-[95%] md:max-w-3/4 xl:max-w-1/3;
+  @apply m-auto my-4 max-w-[95%] md:max-w-3/4 xl:max-w-1/3;
 }
 </style>

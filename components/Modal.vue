@@ -76,8 +76,8 @@ onUnmounted(() => {
 }
 
 .modal-wrapper {
+  @apply align-top md:align-middle;
   display: table-cell;
-  vertical-align: middle;
 }
 
 .modal-card {
