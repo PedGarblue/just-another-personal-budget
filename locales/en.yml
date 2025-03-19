@@ -161,9 +161,14 @@ pages:
       success: product created
       restart: create another product
     createList:
+      name: Name
+      description: Description
+      type: Type
       title: Create Product List
       success: product list created
       restart: create another product list
+      noPeriod: No Period
+      monthly: Monthly
     update:
       title: update product
       success: product updated

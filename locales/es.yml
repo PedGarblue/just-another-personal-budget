@@ -166,9 +166,14 @@ pages:
       success: Producto creado
       restart: Crear otro Producto
     createList:
+      name: Nombre
+      description: Descripción
+      type: Tipo
       title: Crear lista de Productos
       success: Lista de Productos creada
       restart: Crear otra lista de Productos
+      noPeriod: Sin Periodo
+      monthly: Mensual
     update:
       title: Actualizar Producto
       success: Producto actualizado

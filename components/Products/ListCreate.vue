@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { endOfMonth, format, startOfMonth } from 'date-fns'
 import type { FormField } from '~~/types/formTypes'
 import { createProductList } from '~~/api/products'
 import Modal from '~~/components/Modal.vue'
@@ -10,15 +11,34 @@ const { t } = useLang()
 const notifications = useNotificationsStore()
 const modal = ref<InstanceType<typeof Modal> | null>(null)
 
+const listTypes = [
+  {
+    key: 'NO_PERIOD',
+    title: t('pages.products.createList.noPeriod'),
+  },
+  {
+    key: 'MONTHLY',
+    title: t('pages.products.createList.monthly'),
+  },
+]
+
 const fields = computed<FormField[]>(() => [
   {
     key: 'name',
-    title: 'Name',
+    title: t('pages.products.createList.name'),
     value: '',
   },
   {
     key: 'description',
-    title: 'Description',
+    title: t('pages.products.createList.description'),
+    value: '',
+  },
+  {
+    key: 'type',
+    title: t('pages.products.createList.type'),
+    selectOptions: listTypes,
+    selectionKey: 'key',
+    optionKey: 'title',
     value: '',
   },
 ])
@@ -32,9 +52,26 @@ const closeModal = () => {
 }
 
 const submit = (data: any) => {
-  const { name, description } = data
+  const { name, description, type } = data
 
-  return createProductList({ name, description })
+  // set period start first day of current month
+  const periodStart =
+    type === 'NO_PERIOD'
+      ? undefined
+      : format(startOfMonth(new Date()), 'yyyy-MM-dd')
+  // set period end last day of current month
+  const periodEnd =
+    type === 'NO_PERIOD'
+      ? undefined
+      : format(endOfMonth(new Date()), 'yyyy-MM-dd')
+
+  return createProductList({
+    name,
+    description,
+    period_type: type.key,
+    period_start: periodStart,
+    period_end: periodEnd,
+  })
     .then((response) => {
       emits('list-created', response)
       closeModal()

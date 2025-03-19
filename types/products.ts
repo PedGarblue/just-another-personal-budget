@@ -18,6 +18,9 @@ export interface ProductListBase {
   name: string
   total: number
   description?: string
+  perid_type?: string
+  period_start?: string
+  period_end?: string
   created_at: string
   update_at: string
 }
@@ -34,6 +37,9 @@ export interface ProductCreate {
 export interface ProductListCreate {
   name: string
   description?: string
+  period_type: string
+  period_start?: string
+  period_end?: string
 }
 
 export interface ProductListItemCreate {
