@@ -51,6 +51,10 @@ const headers: Header[] = [
     value: 'total',
     sortable: true,
   },
+  {
+    text: 'Quantity Purchased',
+    value: 'quantity_purchased',
+  },
 ]
 const serverOptions = ref<ServerOptions>({
   page: 1,
@@ -209,7 +213,11 @@ defineExpose({
       </template>
 
       <template #item-total="item">
-        <b>{{ item.total }}</b>
+        <span class="font-semibold">{{ item.total }}</span>
+      </template>
+
+      <template #item-quantity_purchased="item">
+        <b>{{ item.quantity_purchased }}</b>
       </template>
     </EasyDataTable>
   </div>
