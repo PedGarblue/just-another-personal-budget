@@ -1,0 +1,251 @@
+{
+  "components": {
+    "language_switcher": {
+      "change_language": "cambiar idioma"
+    },
+    "theme_switcher": {
+      "theme": "tema",
+      "change_theme": "cambiar tema"
+    }
+  },
+  "pages": {
+    "index": {
+      "title": "Bienvenido",
+      "animated_title": "Solo[]Otro[]Presupuesto[]Personal"
+    },
+    "404": {
+      "title": "página no encontrada"
+    },
+    "sign-up": {
+      "nav": "Registrarse",
+      "title": "¡Comienza a registrar tus gastos!",
+      "username": "Nombre de usuario",
+      "email": "Correo electrónico",
+      "submit": "Registrarse",
+      "password": {
+        "label": "Contraseña",
+        "confirm": "Repetir Contraseña",
+        "mismatch": "Las contraseñas no coinciden"
+      }
+    },
+    "login": {
+      "nav": "Iniciar Sesión"
+    },
+    "summary": {
+      "nav": "resumen",
+      "title": "resumen",
+      "description": "resumen de saldos de cuentas y transacciones recientes",
+      "accounts": {
+        "title": "Cuentas",
+        "create": {
+          "button": "Agregar Cuenta",
+          "card_description": "Más cuentas, mejor seguimiento.",
+          "card_description_no_accounts": "Aún no tienes cuentas. ¡Crea una ahora!",
+          "success": "¡Cuenta Creada!",
+          "title": "Crear Cuenta",
+          "restart": "Crear Otra Cuenta",
+          "fields": {
+            "name": {
+              "label": "Nombre de la Cuenta"
+            },
+            "currency": {
+              "label": "Moneda"
+            },
+            "amount": {
+              "label": "Monto Inicial"
+            },
+            "date": {
+              "label": "Fecha",
+              "placeholder": "Seleccionar Fecha",
+              "description": "¿Desde cuándo quieres empezar a rastrear esta cuenta?"
+            }
+          }
+        },
+        "update": {
+          "title": "Actualizar Cuenta",
+          "success": "¡Cuenta Actualizada!"
+        },
+        "delete": {
+          "success": "Cuenta Eliminada"
+        },
+        "rate_tooltip": "Tipo de cambio: %{rate}",
+        "balance_to_main_currency_tooltip": "Saldo en USD"
+      },
+      "index": {
+        "title": "Resumen"
+      },
+      "transactions": {
+        "create": {
+          "success": "¡Transacción Creada!",
+          "title": "Crear Transacción",
+          "restart": "Crear Otra Transacción"
+        },
+        "update": {
+          "title": "Actualizar Transacción",
+          "success": "¡Transacción Actualizada!"
+        },
+        "delete": {
+          "success": "Transacción Eliminada"
+        }
+      },
+      "exchanges": {
+        "create": {
+          "title": "Crear Cambio",
+          "restart": "Crear Otro Cambio",
+          "success": "¡Cambio Creado!"
+        }
+      }
+    },
+    "blank": {
+      "nav": "en blanco",
+      "title": "página en blanco",
+      "description": "esta es una página en blanco",
+      "just_blank_page_with_title": "solo página en blanco con título"
+    },
+    "dashboard": {
+      "nav": "panel",
+      "title": "panel",
+      "index": {
+        "nav": "resumen",
+        "title": "Resumen y Transacciones"
+      }
+    },
+    "investments": {
+      "nav": "inversiones",
+      "index": {
+        "title": "Cuentas por Cobrar e Inversiones"
+      },
+      "receivables": {
+        "create": {
+          "success": "Cuenta por Cobrar Creada Exitosamente",
+          "title": "Crear una Cuenta por Cobrar",
+          "restart": "Crear Otra Cuenta por Cobrar"
+        },
+        "update": {
+          "success": "Cuenta por Cobrar Actualizada Exitosamente",
+          "title": "Actualizar Cuenta por Cobrar"
+        },
+        "delete": {
+          "success": "Cuenta por Cobrar Actualizada Exitosamente"
+        }
+      }
+    },
+    "reports": {
+      "nav": "Informes",
+      "index": {
+        "title": "Informes"
+      },
+      "create": {
+        "title": "Crear Informe",
+        "success": "Informe Creado Exitosamente",
+        "restart": "Crear Otro Informe"
+      },
+      "update": {
+        "success": "Informe Actualizado Exitosamente"
+      },
+      "currency": {
+        "nav": "Informe por Moneda"
+      },
+      "account": {
+        "nav": "Informe por Cuenta"
+      }
+    },
+    "products": {
+      "nav": "Presupuesto de Compras",
+      "index": {
+        "title": "Estimación de Presupuesto de Productos"
+      },
+      "create": {
+        "title": "crear producto",
+        "success": "producto creado",
+        "restart": "crear otro producto"
+      },
+      "createList": {
+        "name": "Nombre",
+        "description": "Descripción",
+        "type": "Tipo",
+        "title": "Crear Lista de Productos",
+        "success": "lista de productos creada",
+        "restart": "crear otra lista de productos",
+        "noPeriod": "Sin Período",
+        "monthly": "Mensual"
+      },
+      "update": {
+        "title": "actualizar producto",
+        "success": "producto actualizado"
+      },
+      "delete": {
+        "success": "producto eliminado"
+      }
+    }
+  },
+  "banners": {
+    "welcome": "¡hola, bienvenido a %{app_name}!"
+  },
+  "others": {
+    "learn_more": "aprender más",
+    "copy": "copiar",
+    "enabled": "habilitado",
+    "disabled": "deshabilitado",
+    "close": "Cerrar"
+  },
+  "transactions": {
+    "create": {
+      "form": {
+        "description": "Descripción",
+        "date": "Fecha",
+        "account": "Cuenta",
+        "category": "Categoría",
+        "amount": "Monto"
+      }
+    },
+    "date": "Fecha",
+    "description": "Descripción",
+    "account": "Cuenta",
+    "category": "Categoría",
+    "amount": "Monto",
+    "operation": "Operaciones",
+    "no_category": "Sin Categoría",
+    "to_main_currency_amount": "A USD"
+  },
+  "exchanges": {
+    "create": {
+      "form": {
+        "description": "Descripción",
+        "date": "Fecha",
+        "sender_account": "Cuenta Emisora",
+        "sender_amount": "Monto a Enviar",
+        "receiver_account": "Cuenta Receptora",
+        "receiver_amount": "Monto a Recibir"
+      }
+    }
+  },
+  "categories": {
+    "title": "Categorías",
+    "table": {
+      "name": "Nombre",
+      "description": "Descripción",
+      "type": "Tipo",
+      "parent": "Categoría Padre",
+      "color": "Color",
+      "actions": "Acciones"
+    },
+    "create": {
+      "form": {
+        "name": "Nombre",
+        "type": "Tipo",
+        "parent": "Categoría Padre"
+      },
+      "title": "Crear Categoría",
+      "success": "Categoría Creada",
+      "restart": "Reiniciar"
+    },
+    "update": {
+      "title": "Actualizar Categoría",
+      "success": "Categoría Actualizada"
+    },
+    "delete": {
+      "success": "Categoría Eliminada"
+    }
+  }
+}

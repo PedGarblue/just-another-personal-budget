@@ -33,6 +33,7 @@ export default defineNuxtConfig({
     '~/plugins/navbar.ts',
     '~/plugins/vue3-easy-data-table.ts',
     '~/plugins/chartjs.ts',
+    '~/plugins/i18n.ts',
   ],
 
   // build
@@ -43,7 +44,6 @@ export default defineNuxtConfig({
   // modules
   modules: [
     'unplugin-icons/nuxt',
-    '@intlify/nuxt3',
     '@pinia/nuxt',
     '@nuxt/content',
     '@vueuse/nuxt',
@@ -72,16 +72,6 @@ export default defineNuxtConfig({
     // global transition
     pageTransition: { name: 'page', mode: 'out-in' },
     layoutTransition: { name: 'layout', mode: 'out-in' },
-  },
-
-  // localization - i18n config
-  intlify: {
-    localeDir: 'locales',
-    vueI18n: {
-      locale: 'en',
-      fallbackLocale: 'en',
-      availableLocales: ['en', 'es'],
-    },
   },
 
   // vueuse

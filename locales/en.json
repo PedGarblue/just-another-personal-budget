@@ -1,0 +1,251 @@
+{
+  "components": {
+    "language_switcher": {
+      "change_language": "change language"
+    },
+    "theme_switcher": {
+      "theme": "theme",
+      "change_theme": "change theme"
+    }
+  },
+  "pages": {
+    "index": {
+      "title": "Welcome",
+      "animated_title": "Just[]Another[]Personal[]Budget"
+    },
+    "404": {
+      "title": "page not found"
+    },
+    "sign-up": {
+      "nav": "Sign Up",
+      "title": "Start tracking your expenses!",
+      "username": "Username",
+      "email": "Email",
+      "submit": "Sign Up",
+      "password": {
+        "label": "Password",
+        "confirm": "Repeat Password",
+        "mismatch": "Passwords do not match"
+      }
+    },
+    "login": {
+      "nav": "Sign In"
+    },
+    "summary": {
+      "nav": "summary",
+      "title": "summary",
+      "description": "summary of accounts balances and recent transactions",
+      "accounts": {
+        "title": "Accounts",
+        "create": {
+          "button": "Add Account",
+          "card_description": "More accounts, better tracking.",
+          "card_description_no_accounts": "You have no accounts yet. Create one now!",
+          "success": "Account Created!",
+          "title": "Create Account",
+          "restart": "Create Another Account",
+          "fields": {
+            "name": {
+              "label": "Account Name"
+            },
+            "currency": {
+              "label": "Currency"
+            },
+            "amount": {
+              "label": "Initial Amount"
+            },
+            "date": {
+              "label": "Date",
+              "placeholder": "Select Date",
+              "description": "From when you want to start tracking this account?"
+            }
+          }
+        },
+        "update": {
+          "title": "Update Account",
+          "success": "Account Updated!"
+        },
+        "delete": {
+          "success": "Account Deleted"
+        },
+        "rate_tooltip": "Exchange rate: %{rate}",
+        "balance_to_main_currency_tooltip": "Balance in USD"
+      },
+      "index": {
+        "title": "Summary"
+      },
+      "transactions": {
+        "create": {
+          "success": "Transaction Created!",
+          "title": "Create Transaction",
+          "restart": "Create Another Transaction"
+        },
+        "update": {
+          "title": "Update Transaction",
+          "success": "Transaction Updated!"
+        },
+        "delete": {
+          "success": "Transaction Deleted"
+        }
+      },
+      "exchanges": {
+        "create": {
+          "title": "Create Exchange",
+          "restart": "Create Another Exchange",
+          "success": "Exchange Created!"
+        }
+      }
+    },
+    "blank": {
+      "nav": "blank",
+      "title": "blank page",
+      "description": "this is a blank page",
+      "just_blank_page_with_title": "just blank page with title"
+    },
+    "dashboard": {
+      "nav": "dashboard",
+      "title": "dashboard",
+      "index": {
+        "nav": "summary",
+        "title": "Summary and Transactions"
+      }
+    },
+    "investments": {
+      "nav": "investments",
+      "index": {
+        "title": "Receivables and Investments"
+      },
+      "receivables": {
+        "create": {
+          "success": "Receivable Created Successfully",
+          "title": "Create a Receivable",
+          "restart": "Create Another Receivable"
+        },
+        "update": {
+          "success": "Receivable Updated Successfully",
+          "title": "Update Receivable"
+        },
+        "delete": {
+          "success": "Receivable Updated Successfully"
+        }
+      }
+    },
+    "reports": {
+      "nav": "Reports",
+      "index": {
+        "title": "Reports"
+      },
+      "create": {
+        "title": "Create Report",
+        "success": "Report Created Successfully",
+        "restart": "Create Another Report"
+      },
+      "update": {
+        "success": "Report Updated Successfully"
+      },
+      "currency": {
+        "nav": "Report by Currency"
+      },
+      "account": {
+        "nav": "Report by Account"
+      }
+    },
+    "products": {
+      "nav": "Purchase Budget",
+      "index": {
+        "title": "Products Budget Estimation"
+      },
+      "create": {
+        "title": "create product",
+        "success": "product created",
+        "restart": "create another product"
+      },
+      "createList": {
+        "name": "Name",
+        "description": "Description",
+        "type": "Type",
+        "title": "Create Product List",
+        "success": "product list created",
+        "restart": "create another product list",
+        "noPeriod": "No Period",
+        "monthly": "Monthly"
+      },
+      "update": {
+        "title": "update product",
+        "success": "product updated"
+      },
+      "delete": {
+        "success": "product deleted"
+      }
+    }
+  },
+  "banners": {
+    "welcome": "hello, welcome to %{app_name}!"
+  },
+  "others": {
+    "learn_more": "learn more",
+    "copy": "copy",
+    "enabled": "enabled",
+    "disabled": "disabled",
+    "close": "Close"
+  },
+  "transactions": {
+    "create": {
+      "form": {
+        "description": "Description",
+        "date": "Date",
+        "account": "Account",
+        "category": "Category",
+        "amount": "Amount"
+      }
+    },
+    "date": "Date",
+    "description": "Description",
+    "account": "Account",
+    "category": "Category",
+    "amount": "Amount",
+    "operation": "Operations",
+    "no_category": "No Category",
+    "to_main_currency_amount": "To USD"
+  },
+  "exchanges": {
+    "create": {
+      "form": {
+        "description": "Description",
+        "date": "Date",
+        "sender_account": "Sender Account",
+        "sender_amount": "Sender Amount",
+        "receiver_account": "Receiver Account",
+        "receiver_amount": "Receiver Amount"
+      }
+    }
+  },
+  "categories": {
+    "title": "Categories",
+    "table": {
+      "name": "Name",
+      "description": "Description",
+      "type": "Type",
+      "parent": "Parent Category",
+      "color": "Color",
+      "actions": "Actions"
+    },
+    "create": {
+      "form": {
+        "name": "Name",
+        "type": "Type",
+        "parent": "Parent Category"
+      },
+      "title": "Create Category",
+      "success": "Category Created",
+      "restart": "Restart"
+    },
+    "update": {
+      "title": "Update Category",
+      "success": "Category Updated"
+    },
+    "delete": {
+      "success": "Category Deleted"
+    }
+  }
+}
