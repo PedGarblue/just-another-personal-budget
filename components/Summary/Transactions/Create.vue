@@ -6,6 +6,7 @@ import { useAccounts } from '~~/stores/accounts'
 import { useTransactions } from '~~/stores/transactions'
 import { useNotificationsStore } from '~~/stores/notifications'
 import type { FormField } from '~~/types/formTypes'
+import type { ProductAPI } from '~~/types/products'
 
 const emits = defineEmits(['form-finished'])
 
@@ -84,6 +85,8 @@ const fields = computed<FormField[]>(() => [
   },
 ])
 
+const transactionItems = ref<ProductAPI[]>([])
+
 // methods
 const openModal = () => {
   modal.value?.open()
@@ -93,11 +96,14 @@ const closeModal = () => {
 }
 
 const submit = (data: any) => {
-  return createTransaction({
-    ...data,
-    account: data.account.id,
-    category: data.category.id,
-  })
+  return createTransaction(
+    {
+      ...data,
+      account: data.account.id,
+      category: data.category.id,
+    },
+    transactionItems.value
+  )
 }
 
 const finishCreate = () => {
@@ -141,7 +147,15 @@ onUnmounted(() => {
           :restart-title="`${t('pages.summary.transactions.create.restart')}`"
           :submit-title="`${t('pages.summary.transactions.create.title')}`"
           @form-finished="() => finishCreate()"
-        ></Form>
+        >
+          <template #form-contents>
+            <div class="mt-4">
+              <SummaryTransactionsTransactionItemsPicker
+                v-model="transactionItems"
+              />
+            </div>
+          </template>
+        </Form>
       </template>
     </Modal>
   </div>

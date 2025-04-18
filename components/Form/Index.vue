@@ -190,6 +190,8 @@ const submit = async () => {
           </FormInput>
         </template>
       </div>
+
+      <slot name="form-contents"></slot>
     </CardContent>
     <CardFooter>
       <div

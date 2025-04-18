@@ -30,7 +30,6 @@ export async function getProductIndex(
     maxPrice?: number
   }
 ): Promise<ProductAPIResponse | null> {
-  console.log(baseUrlString)
   const baseUrlStringQuery =
     baseUrlString && baseUrlString.includes('?')
       ? `?${baseUrlString.split('?')[1]}`

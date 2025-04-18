@@ -1,5 +1,6 @@
 import { useAPIAuth as useAPI } from '@/composables/useAPIAuth'
-import { APITransactionResponse } from '~~/types/transactionTypes'
+import type { ProductAPI } from '~~/types/products'
+import type { APITransactionResponse } from '~~/types/transactionTypes'
 
 export interface TransactionBase {
   amount: string
@@ -72,13 +73,20 @@ export default async function fetchTransactions(
 }
 
 export async function createTransaction(
-  data: TransactionBase
+  data: TransactionBase,
+  items: ProductAPI[] = []
 ): Promise<TransactionAPI | null> {
   const runtimeConfig = useRuntimeConfig()
   const url = `${runtimeConfig.public.apiUrl}/transactions/`
   const { data: created } = await useAPI<TransactionAPI>(url, {
     method: 'POST',
-    body: data,
+    body: {
+      ...data,
+      transaction_items: items.map((item) => ({
+        product: item.id,
+        amount: 1,
+      })),
+    },
   } as object)
   return created.value
 }
