@@ -20,6 +20,7 @@ export async function getProductIndex(
     ordering = [],
     search = '',
     category = undefined,
+    idsIn = undefined,
     minPrice = undefined,
     maxPrice = undefined,
   }: {
@@ -28,6 +29,7 @@ export async function getProductIndex(
     category?: number
     minPrice?: number
     maxPrice?: number
+    idsIn?: Array<number>
   }
 ): Promise<ProductAPIResponse | null> {
   const baseUrlStringQuery =
@@ -46,6 +48,9 @@ export async function getProductIndex(
   }
   if (maxPrice) {
     query.set('max_price', maxPrice.toString())
+  }
+  if (idsIn) {
+    query.set('id', idsIn.join(','))
   }
 
   let url = `/products/`

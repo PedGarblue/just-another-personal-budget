@@ -10,6 +10,13 @@ import { getProductIndex } from '~~/api/products'
 import { parseSortDataTableToSortAPI, debounce } from '~~/lib/utils'
 import { useNotificationsStore } from '~~/stores/notifications'
 
+const props = defineProps({
+  defaultProducts: {
+    type: Array,
+    default: () => [],
+  },
+})
+
 const modelValue = defineModel('modelValue', { type: Array, default: () => [] })
 const notifications = useNotificationsStore()
 const products = ref([])
@@ -56,8 +63,36 @@ const goToPrevPage = () => {
   }
 }
 
-onMounted(() => {
-  fetchProducts()
+onMounted(async () => {
+  await fetchProducts()
+  if (props.defaultProducts) {
+    // Get IDs of default products that aren't in the current products list
+    const missingProductIds = props.defaultProducts
+      .map((p) => p.product)
+      .filter((id) => !products.value.some((p) => p.id === id))
+
+    // Fetch missing products if any
+    if (missingProductIds.length > 0) {
+      const data = await getProductIndex('', {
+        idsIn: missingProductIds,
+      }).catch((error) => {
+        notifications.addNotification({
+          type: 'error',
+          text: error.message,
+        })
+      })
+
+      if (data) {
+        // Add missing products to the products list
+        products.value = [...products.value, ...data.results]
+      }
+    }
+
+    // Now set the model value with all products
+    modelValue.value = products.value.filter((product) =>
+      props.defaultProducts.some((p) => p.product === product.id)
+    )
+  }
 })
 </script>
 

@@ -8,6 +8,7 @@ import { useNotificationsStore } from '~~/stores/notifications'
 import { useTransactions } from '~~/stores/transactions'
 import type { CategoryAPI } from '~~/types/categories'
 import { FormField } from '~~/types/formTypes'
+import type { ProductAPI } from '~~/types/products'
 
 const emits = defineEmits(['form-finished'])
 
@@ -26,6 +27,8 @@ const transactionsState = useTransactions()
 const accountsList = accountsState.getAccounts
 const notifications = useNotificationsStore()
 const categories = computed(() => transactionsState.getCategories)
+
+const transactionItems = ref<ProductAPI[]>([])
 
 // methods
 
@@ -98,11 +101,15 @@ const fields: FormField[] = [
 ]
 
 const submit = (data: any) => {
-  return updateTransaction(props.transaction.id, {
-    ...data,
-    account: data.account.id,
-    category: data.category.id,
-  })
+  return updateTransaction(
+    props.transaction.id,
+    {
+      ...data,
+      account: data.account.id,
+      category: data.category.id,
+    },
+    transactionItems.value
+  )
 }
 
 const finish = () => {
@@ -130,7 +137,16 @@ const finish = () => {
           :form-title="`${t('pages.summary.transactions.update.title')}`"
           :submit-title="`${t('pages.summary.transactions.update.title')}`"
           @form-finished="() => finish()"
-        ></Form>
+        >
+          <template #form-contents>
+            <div class="mt-4">
+              <SummaryTransactionsTransactionItemsPicker
+                v-model="transactionItems"
+                :default-products="props.transaction.transaction_items"
+              />
+            </div>
+          </template>
+        </Form>
       </template>
     </Modal>
   </div>
