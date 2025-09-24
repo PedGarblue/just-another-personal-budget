@@ -3,6 +3,7 @@ import { useAccounts } from '~/stores/accounts'
 
 const { t } = useLang()
 const accountsStore = useAccounts()
+const currencyConversions = ref({})
 
 const currenciesData = computed(() =>
   accountsStore.getCurrenciesWithAccounts.filter(
@@ -10,7 +11,25 @@ const currenciesData = computed(() =>
   )
 )
 
+const getConvertedBalance = (currency, rateKey) => {
+  if (
+    currencyConversions.value[currency.name] &&
+    currencyConversions.value[currency.name].USD &&
+    currencyConversions.value[currency.name].USD[rateKey]
+  ) {
+    const rate = currencyConversions.value[currency.name].USD[rateKey]
+    return (parseFloat(currency.balance) / rate).toFixed(2)
+  }
+  return null
+}
+
+const getCurrencyExchanges = async () => {
+  const { data } = await useAPIAuth('/currency-conversion/')
+  currencyConversions.value = data.value
+}
+
 onMounted(() => {
+  getCurrencyExchanges()
   accountsStore.fetchData()
 })
 </script>
@@ -39,53 +58,93 @@ onMounted(() => {
           :key="currency.id"
           class="flex flex-col bg-gray-100 dark:bg-gray-900 rounded-md border-2 border-gray-200 dark:border-gray-800 overflow-hidden"
         >
-          <div
-            class="grid"
-            :class="{
-              'grid-cols-6': currency.latest_conversion_rate_to_main,
-              'grid-cols-2': !currency.latest_conversion_rate_to_main,
-            }"
-          >
+          <div class="grid grid-cols-6">
             <div class="px-4 py-1 font-bold">
               {{ currency.name }}
             </div>
             <div
               class="flex items-center px-2 font-bold ml-auto"
               :class="{
-                'col-span-3': currency.latest_conversion_rate_to_main,
+                'col-span-5': !(
+                  currencyConversions[currency.name] &&
+                  currencyConversions[currency.name].USD
+                ),
+                'col-span-4':
+                  currencyConversions[currency.name] &&
+                  currencyConversions[currency.name].USD &&
+                  Object.keys(currencyConversions[currency.name].USD).length ===
+                    1,
+                'col-span-3':
+                  currencyConversions[currency.name] &&
+                  currencyConversions[currency.name].USD &&
+                  Object.keys(currencyConversions[currency.name].USD).length >
+                    1,
               }"
             >
               <span class="self-right">
                 {{ `${currency.symbol} ${currency.balance}` }}
               </span>
             </div>
-            <div
-              v-if="currency.latest_conversion_rate_to_main"
-              class="flex items-center justify-end px-1 font-bold bg-green-600 text-white text-xs"
-              :title="
-                t('pages.summary.accounts.rate_tooltip', {
-                  rate: currency.latest_conversion_rate_to_main,
-                })
+            <template
+              v-if="
+                currencyConversions[currency.name] &&
+                currencyConversions[currency.name].USD
               "
             >
-              <span class="self-center">
-                {{
-                  `${currency.symbol}${currency.latest_conversion_rate_to_main}`
-                }}
-              </span>
-            </div>
-            <div
-              v-if="currency.balance_as_main_currency"
-              class="flex items-center px-2 font-bold bg-gray-600 text-white text-xs"
-              :title="
-                t('pages.summary.accounts.balance_to_main_currency_tooltip')
-              "
-            >
-              <span class="self-center">
-                {{ `$${currency.balance_as_main_currency}` }}
-              </span>
-            </div>
+              <div
+                v-for="(rate, rateKey) in currencyConversions[currency.name]
+                  .USD"
+                :key="`balance-${rateKey}`"
+                class="flex justify-center items-center px-0 py-1 font-bold bg-gray-600 text-white text-xs"
+                :class="{
+                  'col-span-2':
+                    Object.keys(currencyConversions[currency.name].USD)
+                      .length === 1,
+                  'col-span-1':
+                    Object.keys(currencyConversions[currency.name].USD).length >
+                    1,
+                }"
+                :title="
+                  t('pages.summary.accounts.balance_to_main_currency_tooltip')
+                "
+              >
+                <span>
+                  {{ `$${getConvertedBalance(currency, rateKey)}` }}
+                </span>
+              </div>
+            </template>
           </div>
+          <template
+            v-if="
+              currencyConversions[currency.name] &&
+              currencyConversions[currency.name]['USD']
+            "
+          >
+            <div class="flex flex-wrap gap-2 px-4 py-2">
+              <div
+                v-for="(rate, rateKey) in currencyConversions[currency.name][
+                  'USD'
+                ]"
+                :key="rateKey"
+                class="flex items-center justify-end font-bold text-white text-xs rounded"
+                :title="
+                  t('pages.summary.accounts.rate_tooltip', {
+                    rate: rate,
+                  })
+                "
+              >
+                <span
+                  class="self-center capitalize px-1 py-1 bg-blue-800 rounded-l-md"
+                >
+                  {{ rateKey }}
+                </span>
+                <span class="self-center bg-green-600 py-1 px-1 rounded-r-md">
+                  {{ `${currency.symbol}.${rate}` }}
+                </span>
+              </div>
+            </div>
+          </template>
+
           <div class="flex flex-1 flex-col flex-wrap">
             <SummaryAccountsItem
               v-for="account in currency.accounts"
