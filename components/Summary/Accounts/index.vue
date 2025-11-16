@@ -43,22 +43,6 @@ const getAvailableTargetCurrencies = (currency) => {
   return []
 }
 
-const getTotalRatesCount = (currency) => {
-  if (!currencyConversions.value[currency.name]) {
-    return 0
-  }
-  let total = 0
-  const targetCurrencies = Object.keys(currencyConversions.value[currency.name])
-  for (const targetCurrency of targetCurrencies) {
-    if (currencyConversions.value[currency.name][targetCurrency]?.rates) {
-      total += Object.keys(
-        currencyConversions.value[currency.name][targetCurrency].rates
-      ).length
-    }
-  }
-  return total
-}
-
 const getCurrencyExchanges = async () => {
   const { data } = await useAPIAuth('/currency-conversion/')
   currencyConversions.value = data.value
@@ -98,62 +82,14 @@ onMounted(() => {
             <div class="px-4 py-1 font-bold">
               {{ currency.name }}
             </div>
-            <div
-              class="flex items-center px-2 font-bold ml-auto"
-              :class="{
-                'col-span-5': getTotalRatesCount(currency) === 0,
-                'col-span-4': getTotalRatesCount(currency) === 1,
-                'col-span-3': getTotalRatesCount(currency) > 1,
-              }"
-            >
+            <div class="flex items-center px-2 font-bold ml-auto col-span-5">
               <span class="self-right">
                 {{ `${currency.symbol} ${currency.balance}` }}
               </span>
             </div>
-            <template v-if="getTotalRatesCount(currency) > 0">
-              <template
-                v-for="targetCurrency in getAvailableTargetCurrencies(currency)"
-                :key="targetCurrency"
-              >
-                <template
-                  v-if="
-                    currencyConversions[currency.name][targetCurrency]?.rates
-                  "
-                >
-                  <div
-                    v-for="(rate, rateKey) in currencyConversions[
-                      currency.name
-                    ][targetCurrency].rates"
-                    :key="`balance-${targetCurrency}-${rateKey}`"
-                    class="flex justify-center items-center px-0 py-1 font-bold bg-gray-600 text-white text-xs"
-                    :class="{
-                      'col-span-2': getTotalRatesCount(currency) === 1,
-                      'col-span-1': getTotalRatesCount(currency) > 1,
-                    }"
-                    :title="
-                      t(
-                        'pages.summary.accounts.balance_to_main_currency_tooltip'
-                      )
-                    "
-                  >
-                    <span>
-                      {{
-                        `${
-                          targetCurrency === 'USD' ? '$' : '€'
-                        }${getConvertedBalance(
-                          currency,
-                          targetCurrency,
-                          rateKey
-                        )}`
-                      }}
-                    </span>
-                  </div>
-                </template>
-              </template>
-            </template>
           </div>
           <template v-if="getAvailableTargetCurrencies(currency).length > 0">
-            <div class="flex flex-wrap gap-2 px-4 py-2">
+            <div class="px-2">
               <template
                 v-for="targetCurrency in getAvailableTargetCurrencies(currency)"
                 :key="targetCurrency"
@@ -168,39 +104,44 @@ onMounted(() => {
                       currency.name
                     ][targetCurrency].rates"
                     :key="`rate-${targetCurrency}-${rateKey}`"
-                    class="flex items-center justify-end font-bold text-white text-xs rounded"
-                    :title="
-                      t('pages.summary.accounts.rate_tooltip', {
-                        rate: rate,
-                      })
-                    "
+                    class="grid grid-cols-4 py-1 text-xs border-b border-gray-300 dark:border-gray-700 last:border-b-0"
                   >
-                    <span
-                      class="self-center capitalize px-1 py-1 bg-blue-800 rounded-l-md"
+                    <div class="font-semibold capitalize">
+                      {{ rateKey }} ({{
+                        targetCurrency === 'USD'
+                          ? '$'
+                          : targetCurrency === 'EUR'
+                          ? '€'
+                          : targetCurrency
+                      }})
+                    </div>
+                    <div class="text-gray-700 dark:text-gray-300">
+                      {{ `${currency.symbol}${rate}` }}
+                    </div>
+                    <div
+                      class="text-orange-600 dark:text-orange-400 text-right font-bold"
                     >
-                      {{ rateKey }}
-                    </span>
-                    <span
-                      class="self-center bg-green-600 py-1 px-1 rounded-r-md"
-                    >
-                      {{ `${currency.symbol}${rate}/${targetCurrency}` }}
-                    </span>
-                  </div>
-                  <div
-                    v-if="getGapPercentage(currency, targetCurrency)"
-                    class="flex items-center justify-end font-bold text-white text-xs rounded"
-                    :title="t('pages.summary.accounts.gap_tooltip')"
-                  >
-                    <span
-                      class="self-center capitalize px-1 py-1 bg-orange-800 rounded-l-md"
-                    >
-                      {{ targetCurrency }} Gap
-                    </span>
-                    <span
-                      class="self-center bg-orange-600 py-1 px-1 rounded-r-md"
-                    >
-                      {{ `${getGapPercentage(currency, targetCurrency)}%` }}
-                    </span>
+                      {{
+                        getGapPercentage(currency, targetCurrency)
+                          ? `${getGapPercentage(currency, targetCurrency)}%`
+                          : '-'
+                      }}
+                    </div>
+                    <div class="font-bold text-right text-sm">
+                      {{
+                        `${
+                          targetCurrency === 'USD'
+                            ? '$'
+                            : targetCurrency === 'EUR'
+                            ? '€'
+                            : targetCurrency
+                        }${getConvertedBalance(
+                          currency,
+                          targetCurrency,
+                          rateKey
+                        )}`
+                      }}
+                    </div>
                   </div>
                 </template>
               </template>
