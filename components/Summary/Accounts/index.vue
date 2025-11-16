@@ -11,28 +11,52 @@ const currenciesData = computed(() =>
   )
 )
 
-const getConvertedBalance = (currency, rateKey) => {
+const getConvertedBalance = (currency, targetCurrency, rateKey) => {
   if (
     currencyConversions.value[currency.name] &&
-    currencyConversions.value[currency.name].USD &&
-    currencyConversions.value[currency.name].USD.rates &&
-    currencyConversions.value[currency.name].USD.rates[rateKey]
+    currencyConversions.value[currency.name][targetCurrency] &&
+    currencyConversions.value[currency.name][targetCurrency].rates &&
+    currencyConversions.value[currency.name][targetCurrency].rates[rateKey]
   ) {
-    const rate = currencyConversions.value[currency.name].USD.rates[rateKey]
+    const rate =
+      currencyConversions.value[currency.name][targetCurrency].rates[rateKey]
     return (parseFloat(currency.balance) / rate).toFixed(2)
   }
   return null
 }
 
-const getGapPercentage = (currency) => {
+const getGapPercentage = (currency, targetCurrency) => {
   if (
     currencyConversions.value[currency.name] &&
-    currencyConversions.value[currency.name].USD &&
-    currencyConversions.value[currency.name].USD.gap
+    currencyConversions.value[currency.name][targetCurrency] &&
+    currencyConversions.value[currency.name][targetCurrency].gap
   ) {
-    return currencyConversions.value[currency.name].USD.gap
+    return currencyConversions.value[currency.name][targetCurrency].gap
   }
   return null
+}
+
+const getAvailableTargetCurrencies = (currency) => {
+  if (currencyConversions.value[currency.name]) {
+    return Object.keys(currencyConversions.value[currency.name])
+  }
+  return []
+}
+
+const getTotalRatesCount = (currency) => {
+  if (!currencyConversions.value[currency.name]) {
+    return 0
+  }
+  let total = 0
+  const targetCurrencies = Object.keys(currencyConversions.value[currency.name])
+  for (const targetCurrency of targetCurrencies) {
+    if (currencyConversions.value[currency.name][targetCurrency]?.rates) {
+      total += Object.keys(
+        currencyConversions.value[currency.name][targetCurrency].rates
+      ).length
+    }
+  }
+  return total
 }
 
 const getCurrencyExchanges = async () => {
@@ -77,101 +101,109 @@ onMounted(() => {
             <div
               class="flex items-center px-2 font-bold ml-auto"
               :class="{
-                'col-span-5': !(
-                  currencyConversions[currency.name] &&
-                  currencyConversions[currency.name].USD &&
-                  currencyConversions[currency.name].USD.rates
-                ),
-                'col-span-4':
-                  currencyConversions[currency.name] &&
-                  currencyConversions[currency.name].USD &&
-                  currencyConversions[currency.name].USD.rates &&
-                  Object.keys(currencyConversions[currency.name].USD.rates)
-                    .length === 1,
-                'col-span-3':
-                  currencyConversions[currency.name] &&
-                  currencyConversions[currency.name].USD &&
-                  currencyConversions[currency.name].USD.rates &&
-                  Object.keys(currencyConversions[currency.name].USD.rates)
-                    .length > 1,
+                'col-span-5': getTotalRatesCount(currency) === 0,
+                'col-span-4': getTotalRatesCount(currency) === 1,
+                'col-span-3': getTotalRatesCount(currency) > 1,
               }"
             >
               <span class="self-right">
                 {{ `${currency.symbol} ${currency.balance}` }}
               </span>
             </div>
-            <template
-              v-if="
-                currencyConversions[currency.name] &&
-                currencyConversions[currency.name].USD &&
-                currencyConversions[currency.name].USD.rates
-              "
-            >
-              <div
-                v-for="(rate, rateKey) in currencyConversions[currency.name].USD
-                  .rates"
-                :key="`balance-${rateKey}`"
-                class="flex justify-center items-center px-0 py-1 font-bold bg-gray-600 text-white text-xs"
-                :class="{
-                  'col-span-2':
-                    Object.keys(currencyConversions[currency.name].USD.rates)
-                      .length === 1,
-                  'col-span-1':
-                    Object.keys(currencyConversions[currency.name].USD.rates)
-                      .length > 1,
-                }"
-                :title="
-                  t('pages.summary.accounts.balance_to_main_currency_tooltip')
-                "
+            <template v-if="getTotalRatesCount(currency) > 0">
+              <template
+                v-for="targetCurrency in getAvailableTargetCurrencies(currency)"
+                :key="targetCurrency"
               >
-                <span>
-                  {{ `$${getConvertedBalance(currency, rateKey)}` }}
-                </span>
-              </div>
+                <template
+                  v-if="
+                    currencyConversions[currency.name][targetCurrency]?.rates
+                  "
+                >
+                  <div
+                    v-for="(rate, rateKey) in currencyConversions[
+                      currency.name
+                    ][targetCurrency].rates"
+                    :key="`balance-${targetCurrency}-${rateKey}`"
+                    class="flex justify-center items-center px-0 py-1 font-bold bg-gray-600 text-white text-xs"
+                    :class="{
+                      'col-span-2': getTotalRatesCount(currency) === 1,
+                      'col-span-1': getTotalRatesCount(currency) > 1,
+                    }"
+                    :title="
+                      t(
+                        'pages.summary.accounts.balance_to_main_currency_tooltip'
+                      )
+                    "
+                  >
+                    <span>
+                      {{
+                        `${
+                          targetCurrency === 'USD' ? '$' : '€'
+                        }${getConvertedBalance(
+                          currency,
+                          targetCurrency,
+                          rateKey
+                        )}`
+                      }}
+                    </span>
+                  </div>
+                </template>
+              </template>
             </template>
           </div>
-          <template
-            v-if="
-              currencyConversions[currency.name] &&
-              currencyConversions[currency.name].USD &&
-              currencyConversions[currency.name].USD.rates
-            "
-          >
+          <template v-if="getAvailableTargetCurrencies(currency).length > 0">
             <div class="flex flex-wrap gap-2 px-4 py-2">
-              <div
-                v-for="(rate, rateKey) in currencyConversions[currency.name].USD
-                  .rates"
-                :key="rateKey"
-                class="flex items-center justify-end font-bold text-white text-xs rounded"
-                :title="
-                  t('pages.summary.accounts.rate_tooltip', {
-                    rate: rate,
-                  })
-                "
+              <template
+                v-for="targetCurrency in getAvailableTargetCurrencies(currency)"
+                :key="targetCurrency"
               >
-                <span
-                  class="self-center capitalize px-1 py-1 bg-blue-800 rounded-l-md"
+                <template
+                  v-if="
+                    currencyConversions[currency.name][targetCurrency]?.rates
+                  "
                 >
-                  {{ rateKey }}
-                </span>
-                <span class="self-center bg-green-600 py-1 px-1 rounded-r-md">
-                  {{ `${currency.symbol}.${rate}` }}
-                </span>
-              </div>
-              <div
-                v-if="getGapPercentage(currency)"
-                class="flex items-center justify-end font-bold text-white text-xs rounded"
-                :title="t('pages.summary.accounts.gap_tooltip')"
-              >
-                <span
-                  class="self-center capitalize px-1 py-1 bg-orange-800 rounded-l-md"
-                >
-                  Gap
-                </span>
-                <span class="self-center bg-orange-600 py-1 px-1 rounded-r-md">
-                  {{ `${getGapPercentage(currency)}%` }}
-                </span>
-              </div>
+                  <div
+                    v-for="(rate, rateKey) in currencyConversions[
+                      currency.name
+                    ][targetCurrency].rates"
+                    :key="`rate-${targetCurrency}-${rateKey}`"
+                    class="flex items-center justify-end font-bold text-white text-xs rounded"
+                    :title="
+                      t('pages.summary.accounts.rate_tooltip', {
+                        rate: rate,
+                      })
+                    "
+                  >
+                    <span
+                      class="self-center capitalize px-1 py-1 bg-blue-800 rounded-l-md"
+                    >
+                      {{ rateKey }}
+                    </span>
+                    <span
+                      class="self-center bg-green-600 py-1 px-1 rounded-r-md"
+                    >
+                      {{ `${currency.symbol}${rate}/${targetCurrency}` }}
+                    </span>
+                  </div>
+                  <div
+                    v-if="getGapPercentage(currency, targetCurrency)"
+                    class="flex items-center justify-end font-bold text-white text-xs rounded"
+                    :title="t('pages.summary.accounts.gap_tooltip')"
+                  >
+                    <span
+                      class="self-center capitalize px-1 py-1 bg-orange-800 rounded-l-md"
+                    >
+                      {{ targetCurrency }} Gap
+                    </span>
+                    <span
+                      class="self-center bg-orange-600 py-1 px-1 rounded-r-md"
+                    >
+                      {{ `${getGapPercentage(currency, targetCurrency)}%` }}
+                    </span>
+                  </div>
+                </template>
+              </template>
             </div>
           </template>
 
