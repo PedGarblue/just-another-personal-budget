@@ -1,6 +1,3 @@
-import UnpluginComponentsVite from 'unplugin-vue-components/vite'
-import IconsResolver from 'unplugin-icons/resolver'
-
 // https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
 export default defineNuxtConfig({
   runtimeConfig: {
@@ -42,30 +39,10 @@ export default defineNuxtConfig({
   },
 
   // modules
-  modules: [
-    'unplugin-icons/nuxt',
-    '@pinia/nuxt',
-    '@nuxt/content',
-    '@vueuse/nuxt',
-    'nuxt-windicss',
-  ],
+  modules: ['@pinia/nuxt', '@nuxt/content', '@vueuse/nuxt', 'nuxt-windicss'],
 
   // auto import components
   components: true,
-
-  // vite plugins
-  vite: {
-    plugins: [
-      UnpluginComponentsVite({
-        dts: true,
-        resolvers: [
-          IconsResolver({
-            prefix: 'Icon',
-          }),
-        ],
-      }),
-    ],
-  },
 
   // app config
   app: {

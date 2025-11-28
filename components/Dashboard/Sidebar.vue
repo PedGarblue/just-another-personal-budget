@@ -1,8 +1,5 @@
 <script lang="ts" setup>
-import IconUilApps from '~icons/uil/apps'
-import IconMdiCashFast from '~icons/mdi/cash-fast'
-import IconMdiFile from '~icons/mdi/file'
-import IconMdiBaguette from '~icons/mdi/baguette'
+import { LayoutGrid, Banknote, FileText, Croissant } from 'lucide-vue-next'
 
 export interface IMenuItem {
   type: 'link' | 'button'
@@ -31,7 +28,7 @@ const menus = computed((): IMenuItem[] => [
     text: t('pages.dashboard.index.nav'),
     route: { name: 'dashboard' },
     icon: {
-      obj: IconUilApps,
+      obj: LayoutGrid,
     },
   },
   {
@@ -39,7 +36,7 @@ const menus = computed((): IMenuItem[] => [
     text: t('pages.reports.account.nav'),
     route: { name: 'reports.account' },
     icon: {
-      obj: IconMdiFile,
+      obj: FileText,
     },
   },
   {
@@ -47,7 +44,7 @@ const menus = computed((): IMenuItem[] => [
     text: t('pages.reports.currency.nav'),
     route: { name: 'reports.currency' },
     icon: {
-      obj: IconMdiFile,
+      obj: FileText,
     },
   },
   {
@@ -55,7 +52,7 @@ const menus = computed((): IMenuItem[] => [
     text: t('pages.investments.nav'),
     route: { name: 'investments' },
     icon: {
-      obj: IconMdiCashFast,
+      obj: Banknote,
     },
   },
   {
@@ -63,7 +60,7 @@ const menus = computed((): IMenuItem[] => [
     text: t('pages.products.nav'),
     route: { name: 'products' },
     icon: {
-      obj: IconMdiBaguette,
+      obj: Croissant,
     },
   },
 ])

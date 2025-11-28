@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { Doughnut, Bar } from 'vue-chartjs'
 import type { PropType } from 'vue'
-import IconMdiChartDoughnut from '~icons/mdi/chart-doughnut'
-import IconMdiChartBar from '~icons/mdi/chart-bar'
+import { PieChart, BarChart3 } from 'lucide-vue-next'
 import type { TransactionAPI } from '~~/api/transactions'
 import { useTransactions } from '~~/stores/transactions'
 
@@ -25,8 +24,8 @@ const props = defineProps({
 const chartType = ref<ChartTypes>('Doughnut')
 const chartTypeList: ChartTypes[] = ['Doughnut', 'Bar']
 const chartTypeIcons = {
-  Doughnut: IconMdiChartDoughnut,
-  Bar: IconMdiChartBar,
+  Doughnut: PieChart,
+  Bar: BarChart3,
 }
 const chartsAvailable = {
   Doughnut,
