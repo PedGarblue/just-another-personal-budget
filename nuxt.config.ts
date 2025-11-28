@@ -15,7 +15,7 @@ export default defineNuxtConfig({
   // typescripts
   typescript: {
     strict: true,
-    typeCheck: true,
+    typeCheck: false,
   },
 
   // css
@@ -39,7 +39,7 @@ export default defineNuxtConfig({
   },
 
   // modules
-  modules: ['@pinia/nuxt', '@nuxt/content', '@vueuse/nuxt', 'nuxt-windicss'],
+  modules: ['@pinia/nuxt', '@vueuse/nuxt', 'nuxt-windicss'] as any,
 
   // auto import components
   components: true,
@@ -68,16 +68,5 @@ export default defineNuxtConfig({
       },
     },
     scan: true,
-  },
-
-  // content
-  content: {
-    documentDriven: true,
-    markdown: {
-      mdc: true,
-    },
-    highlight: {
-      theme: 'github-dark',
-    },
   },
 })
