@@ -63,8 +63,6 @@
     "three": "^0.143.0",
     "translate": "^1.4.1",
     "typescript": "4.9.5",
-    "unplugin-icons": "^0.14.15",
-    "unplugin-vue-components": "^0.22.12",
     "vfile": "6.0.1",
     "vite": "2.9.7",
     "vitest": "^0.28.5",
