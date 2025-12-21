@@ -26,6 +26,7 @@ onMounted(() => {
     </PageHeader>
     <PageBody>
       <SummaryAccounts />
+      <SummaryExpenses />
       <SummaryPendingPurchases />
       <SummaryTransactions v-if="accountsStore.getAccounts.length > 0" />
     </PageBody>

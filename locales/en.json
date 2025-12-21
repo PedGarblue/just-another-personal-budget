@@ -94,6 +94,23 @@
           "restart": "Create Another Exchange",
           "success": "Exchange Created!"
         }
+      },
+      "expenses": {
+        "title": "Expenses Summary",
+        "period": {
+          "7d": "7 Days",
+          "1m": "1 Month",
+          "current_week": "Current Week",
+          "current_month": "Current Month"
+        },
+        "chart": {
+          "label": "Total Amount (USD)"
+        },
+        "loading": "Loading expenses summary...",
+        "no_data": "No expenses data available for this period",
+        "malformed": {
+          "title": "Malformed Transactions"
+        }
       }
     },
     "blank": {

@@ -94,6 +94,23 @@
           "restart": "Crear Otro Cambio",
           "success": "¡Cambio Creado!"
         }
+      },
+      "expenses": {
+        "title": "Resumen de Gastos",
+        "period": {
+          "7d": "7 Días",
+          "1m": "1 Mes",
+          "current_week": "Semana Actual",
+          "current_month": "Mes Actual"
+        },
+        "chart": {
+          "label": "Monto Total (USD)"
+        },
+        "loading": "Cargando resumen de gastos...",
+        "no_data": "No hay datos de gastos disponibles para este período",
+        "malformed": {
+          "title": "Transacciones con Errores"
+        }
       }
     },
     "blank": {
