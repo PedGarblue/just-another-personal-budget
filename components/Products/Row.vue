@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { CheckCircle2, PlusCircle } from 'lucide-vue-next'
 import { useNotificationsStore } from '~~/stores/notifications'
 import { useTransactions } from '~~/stores/transactions'
 import { deleteProduct, updateProduct } from '~~/api/products'
@@ -85,13 +86,13 @@ const onUpdateProduct = () => {
   <UiTableRow>
     <UiTableCell class="flex gap-4 items-center text-center font-bold">
       <template v-if="isUpdating">
-        <IconMdi:checkCircleOutline
+        <CheckCircle2
           class="text-green-600 hover:text-green-400 transition cursor-pointer text-base h-6 w-6"
           @click="() => onUpdateProduct()"
         />
       </template>
       <template v-else>
-        <IconMdi:plusCircleOutline
+        <PlusCircle
           class="text-green-500 hover:text-green-600 cursor-pointer transition text-base h-6 w-6"
           @click="() => onSelectedProduct(product.id)"
         />

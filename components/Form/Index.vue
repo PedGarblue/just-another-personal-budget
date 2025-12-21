@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { Loader2, CheckCircle2 } from 'lucide-vue-next'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import type { PropType } from 'vue'
 import type {
@@ -135,12 +136,12 @@ const submit = async () => {
     <CardContent>
       <template v-if="loadingState === LoadingStatus.LOADING">
         <div class="flex w-full h-full items-center justify-center p-16">
-          <IconMdi:loading class="text-[5rem] animate-spin" />
+          <Loader2 class="text-[5rem] animate-spin" />
         </div>
       </template>
       <template v-else-if="loadingState === LoadingStatus.FINISHED">
         <div class="flex w-full h-full items-center justify-center p-16">
-          <IconMdi:checkbox-marked-circle class="text-[5rem] text-green-500" />
+          <CheckCircle2 class="text-[5rem] text-green-500" />
         </div>
       </template>
       <div v-else class="flex flex-col gap-2">

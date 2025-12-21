@@ -1,4 +1,5 @@
 <script setup>
+import { ChevronLeft, ChevronRight, Check } from 'lucide-vue-next'
 import { ref, onMounted } from 'vue'
 import {
   Listbox,
@@ -129,7 +130,7 @@ onMounted(async () => {
             size="sm"
             @click="goToPrevPage"
           >
-            <IconMdi:navigateBefore class="text-lg" />
+            <ChevronLeft class="text-lg" />
           </Button>
           <Button
             :disabled="!next"
@@ -137,7 +138,7 @@ onMounted(async () => {
             size="sm"
             @click="goToNextPage"
           >
-            <IconMdi:navigateNext class="text-lg" />
+            <ChevronRight class="text-lg" />
           </Button>
         </div>
 
@@ -154,7 +155,7 @@ onMounted(async () => {
                 'font-bold': selected,
               }"
             >
-              <IconMdi:check v-if="selected" class="text-green-500" />
+              <Check v-if="selected" class="text-green-500" />
               {{ product.name }}
             </div>
           </ListboxOption>

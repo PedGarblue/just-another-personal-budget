@@ -1,4 +1,4 @@
-import { UseFetchOptions } from 'nuxt/app'
+import type { UseFetchOptions } from '#app'
 import { useAPI } from './useAPI'
 import { useAuthStore } from '~/stores/auth'
 

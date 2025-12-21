@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Trash2 } from 'lucide-vue-next'
 import type { ProductListItemAPI } from '~~/types/products'
 import { deleteProductListItem } from '~~/api/products'
 import { useNotificationsStore } from '~~/stores/notifications'
@@ -40,7 +41,7 @@ const removeProductFromList = async () => {
     </UiContextMenuTrigger>
     <UiContextMenuContent class="w-64 bg-white">
       <UiContextMenuItem @click="removeProductFromList">
-        <IconMdi:trashOutline class="text-red-600 mr-2 mb-0.5" />
+        <Trash2 class="text-red-600 mr-2 mb-0.5" />
         <span>Delete</span>
       </UiContextMenuItem>
     </UiContextMenuContent>

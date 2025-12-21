@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { RefreshCw } from 'lucide-vue-next'
 import type { PropType } from 'vue'
 import type { IReportCurrencyDisplayItem } from '~/types/reportsTypes'
 import { useNotificationsStore } from '~~/stores/notifications'
@@ -45,9 +46,6 @@ const submitUpdateReport = () => {
 
 <template>
   <div>
-    <IconMdi:refresh
-      class="text-xl cursor-pointer"
-      @click="submitUpdateReport"
-    />
+    <RefreshCw class="text-xl cursor-pointer" @click="submitUpdateReport" />
   </div>
 </template>

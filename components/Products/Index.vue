@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { ChevronDown, ChevronUp } from 'lucide-vue-next'
 import { Ref } from 'vue'
 import { useNotificationsStore } from '~~/stores/notifications'
 import { useTransactions } from '~~/stores/transactions'
@@ -137,13 +138,13 @@ watch(maxPrice, debouncedFetchProducts)
             <div class="flex w-full items-center justify-center gap-1">
               <span>Category</span>
               <template v-if="sortType[0] === 'desc'">
-                <IconMdi:arrowDownDropCircleOutline
+                <ChevronDown
                   class="cursor-pointer"
                   @click="() => toggleSort(0)"
                 />
               </template>
               <template v-else>
-                <IconMdi:arrowUpDropCircleOutline
+                <ChevronUp
                   class="cursor-pointer"
                   @click="() => toggleSort(0)"
                 />
@@ -154,13 +155,13 @@ watch(maxPrice, debouncedFetchProducts)
             <div class="flex w-full items-center justify-center gap-1">
               <span>Price</span>
               <template v-if="sortType[1] === 'desc'">
-                <IconMdi:arrowDownDropCircleOutline
+                <ChevronDown
                   class="cursor-pointer"
                   @click="() => toggleSort(1)"
                 />
               </template>
               <template v-else>
-                <IconMdi:arrowUpDropCircleOutline
+                <ChevronUp
                   class="cursor-pointer"
                   @click="() => toggleSort(1)"
                 />

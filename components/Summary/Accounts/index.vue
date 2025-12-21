@@ -1,4 +1,5 @@
 <script setup>
+import { PlusCircle } from 'lucide-vue-next'
 import { useAccounts } from '~/stores/accounts'
 
 const { t } = useLang()
@@ -67,7 +68,7 @@ onMounted(() => {
           button-class="w-auto flex items-center py-2 px-4 justify-center gap-2 border border-gray-800 rounded-full cursor-pointer transition-shadow hover:shadow hover:shadow-gray-700 font-semibold"
         >
           <template #button>
-            <IconMdi:plusCircleOutline class="text-xl text-green-500" />
+            <PlusCircle class="text-xl text-green-500" />
             {{ t('pages.summary.accounts.create.button') }}
           </template>
         </SummaryAccountsCreate>
@@ -163,7 +164,7 @@ onMounted(() => {
                 <div
                   class="flex w-full bg-gray-400 dark:bg-gray-700 py-1 text-green-500 transition-colors hover:text-green-400 dark:hover:bg-gray-600"
                 >
-                  <IconMdi:plusCircleOutline class="mx-auto text-lg" />
+                  <PlusCircle class="mx-auto text-lg" />
                 </div>
               </template>
             </SummaryAccountsCreate>
@@ -182,7 +183,7 @@ onMounted(() => {
               class="h-60 flex flex-col items-center justify-center gap-2 min-w-60 w-full py-4 border border-gray-800 rounded-lg cursor-pointer transition-shadow hover:shadow hover:shadow-gray-700"
             >
               <div>
-                <IconMdi:plusCircleOutline class="text-4xl text-green-500" />
+                <PlusCircle class="text-4xl text-green-500" />
               </div>
               <p
                 class="text-xs font-bold max-w-40 text-center text-gray-500 select-none"

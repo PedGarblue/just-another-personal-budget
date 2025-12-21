@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Edit, Trash2 } from 'lucide-vue-next'
 import type { ProductAPI } from '~~/types/products'
 
 const emits = defineEmits<{
@@ -27,11 +28,11 @@ const updateSelected = () => {
     </UiContextMenuTrigger>
     <UiContextMenuContent class="w-64 bg-white">
       <UiContextMenuItem @click="updateSelected">
-        <IconMdi:pencilCircleOutline class="text-blue-600 mr-2 mb-0.5" />
+        <Edit class="text-blue-600 mr-2 mb-0.5" />
         <span>Update</span>
       </UiContextMenuItem>
       <UiContextMenuItem @click="deleteSelected">
-        <IconMdi:trashOutline class="text-red-600 mr-2 mb-0.5" />
+        <Trash2 class="text-red-600 mr-2 mb-0.5" />
         <span>Delete</span>
       </UiContextMenuItem>
     </UiContextMenuContent>

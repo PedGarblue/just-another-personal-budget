@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { Edit } from 'lucide-vue-next'
 import type { PropType, Ref } from 'vue'
 import { updateTransaction } from '~~/api/transactions'
 import { useAccounts } from '~~/stores/accounts'
@@ -124,10 +125,7 @@ const finish = () => {
 
 <template>
   <div>
-    <IconMdi:pencil-box-outline
-      class="text-xl cursor-pointer"
-      @click="openModal"
-    />
+    <Edit class="text-xl cursor-pointer" @click="openModal" />
     <Modal ref="modal">
       <template #contents>
         <Form

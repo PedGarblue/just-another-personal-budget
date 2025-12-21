@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Minus, Plus } from 'lucide-vue-next'
 import type { Header, Item, ServerOptions } from 'vue3-easy-data-table'
 
 import type { ProductListAPI, ProductListItemAPI } from '~~/types/products'
@@ -200,12 +201,12 @@ defineExpose({
 
       <template #item-quantity="item">
         <div class="flex items-center">
-          <IconMdi:minus
+          <Minus
             class="text-red-800 hover:text-red-700 cursor-pointer transition"
             @click="() => updateProductListItemQuantity(item, 'subtract')"
           />
           <span class="font-bold mx-2 text-base">{{ item.quantity }}</span>
-          <IconMdi:plus
+          <Plus
             class="text-green-600 hover-green-500 cursor-pointer transition"
             @click="() => updateProductListItemQuantity(item, 'add')"
           />

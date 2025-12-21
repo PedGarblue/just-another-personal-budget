@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Plus } from 'lucide-vue-next'
 import { createProduct } from '~~/api/products'
 import { useTransactions } from '~~/stores/transactions'
 import { useNotificationsStore } from '~~/stores/notifications'
@@ -75,7 +76,7 @@ const submit = async () => {
       <div class="flex gap-3">
         <input v-model="product.cost" type="number" class="table-input" />
 
-        <IconMdi:burgerAdd
+        <Plus
           class="text-green-500 hover:text-green-600 cursor-pointer transition text-base my-auto h-8 w-8"
           @click="submit"
         />

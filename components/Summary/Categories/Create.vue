@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { FolderPlus, Trash2 } from 'lucide-vue-next'
 import type { Ref } from 'vue'
 import type { Header, SortType } from 'vue3-easy-data-table'
 import type { CategoryAPI, CategoryForm } from '~~/types/categories'
@@ -85,7 +86,7 @@ const deleteItem = (item: CategoryAPI) => {
 <template>
   <div>
     <Button @click="openModal">
-      <IconMdi:categoryPlusOutline class="mx-auto mr-1 text" />
+      <FolderPlus class="mx-auto mr-1 text" />
       {{ t('categories.title') }}
     </Button>
     <Modal ref="modal">
@@ -138,7 +139,7 @@ const deleteItem = (item: CategoryAPI) => {
                 />
               </div>
               <Button class="w-full" @click="submit">
-                <IconMdi:categoryPlusOutline class="mr-1 text" />
+                <FolderPlus class="mr-1 text" />
                 {{ t('categories.create.title') }}
               </Button>
             </div>
@@ -170,7 +171,7 @@ const deleteItem = (item: CategoryAPI) => {
                       class="bg-red-500"
                       @click="deleteItem(item)"
                     >
-                      <IconMdi:delete-outline />
+                      <Trash2 />
                     </Button>
                   </div>
                 </template>

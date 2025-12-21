@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { Trash2 } from 'lucide-vue-next'
 import type { PropType } from 'vue'
 import type { DisplayTransaction } from '~~/types/transactionTypes'
 import { deleteReceivable } from '~~/api/receivables'
@@ -47,7 +48,7 @@ const removeReceivable = async () => {
 </script>
 
 <template>
-  <IconMdi:delete-outline
+  <Trash2
     class="text-lg text-red-600 cursor-pointer"
     @click="() => removeReceivable()"
   />

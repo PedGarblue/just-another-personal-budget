@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { CheckCircle2 } from 'lucide-vue-next'
 import { TransitionRoot, TransitionChild } from '@headlessui/vue'
 export type IStyles = 'primary' | 'success' | 'warning' | 'danger'
 
@@ -71,7 +72,7 @@ const close = () => {
       >
         <div class="flex items-center justify-center">
           <slot name="icon">
-            <IconMdi:checkCircle
+            <CheckCircle2
               v-if="selectedType === 'success'"
               :class="`text-2xl ${selectedTextStyle}`"
             />

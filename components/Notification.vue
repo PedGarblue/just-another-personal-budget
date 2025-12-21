@@ -6,16 +6,10 @@
       :class="[getTypeClass]"
       @click="visible = false"
     >
-      <IconMdi:checkCircle
-        v-if="type === 'success'"
-        class="notification-icon"
-      />
-      <IconMdi:closeOutline
-        v-else-if="type === 'error'"
-        class="notification-icon"
-      />
-      <IconMdi:alert v-else-if="type === 'warning'" class="notification-icon" />
-      <IconMdi:messageTextOutline v-else class="notification-icon" />
+      <CheckCircle2 v-if="type === 'success'" class="notification-icon" />
+      <X v-else-if="type === 'error'" class="notification-icon" />
+      <AlertTriangle v-else-if="type === 'warning'" class="notification-icon" />
+      <MessageSquare v-else class="notification-icon" />
       <span>
         {{ text }}
       </span>
@@ -24,6 +18,8 @@
 </template>
 
 <script lang="ts" setup>
+import { CheckCircle2, X, AlertTriangle, MessageSquare } from 'lucide-vue-next'
+
 const props = defineProps({
   type: {
     type: String as () => 'success' | 'error' | 'warning' | 'info',

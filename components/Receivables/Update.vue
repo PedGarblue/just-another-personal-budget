@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { Edit } from 'lucide-vue-next'
 import type { PropType } from 'vue'
 import { useAccounts } from '~~/stores/accounts'
 import Modal from '~~/components/Modal.vue'
@@ -97,10 +98,7 @@ const finish = () => {
 
 <template>
   <div>
-    <IconMdi:pencil-box-outline
-      class="text-lg cursor-pointer"
-      @click="openModal"
-    />
+    <Edit class="text-lg cursor-pointer" @click="openModal" />
     <Modal ref="modal">
       <template #contents>
         <Form

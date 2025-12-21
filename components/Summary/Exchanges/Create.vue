@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { ArrowLeftRight } from 'lucide-vue-next'
 import { createExchange } from '~~/api/exchanges'
 import Modal from '~~/components/Modal.vue'
 import { useAccounts } from '~~/stores/accounts'
@@ -119,7 +120,7 @@ onUnmounted(() => {
 <template>
   <div>
     <Button type="secondary" @click="openModal">
-      <IconMdi:cashSync class="mr-1 text-lg" />
+      <ArrowLeftRight class="mr-1 text-lg" />
       {{ t('pages.summary.exchanges.create.title') }}</Button
     >
     <Modal ref="modal">

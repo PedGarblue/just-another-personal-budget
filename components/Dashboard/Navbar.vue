@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { LogOut } from 'lucide-vue-next'
 import { useAuthStore } from '~~/stores/auth'
 
 const auth = useAuthStore()
@@ -27,7 +28,7 @@ const signOut = () => {
             class="flex flex-row capitalize flex self-center items-center cursor-pointer group"
             @click="signOut"
           >
-            <IconMdi:signOut
+            <LogOut
               class="text-red-400 transition-colors group-hover:text-red-500"
             />
           </span>

@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { Plus } from 'lucide-vue-next'
 import { onMounted, onUnmounted } from 'vue'
 import { createTransaction } from '~~/api/transactions'
 import Modal from '~~/components/Modal.vue'
@@ -134,7 +135,7 @@ onUnmounted(() => {
 <template>
   <div>
     <Button @click="openModal">
-      <IconMdi:cashPlus class="mr-1 text-lg" />
+      <Plus class="mr-1 text-lg" />
       {{ t('pages.summary.transactions.create.title') }}
     </Button>
     <Modal ref="modal">

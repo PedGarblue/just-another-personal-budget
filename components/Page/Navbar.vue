@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { Github } from 'lucide-vue-next'
 import { useAuthStore } from '~~/stores/auth'
 
 export interface IMenuItemRule {
@@ -105,7 +106,7 @@ const menus = computed((): IMenuItem[] => [
             href="https://github.com/PedGarblue"
             title="Github"
           >
-            <IconMdi:github-face />
+            <Github />
           </Anchor>
         </div>
       </div>
@@ -162,7 +163,7 @@ const menus = computed((): IMenuItem[] => [
           title="Github"
           href="https://github.com/PedGarblue"
         >
-          <IconMdi:github-face />
+          <Github />
           <span class="ml-1">Github</span>
         </Button>
         <Button

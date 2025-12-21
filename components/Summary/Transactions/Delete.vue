@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { Trash2 } from 'lucide-vue-next'
 import type { PropType } from 'vue'
 import { deleteTransaction } from '~~/api/transactions'
 import { useNotificationsStore } from '~~/stores/notifications'
@@ -47,7 +48,7 @@ const removeTransaction = async () => {
 </script>
 
 <template>
-  <IconMdi:delete-outline
+  <Trash2
     class="text-lg text-red-600 cursor-pointer"
     @click="() => removeTransaction()"
   />
