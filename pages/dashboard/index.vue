@@ -19,9 +19,25 @@ const expensesSummaryRef = ref<InstanceType<typeof SummaryExpenses> | null>(
   null
 )
 
+// transaction filter state
+const transactionCategoryFilter = ref<number>(0)
+const transactionFromDate = ref<string>('')
+const transactionToDate = ref<string>('')
+
 // method to refresh expenses summary when transactions change
 const refreshExpensesSummary = () => {
   expensesSummaryRef.value?.refresh()
+}
+
+// handle category selection from expenses chart
+const handleCategorySelected = (data: {
+  categoryId: number
+  fromDate: string
+  toDate: string
+}) => {
+  transactionCategoryFilter.value = data.categoryId
+  transactionFromDate.value = data.fromDate
+  transactionToDate.value = data.toDate
 }
 
 onMounted(() => {
@@ -36,10 +52,16 @@ onMounted(() => {
     </PageHeader>
     <PageBody>
       <SummaryAccounts />
-      <SummaryExpenses ref="expensesSummaryRef" />
+      <SummaryExpenses
+        ref="expensesSummaryRef"
+        @category-selected="handleCategorySelected"
+      />
       <SummaryPendingPurchases />
       <SummaryTransactions
         v-if="accountsStore.getAccounts.length > 0"
+        :category-criteria="transactionCategoryFilter"
+        :from-date="transactionFromDate"
+        :to-date="transactionToDate"
         @transaction-changed="refreshExpensesSummary"
       />
     </PageBody>

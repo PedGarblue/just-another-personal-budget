@@ -52,9 +52,15 @@ const chartData = computed(() => {
   }
 })
 
-const chartOptions = ref({
+const emits = defineEmits(['category-selected'])
+
+const chartOptions = computed(() => ({
   responsive: true,
   maintainAspectRatio: false,
+  interaction: {
+    intersect: false,
+    mode: 'index',
+  },
   scales: {
     y: {
       beginAtZero: true,
@@ -77,7 +83,27 @@ const chartOptions = ref({
       },
     },
   },
-})
+  onClick: (event: any, elements: any[]) => {
+    if (elements.length > 0 && expensesData.value) {
+      const element = elements[0]
+      const categoryIndex = element.index
+      const category = expensesData.value.summary[categoryIndex]
+      if (category) {
+        emits('category-selected', {
+          categoryId: category.category_id,
+          fromDate: expensesData.value.from_date,
+          toDate: expensesData.value.to_date,
+        })
+      }
+    }
+  },
+  onHover: (event: any, elements: any[]) => {
+    const target = event.native?.target
+    if (target) {
+      target.style.cursor = elements.length > 0 ? 'pointer' : 'default'
+    }
+  },
+}))
 
 const dateRangeText = computed(() => {
   if (!expensesData.value) return ''
@@ -173,7 +199,7 @@ defineExpose({
       >
         {{ t('pages.summary.expenses.no_data') }}
       </div>
-      <div v-else class="h-64">
+      <div v-else class="h-64 cursor-pointer">
         <Bar :data="chartData" :options="chartOptions" />
       </div>
     </div>

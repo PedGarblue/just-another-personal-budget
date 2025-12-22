@@ -27,6 +27,11 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
+  categoryCriteria: {
+    type: Number,
+    required: false,
+    default: 0,
+  },
   fromDate: {
     type: String,
     required: false,
@@ -117,6 +122,7 @@ const fetchTransactions = async () => {
     pageSize: serverOptions.value.rowsPerPage,
     currency: props.currencyCriteria > 0 ? props.currencyCriteria : undefined,
     account: props.accountCriteria > 0 ? props.accountCriteria : undefined,
+    category: props.categoryCriteria > 0 ? props.categoryCriteria : undefined,
     from: props.fromDate !== '' ? props.fromDate : undefined,
     to: props.toDate !== '' ? props.toDate : undefined,
   })
@@ -139,6 +145,13 @@ watch(
 
 watch(
   () => props.accountCriteria,
+  () => {
+    fetchTransactions()
+  }
+)
+
+watch(
+  () => [props.categoryCriteria, props.fromDate, props.toDate],
   () => {
     fetchTransactions()
   }

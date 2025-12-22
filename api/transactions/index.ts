@@ -30,6 +30,7 @@ export interface FetchTransactionsParams {
   account?: number
   currency?: number
   excludeSameCurrencyTransactions?: boolean
+  category?: number
 }
 
 export default async function fetchTransactions(
@@ -41,6 +42,7 @@ export default async function fetchTransactions(
     account,
     currency,
     excludeSameCurrencyTransactions,
+    category,
   }: FetchTransactionsParams = {
     page: 1,
     pageSize: 10,
@@ -70,6 +72,9 @@ export default async function fetchTransactions(
   }
   if (excludeSameCurrencyTransactions) {
     params.append('exclude_same_currency_exchanges', 'true')
+  }
+  if (category) {
+    params.append('category', category.toString())
   }
   const url = `${
     runtimeConfig.public.apiUrl

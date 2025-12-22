@@ -7,6 +7,24 @@ import TransactionList from '~~/components/Transaction/List.vue'
 
 const emits = defineEmits(['transaction-changed'])
 
+const props = defineProps({
+  categoryCriteria: {
+    type: Number,
+    required: false,
+    default: 0,
+  },
+  fromDate: {
+    type: String,
+    required: false,
+    default: '',
+  },
+  toDate: {
+    type: String,
+    required: false,
+    default: '',
+  },
+})
+
 // data refs
 const accountCriteria = ref('All')
 const transactionList = ref<InstanceType<typeof TransactionList> | null>(null)
@@ -46,7 +64,10 @@ const refreshTable = () => {
     </div>
     <TransactionList
       ref="transactionList"
-      :account-criteria="getSelectedAccount?.id"
+      :account-criteria="getSelectedAccount?.id || 0"
+      :category-criteria="props.categoryCriteria"
+      :from-date="props.fromDate"
+      :to-date="props.toDate"
     >
       <template #item-operation="transaction">
         <div class="flex flex-row gap-1 justify-center">
