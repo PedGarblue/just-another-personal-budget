@@ -40,6 +40,13 @@ const handleCategorySelected = (data: {
   transactionToDate.value = data.toDate
 }
 
+// handle clear filters
+const handleClearFilters = () => {
+  transactionCategoryFilter.value = 0
+  transactionFromDate.value = ''
+  transactionToDate.value = ''
+}
+
 onMounted(() => {
   fetchCategories()
 })
@@ -63,6 +70,7 @@ onMounted(() => {
         :from-date="transactionFromDate"
         :to-date="transactionToDate"
         @transaction-changed="refreshExpensesSummary"
+        @clear-filters="handleClearFilters"
       />
     </PageBody>
   </PageWrapper>

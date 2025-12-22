@@ -86,7 +86,8 @@
         },
         "delete": {
           "success": "Transacción Eliminada"
-        }
+        },
+        "clear_filters": "Limpiar Filtros"
       },
       "exchanges": {
         "create": {

@@ -1,11 +1,12 @@
 <script lang="ts" setup>
+import { X } from 'lucide-vue-next'
 import { useAccounts } from '~~/stores/accounts'
 import TransactionList from '~~/components/Transaction/List.vue'
 
 // TODO: Date Range selector
 // const startMonthDate = format(new Date(), 'yyyy-MM-01')
 
-const emits = defineEmits(['transaction-changed'])
+const emits = defineEmits(['transaction-changed', 'clear-filters'])
 
 const props = defineProps({
   categoryCriteria: {
@@ -25,6 +26,8 @@ const props = defineProps({
   },
 })
 
+const { t } = useLang()
+
 // data refs
 const accountCriteria = ref('All')
 const transactionList = ref<InstanceType<typeof TransactionList> | null>(null)
@@ -38,6 +41,13 @@ const getSelectedAccount = computed(() => {
   )
 })
 
+// computed
+const hasActiveFilters = computed(() => {
+  return (
+    props.categoryCriteria > 0 || props.fromDate !== '' || props.toDate !== ''
+  )
+})
+
 // methods
 const refreshTable = () => {
   // should i be doing this?
@@ -45,6 +55,10 @@ const refreshTable = () => {
   transactionList.value?.refreshTable()
   // emit event to notify parent that transactions have changed
   emits('transaction-changed')
+}
+
+const clearFilters = () => {
+  emits('clear-filters')
 }
 </script>
 
@@ -60,6 +74,16 @@ const refreshTable = () => {
         :options="['All', ...accountsNames]"
         required
       />
+      <Button
+        v-if="hasActiveFilters"
+        type="secondary"
+        size="sm"
+        class="flex items-center gap-2"
+        @click="clearFilters"
+      >
+        <X class="h-4 w-4" />
+        {{ t('pages.summary.transactions.clear_filters') }}
+      </Button>
       <SummaryCategoriesCreate class="ml-auto" />
     </div>
     <TransactionList
