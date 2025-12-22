@@ -14,6 +14,16 @@ useHead({
 const accountsStore = useAccounts()
 const { fetchCategories } = useTransactions()
 
+// refs for components that need to be refreshed
+const expensesSummaryRef = ref<InstanceType<typeof SummaryExpenses> | null>(
+  null
+)
+
+// method to refresh expenses summary when transactions change
+const refreshExpensesSummary = () => {
+  expensesSummaryRef.value?.refresh()
+}
+
 onMounted(() => {
   fetchCategories()
 })
@@ -26,9 +36,12 @@ onMounted(() => {
     </PageHeader>
     <PageBody>
       <SummaryAccounts />
-      <SummaryExpenses />
+      <SummaryExpenses ref="expensesSummaryRef" />
       <SummaryPendingPurchases />
-      <SummaryTransactions v-if="accountsStore.getAccounts.length > 0" />
+      <SummaryTransactions
+        v-if="accountsStore.getAccounts.length > 0"
+        @transaction-changed="refreshExpensesSummary"
+      />
     </PageBody>
   </PageWrapper>
 </template>

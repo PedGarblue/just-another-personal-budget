@@ -5,6 +5,8 @@ import TransactionList from '~~/components/Transaction/List.vue'
 // TODO: Date Range selector
 // const startMonthDate = format(new Date(), 'yyyy-MM-01')
 
+const emits = defineEmits(['transaction-changed'])
+
 // data refs
 const accountCriteria = ref('All')
 const transactionList = ref<InstanceType<typeof TransactionList> | null>(null)
@@ -23,6 +25,8 @@ const refreshTable = () => {
   // should i be doing this?
   accounts.fetchData()
   transactionList.value?.refreshTable()
+  // emit event to notify parent that transactions have changed
+  emits('transaction-changed')
 }
 </script>
 

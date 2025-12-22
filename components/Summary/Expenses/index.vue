@@ -120,6 +120,11 @@ watch(period, () => {
 onMounted(() => {
   fetchExpensesSummary()
 })
+
+// expose refresh method for parent components
+defineExpose({
+  refresh: fetchExpensesSummary,
+})
 </script>
 
 <template>
