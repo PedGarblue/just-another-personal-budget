@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { Menu, X, MoreVertical, Code } from 'lucide-vue-next'
 import type { AppConfigInput } from '@nuxt/schema'
 
 // state
@@ -73,8 +74,8 @@ const toggleOptions = (show?: boolean) => {
                 class="flex items-center text-gray-600 dark:text-gray-300 text-lg"
                 aria-hidden="true"
               >
-                <IconUil:bars v-if="!showDrawer" />
-                <IconUil:times v-else />
+                <Menu v-if="!showDrawer" />
+                <X v-else />
               </span>
             </button>
           </div>
@@ -87,9 +88,7 @@ const toggleOptions = (show?: boolean) => {
             >
               <span class="sr-only">home</span>
               <span class="flex items-center">
-                <IconSimpleIcons:nuxtdotjs
-                  class="inline-block mr-2 text-lg text-primary-500"
-                />
+                <Code class="inline-block mr-2 text-lg text-primary-500" />
                 {{ app.name }}
               </span>
             </NuxtLink>
@@ -110,7 +109,7 @@ const toggleOptions = (show?: boolean) => {
                 class="flex items-center text-gray-600 dark:text-gray-300 text-sm"
                 aria-hidden="true"
               >
-                <icon-fa-solid:ellipsis-v />
+                <MoreVertical />
               </span>
             </button>
           </div>

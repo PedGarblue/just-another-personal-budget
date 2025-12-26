@@ -6,6 +6,7 @@ import {
   ListboxOptions,
   ListboxOption,
 } from '@headlessui/vue'
+import { Sun, Moon, Laptop, Clock } from 'lucide-vue-next'
 import type { IThemeSettingOptions } from '~/utils/theme'
 import { availableThemes } from '~/utils/theme'
 
@@ -39,10 +40,10 @@ const currentStyle = toRef(props, 'type')
         class="transition-colors duration-300"
       >
         <span class="flex justify-center items-center dark:hidden">
-          <IconUil:sun />
+          <Sun />
         </span>
         <span class="justify-center items-center hidden dark:flex">
-          <IconUil:moon />
+          <Moon />
         </span>
       </ListboxButton>
       <ListboxOptions
@@ -61,10 +62,10 @@ const currentStyle = toRef(props, 'type')
           }"
         >
           <span class="text-sm mr-2 flex items-center">
-            <IconUil:sun v-if="theme.key === 'light'" />
-            <IconUil:moon v-else-if="theme.key === 'dark'" />
-            <IconUil:laptop v-else-if="theme.key === 'system'" />
-            <IconUil:clock v-else-if="theme.key === 'realtime'" />
+            <Sun v-if="theme.key === 'light'" />
+            <Moon v-else-if="theme.key === 'dark'" />
+            <Laptop v-else-if="theme.key === 'system'" />
+            <Clock v-else-if="theme.key === 'realtime'" />
           </span>
           {{ theme.text }}
         </ListboxOption>

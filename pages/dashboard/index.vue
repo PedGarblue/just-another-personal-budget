@@ -63,7 +63,6 @@ onMounted(() => {
         ref="expensesSummaryRef"
         @category-selected="handleCategorySelected"
       />
-      <SummaryPendingPurchases />
       <SummaryTransactions
         v-if="accountsStore.getAccounts.length > 0"
         :category-criteria="transactionCategoryFilter"

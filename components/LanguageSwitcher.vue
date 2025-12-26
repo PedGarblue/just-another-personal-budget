@@ -6,6 +6,7 @@ import {
   ListboxOptions,
   ListboxOption,
 } from '@headlessui/vue'
+import { Languages } from 'lucide-vue-next'
 import { availableLocales } from '~/utils/lang'
 
 // micro compiler
@@ -36,7 +37,7 @@ const localeSetting = useState<string>('locale.setting')
         class="transition-colors duration-300"
       >
         <span class="justify-center items-center flex">
-          <IconLa:language />
+          <Languages />
         </span>
       </ListboxButton>
       <ListboxOptions
