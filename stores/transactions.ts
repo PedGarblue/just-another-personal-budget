@@ -4,6 +4,7 @@ import {
   getCategoryList,
   createCategory,
   deleteCategory,
+  patchCategory,
 } from '~~/api/categories'
 
 export interface ItransactionsState {
@@ -28,6 +29,10 @@ export const useTransactions = defineStore('transactions', {
     },
     async deleteCategory(id: number) {
       await deleteCategory(id)
+      await this.fetchCategories()
+    },
+    async updateCategory(id: number, data: Partial<CategoryBase>) {
+      await patchCategory(id, data)
       await this.fetchCategories()
     },
   },
