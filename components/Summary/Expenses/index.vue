@@ -191,6 +191,17 @@ defineExpose({
       <p class="text-red-800 dark:text-red-200">{{ error }}</p>
     </div>
 
+    <!-- total amount -->
+    <div v-if="!loading && !error && expensesData" class="mb-6">
+      <p class="text-gray-500">
+        {{
+          t('pages.summary.expenses.total_amount', {
+            amount: expensesData.total,
+          })
+        }}
+      </p>
+    </div>
+
     <!-- Chart -->
     <div v-if="!loading && !error && expensesData" class="mb-6">
       <div

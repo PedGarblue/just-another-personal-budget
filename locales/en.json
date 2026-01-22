@@ -98,6 +98,7 @@
       },
       "expenses": {
         "title": "Expenses Summary",
+        "total_amount": "Total: $%{amount}",
         "period": {
           "7d": "7 Days",
           "1m": "1 Month",

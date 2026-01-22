@@ -26,6 +26,7 @@ export interface ExpensesSummaryResponse {
   period: ExpensesPeriod
   from_date: string
   to_date: string
+  total: number
   summary: ExpenseCategorySummary[]
   malformed_transactions: MalformedTransaction[]
 }
