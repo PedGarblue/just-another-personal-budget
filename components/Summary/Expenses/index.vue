@@ -6,6 +6,8 @@ import type { ExpensesSummaryResponse, ExpensesPeriod } from '~~/types/expenses'
 import { useTransactions } from '~~/stores/transactions'
 import { useAccounts } from '~~/stores/accounts'
 
+useChartjs()
+
 const { t } = useLang()
 const accountsStore = useAccounts()
 const transactionsStore = useTransactions()

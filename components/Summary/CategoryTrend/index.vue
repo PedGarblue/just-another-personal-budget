@@ -11,6 +11,8 @@ import { useTransactions } from '~~/stores/transactions'
 import { useAccounts } from '~~/stores/accounts'
 import type { CategoryAPI } from '~~/types/categories'
 
+useChartjs()
+
 const { t } = useLang()
 const accountsStore = useAccounts()
 const transactionsStore = useTransactions()

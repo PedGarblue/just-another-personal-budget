@@ -1,5 +1,6 @@
 // https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
 export default defineNuxtConfig({
+  compatibilityDate: '2026-03-18',
   runtimeConfig: {
     public: {
       apiUrl: '',
@@ -29,7 +30,6 @@ export default defineNuxtConfig({
   plugins: [
     '~/plugins/navbar.ts',
     '~/plugins/vue3-easy-data-table.ts',
-    '~/plugins/chartjs.ts',
     '~/plugins/i18n.ts',
   ],
 

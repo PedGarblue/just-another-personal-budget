@@ -5,6 +5,8 @@ import { PieChart, BarChart3 } from 'lucide-vue-next'
 import type { TransactionAPI } from '~~/api/transactions'
 import { useTransactions } from '~~/stores/transactions'
 
+useChartjs()
+
 type CategoryGroupItem = {
   [key: string]: {
     amount: number

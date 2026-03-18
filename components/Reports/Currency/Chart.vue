@@ -4,6 +4,8 @@ import type { PropType } from 'vue'
 import { format } from 'date-fns'
 import type { IReportCurrencyDisplayItem } from '~~/types/reportsTypes'
 
+useChartjs()
+
 const props = defineProps({
   reports: {
     type: Array as PropType<IReportCurrencyDisplayItem[]>,
