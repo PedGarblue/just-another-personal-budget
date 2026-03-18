@@ -123,6 +123,11 @@
           "monthly": "Mensual",
           "weekly": "Semanal"
         },
+        "view_mode_label": "Vista",
+        "view_mode": {
+          "total": "Total",
+          "children": "Subcategoría"
+        },
         "start_date": "Fecha de Inicio",
         "end_date": "Fecha de Fin",
         "loading": "Cargando tendencia de categoría...",

@@ -32,10 +32,13 @@ const FALLBACK_COLORS = [
   '#e11d48',
 ]
 
+type ViewMode = 'total' | 'children'
+
 const trendData = ref<CategoryTrendResponse | null>(null)
 const loading = ref(false)
 const error = ref<string | null>(null)
 
+const viewMode = ref<ViewMode>('total')
 const granularity = ref<CategoryTrendGranularity>('monthly')
 const startDate = ref<string>(
   format(startOfMonth(subMonths(new Date(), 6)), 'yyyy-MM-dd')
@@ -66,6 +69,25 @@ const chartData = computed(() => {
 
   const periods = trendData.value.periods
   const labels = periods.map((p) => p.label)
+
+  if (viewMode.value === 'total') {
+    const parentColor = selectedCategory.value?.color || FALLBACK_COLORS[0]
+    return {
+      labels,
+      datasets: [
+        {
+          label: trendData.value.category_name,
+          data: periods.map((p) => Number(p.total_amount_usd)),
+          borderColor: parentColor,
+          backgroundColor: parentColor,
+          tension: 0.3,
+          fill: false,
+          pointRadius: 4,
+          pointHoverRadius: 6,
+        },
+      ],
+    }
+  }
 
   const childMap = new Map<number, { name: string; color: string }>()
   for (const period of periods) {
@@ -123,7 +145,7 @@ const chartOptions = computed(() => ({
   },
   plugins: {
     legend: {
-      display: true,
+      display: viewMode.value === 'children',
       position: 'bottom' as const,
     },
     tooltip: {
@@ -226,7 +248,11 @@ defineExpose({
           size="sm"
           required
           @selection="onCategoryChange"
-        />
+        >
+          <template #item-value="{ option }">
+            {{ option.name }}
+          </template>
+        </Select>
         <p v-else class="text-sm text-gray-500">
           {{ t('pages.summary.category_trend.no_categories') }}
         </p>
@@ -251,6 +277,29 @@ defineExpose({
             @click="granularity = 'weekly'"
           >
             {{ t('pages.summary.category_trend.granularity.weekly') }}
+          </Button>
+        </div>
+      </div>
+
+      <!-- View Mode Toggle -->
+      <div>
+        <label class="mb-1 block text-sm text-gray-600 dark:text-gray-400">
+          {{ t('pages.summary.category_trend.view_mode_label') }}
+        </label>
+        <div class="flex gap-2">
+          <Button
+            :type="viewMode === 'total' ? 'primary' : 'secondary'"
+            size="sm"
+            @click="viewMode = 'total'"
+          >
+            {{ t('pages.summary.category_trend.view_mode.total') }}
+          </Button>
+          <Button
+            :type="viewMode === 'children' ? 'primary' : 'secondary'"
+            size="sm"
+            @click="viewMode = 'children'"
+          >
+            {{ t('pages.summary.category_trend.view_mode.children') }}
           </Button>
         </div>
       </div>
