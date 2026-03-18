@@ -113,6 +113,24 @@
         "malformed": {
           "title": "Transacciones con Errores"
         }
+      },
+      "category_trend": {
+        "title": "Tendencia de Gastos por Categoría",
+        "grand_total": "Total General: $%{amount}",
+        "category_label": "Categoría",
+        "granularity_label": "Granularidad",
+        "granularity": {
+          "monthly": "Mensual",
+          "weekly": "Semanal"
+        },
+        "start_date": "Fecha de Inicio",
+        "end_date": "Fecha de Fin",
+        "loading": "Cargando tendencia de categoría...",
+        "no_data": "No hay datos de tendencia disponibles para este período",
+        "no_categories": "No hay categorías de gastos disponibles",
+        "malformed": {
+          "title": "Transacciones con Errores"
+        }
       }
     },
     "blank": {

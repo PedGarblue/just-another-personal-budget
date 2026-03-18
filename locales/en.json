@@ -113,6 +113,24 @@
         "malformed": {
           "title": "Malformed Transactions"
         }
+      },
+      "category_trend": {
+        "title": "Category Expenses Trend",
+        "grand_total": "Grand Total: $%{amount}",
+        "category_label": "Category",
+        "granularity_label": "Granularity",
+        "granularity": {
+          "monthly": "Monthly",
+          "weekly": "Weekly"
+        },
+        "start_date": "Start Date",
+        "end_date": "End Date",
+        "loading": "Loading category trend...",
+        "no_data": "No trend data available for this period",
+        "no_categories": "No expense categories available",
+        "malformed": {
+          "title": "Malformed Transactions"
+        }
       }
     },
     "blank": {

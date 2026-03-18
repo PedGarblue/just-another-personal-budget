@@ -18,6 +18,9 @@ const { fetchCategories } = useTransactions()
 const expensesSummaryRef = ref<InstanceType<typeof SummaryExpenses> | null>(
   null
 )
+const categoryTrendRef = ref<InstanceType<typeof SummaryCategoryTrend> | null>(
+  null
+)
 
 // transaction filter state
 const transactionCategoryFilter = ref<number>(0)
@@ -27,6 +30,7 @@ const transactionToDate = ref<string>('')
 // method to refresh expenses summary when transactions change
 const refreshExpensesSummary = () => {
   expensesSummaryRef.value?.refresh()
+  categoryTrendRef.value?.refresh()
 }
 
 // handle category selection from expenses chart
@@ -63,6 +67,7 @@ onMounted(() => {
         ref="expensesSummaryRef"
         @category-selected="handleCategorySelected"
       />
+      <SummaryCategoryTrend ref="categoryTrendRef" />
       <SummaryTransactions
         v-if="accountsStore.getAccounts.length > 0"
         :category-criteria="transactionCategoryFilter"
