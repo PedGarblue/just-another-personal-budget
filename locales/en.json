@@ -114,6 +114,19 @@
           "title": "Malformed Transactions"
         }
       },
+      "cashflow": {
+        "title": "Cashflow Summary",
+        "income_total": "Income Total",
+        "expense_total": "Expense Total",
+        "free_cash_flow": "Free Cash Flow",
+        "loading": "Loading cashflow summary...",
+        "malformed_warning": "Some transactions were excluded due to missing conversion rates.",
+        "period": {
+          "current_month": "This month",
+          "this_quarter": "This quarter",
+          "this_year": "This year"
+        }
+      },
       "category_trend": {
         "title": "Category Expenses Trend",
         "grand_total": "Grand Total: $%{amount}",

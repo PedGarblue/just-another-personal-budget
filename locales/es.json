@@ -114,6 +114,19 @@
           "title": "Transacciones con Errores"
         }
       },
+      "cashflow": {
+        "title": "Resumen de Flujo de Caja",
+        "income_total": "Ingresos Totales",
+        "expense_total": "Gastos Totales",
+        "free_cash_flow": "Flujo de Caja Libre",
+        "loading": "Cargando resumen de flujo de caja...",
+        "malformed_warning": "Algunas transacciones fueron excluidas debido a tasas de conversion faltantes.",
+        "period": {
+          "current_month": "Este mes",
+          "this_quarter": "Este trimestre",
+          "this_year": "Este ano"
+        }
+      },
       "category_trend": {
         "title": "Tendencia de Gastos por Categoría",
         "grand_total": "Total General: $%{amount}",
