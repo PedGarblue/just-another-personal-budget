@@ -7,6 +7,7 @@ export interface Account {
   currency: number
   balance: string
   balance_as_main_currency?: string
+  decimal_places?: number
 }
 
 export interface AccountForm {

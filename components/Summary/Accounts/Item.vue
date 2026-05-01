@@ -8,6 +8,20 @@ const props = defineProps({
     required: true,
   },
 })
+
+const displayDecimalPlaces = computed(() => {
+  const a = props.account
+  if (a.decimal_places != null) return a.decimal_places
+  const c = a.currencyData
+  if (c.default_decimal_places != null) return c.default_decimal_places
+  return c.asset_kind === 'crypto' ? 8 : 2
+})
+
+const formattedAccountBalance = computed(() => {
+  const n = parseFloat(props.account.balance)
+  if (Number.isNaN(n)) return props.account.balance
+  return n.toFixed(displayDecimalPlaces.value)
+})
 </script>
 
 <template>
@@ -32,7 +46,7 @@ const props = defineProps({
         'col-span-2': account.balance_as_main_currency,
       }"
     >
-      {{ `${account.currencyData.symbol} ${account.balance}` }}
+      {{ `${account.currencyData.symbol} ${formattedAccountBalance}` }}
     </div>
     <div
       v-if="account.balance_as_main_currency"

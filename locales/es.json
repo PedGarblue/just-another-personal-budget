@@ -69,7 +69,18 @@
           "success": "Cuenta Eliminada"
         },
         "rate_tooltip": "Tipo de cambio: %{rate}",
-        "balance_to_main_currency_tooltip": "Saldo en USD"
+        "balance_to_main_currency_tooltip": "Saldo en USD",
+        "crypto": {
+          "section_title": "Cripto",
+          "expand": "Mostrar cuentas en cripto",
+          "collapse": "Ocultar cuentas en cripto",
+          "total_usd_approx": "≈ $%{amount} en total",
+          "total_usd_pending": "Total en USD no disponible",
+          "usd_approx_label": "≈ USD",
+          "spot_label": "Spot",
+          "spot_usd_per_unit": "~{price} USD por unidad",
+          "rate_pending": "Estimación en USD no disponible (tasas se actualizan cada hora)"
+        }
       },
       "index": {
         "title": "Resumen"

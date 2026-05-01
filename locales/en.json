@@ -69,7 +69,18 @@
           "success": "Account Deleted"
         },
         "rate_tooltip": "Exchange rate: %{rate}",
-        "balance_to_main_currency_tooltip": "Balance in USD"
+        "balance_to_main_currency_tooltip": "Balance in USD",
+        "crypto": {
+          "section_title": "Crypto",
+          "expand": "Show crypto accounts",
+          "collapse": "Hide crypto accounts",
+          "total_usd_approx": "≈ $%{amount} total",
+          "total_usd_pending": "USD total not available",
+          "usd_approx_label": "≈ USD",
+          "spot_label": "Spot",
+          "spot_usd_per_unit": "~{price} USD per unit",
+          "rate_pending": "USD estimate not available yet (rates update hourly)"
+        }
       },
       "index": {
         "title": "Summary"

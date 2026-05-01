@@ -19,6 +19,8 @@ const defaultCurrency: Currency = {
   name: 'N/A',
   symbol: 'N/A',
   balance: '0',
+  asset_kind: 'fiat',
+  default_decimal_places: 2,
 }
 
 const defaultAccount: AccountComplete = {
