@@ -1,14 +1,14 @@
 <script lang="ts" setup>
 import { Edit } from 'lucide-vue-next'
-import type { PropType, Ref } from 'vue'
+import type { PropType } from 'vue'
 import { updateTransaction } from '~~/api/transactions'
+import Modal from '~~/components/Modal.vue'
+import { useTransactionLoanReceivable } from '~~/composables/useTransactionLoanReceivable'
 import { useAccounts } from '~~/stores/accounts'
 import type { DisplayTransaction } from '~~/types/transactionTypes'
-import Modal from '~~/components/Modal.vue'
 import { useNotificationsStore } from '~~/stores/notifications'
 import { useTransactions } from '~~/stores/transactions'
-import type { CategoryAPI } from '~~/types/categories'
-import { FormField } from '~~/types/formTypes'
+import type { FormField } from '~~/types/formTypes'
 import type { ProductAPI } from '~~/types/products'
 
 const emits = defineEmits(['form-finished'])
@@ -20,7 +20,6 @@ const props = defineProps({
   },
 })
 
-// data
 const { t } = useLang()
 const modal = ref<InstanceType<typeof Modal> | null>(null)
 const accountsState = useAccounts()
@@ -29,17 +28,19 @@ const accountsList = accountsState.getAccounts
 const notifications = useNotificationsStore()
 const categories = computed(() => transactionsState.getCategories)
 
-const transactionItems = ref<ProductAPI[]>([])
-
-// methods
-
-const openModal = () => {
-  modal.value?.open()
-}
-
-const closeModal = () => {
-  modal.value?.close()
-}
+const {
+  isLoan,
+  loanContact,
+  loanDueDate,
+  collectionReceivableId,
+  receivableRows,
+  advancedLoanReceivableOpen,
+  loadReceivableRows,
+  prepareUpdateModalState,
+  receivableOptionLabel,
+  validateLoanReceivableForm,
+  buildTransactionBodyWithLoan,
+} = useTransactionLoanReceivable()
 
 const fields: FormField[] = [
   {
@@ -83,7 +84,7 @@ const fields: FormField[] = [
     selectOptionsMutator: (options, fields) => {
       const amountField = fields.find((field) => field.key === 'amount')
       if (amountField) {
-        const amount = amountField.value
+        const amount = Number(amountField.value)
         return options.filter((option) => {
           if (typeof option === 'object' && 'type' in option) {
             return amount > 0
@@ -98,19 +99,32 @@ const fields: FormField[] = [
     selectionKey: 'name',
     optionKey: 'name',
     value: props.transaction.categoryData,
+    componentProps: {
+      required: false,
+    },
   },
 ]
 
-const submit = (data: any) => {
-  return updateTransaction(
-    props.transaction.id,
-    {
-      ...data,
-      account: data.account.id,
-      category: data.category.id,
-    },
-    transactionItems.value
+const transactionItems = ref<ProductAPI[]>([])
+
+const openModal = async () => {
+  await loadReceivableRows()
+  prepareUpdateModalState(
+    props.transaction.amount,
+    props.transaction.receivable
   )
+  modal.value?.open()
+}
+
+const closeModal = () => {
+  modal.value?.close()
+}
+
+const submit = (data: any) => {
+  const amount = Number(data.amount)
+  validateLoanReceivableForm(data, amount)
+  const body = buildTransactionBodyWithLoan(data, amount)
+  return updateTransaction(props.transaction.id, body, transactionItems.value)
 }
 
 const finish = () => {
@@ -137,6 +151,16 @@ const finish = () => {
           @form-finished="() => finish()"
         >
           <template #form-contents>
+            <SummaryTransactionsLoanReceivableFields
+              v-model:advanced-open="advancedLoanReceivableOpen"
+              v-model:is-loan="isLoan"
+              v-model:loan-contact="loanContact"
+              v-model:loan-due-date="loanDueDate"
+              v-model:collection-receivable-id="collectionReceivableId"
+              :receivable-rows="receivableRows"
+              :receivable-option-label="receivableOptionLabel"
+              collection-select-id="update-collection-receivable"
+            />
             <div class="mt-4">
               <SummaryTransactionsTransactionItemsPicker
                 v-model="transactionItems"

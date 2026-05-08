@@ -2,77 +2,37 @@
 import { format } from 'date-fns'
 import { createReceivable } from '~~/api/receivables'
 import Modal from '~~/components/Modal.vue'
-import { useAccounts } from '~~/stores/accounts'
 import { useNotificationsStore } from '~~/stores/notifications'
 import type { FormField } from '~~/types/formTypes'
 
 const emits = defineEmits(['form-finished'])
 
-// data
 const { t } = useLang()
 const modal = ref<InstanceType<typeof Modal> | null>(null)
-const accountsState = useAccounts()
 const notifications = useNotificationsStore()
 
 const fields = computed<FormField[]>(() => [
   {
     key: 'description',
-    title: 'Description',
-    value: '',
-  },
-  {
-    key: 'amount_given',
-    title: 'Amount Given',
-    value: 0,
-    componentProps: {
-      type: 'number',
-    },
-  },
-  {
-    key: 'amount_to_receive',
-    title: 'Amount to Receive',
-    value: 0,
-    componentProps: {
-      type: 'number',
-    },
-  },
-  {
-    key: 'amount_paid',
-    title: 'Amount Paid',
-    value: 0,
-    componentProps: {
-      type: 'number',
-    },
-  },
-  {
-    key: 'status',
-    title: 'Status',
-    value: '',
-  },
-  {
-    key: 'account',
-    title: 'Account',
-    default: accountsState.getAccounts[0],
-    selectOptions: accountsState.getAccounts,
-    selectionKey: 'name',
-    optionKey: 'name',
+    title: t('pages.investments.receivables.form.description'),
+    default: '',
     value: '',
   },
   {
     key: 'contact',
-    title: 'Contact',
+    title: t('pages.investments.receivables.form.contact'),
+    default: '',
     value: '',
   },
   {
     key: 'due_date',
-    title: 'Due date',
+    title: t('pages.investments.receivables.form.due_date'),
     default: new Date(),
     datePicker: true,
     value: new Date(),
   },
 ])
 
-// methods
 const openModal = () => {
   modal.value?.open()
 }
@@ -80,12 +40,18 @@ const closeModal = () => {
   modal.value?.close()
 }
 
-const submit = (data: any) => {
-  return createReceivable({
-    ...data,
-    account: data.account.id,
-    due_date: format(data.due_date, 'yyyy-mm-dd'),
-  })
+const submit = (data: Record<string, unknown>) => {
+  const payload: Record<string, string> = {}
+  if (typeof data.description === 'string' && data.description.trim()) {
+    payload.description = data.description.trim()
+  }
+  if (typeof data.contact === 'string' && data.contact.trim()) {
+    payload.contact = data.contact.trim()
+  }
+  if (data.due_date instanceof Date) {
+    payload.due_date = format(data.due_date, 'yyyy-MM-dd')
+  }
+  return createReceivable(payload)
 }
 
 const finishCreate = () => {
@@ -113,7 +79,13 @@ const finishCreate = () => {
           )}`"
           :submit-title="`${t('pages.investments.receivables.create.title')}`"
           @form-finished="() => finishCreate()"
-        ></Form>
+        >
+          <template #form-contents>
+            <p class="mt-3 text-sm text-muted-foreground">
+              {{ t('pages.investments.receivables.create.manual_hint') }}
+            </p>
+          </template>
+        </Form>
       </template>
     </Modal>
   </div>

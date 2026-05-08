@@ -62,7 +62,7 @@ const transactionsStore = useTransactionsStore()
 
 const categories = computed(() => transactionsStore.getCategories)
 
-const headers: Header[] = [
+const headers = computed<Header[]>(() => [
   {
     text: t('transactions.date'),
     value: 'dateFormatted',
@@ -88,10 +88,23 @@ const headers: Header[] = [
     value: 'toMainCurrencyAmount',
   },
   {
+    text: t('transactions.receivable'),
+    value: 'receivableDisplay',
+  },
+  {
     text: t('transactions.operation'),
     value: 'operation',
   },
-]
+])
+
+function receivableDisplayFor(transaction: TransactionAPI): string {
+  const rid = transaction.receivable
+  if (rid == null || rid === 0) return '—'
+  const amt = Number(transaction.amount)
+  if (Number.isNaN(amt)) return `#${rid}`
+  if (amt < 0) return `${t('transactions.receivable_loan')} #${rid}`
+  return `${t('transactions.receivable_collection')} #${rid}`
+}
 
 // computed
 
@@ -109,6 +122,7 @@ const displayTransactionsData = computed<DisplayTransaction[]>(() => {
           categoryData: categories.value.find(
             (category: CategoryAPI) => category.id === transaction.category
           ),
+          receivableDisplay: receivableDisplayFor(transaction),
         }
         return newTransaction
       })

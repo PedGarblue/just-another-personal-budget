@@ -185,14 +185,42 @@
         "create": {
           "success": "Receivable Created Successfully",
           "title": "Create a Receivable",
-          "restart": "Create Another Receivable"
+          "restart": "Create Another Receivable",
+          "manual_hint": "Principal amounts come from loan expense transactions (negative amount with “loan given”). Use this form only for manual metadata rows."
         },
         "update": {
           "success": "Receivable Updated Successfully",
           "title": "Update Receivable"
         },
         "delete": {
-          "success": "Receivable Updated Successfully"
+          "success": "Receivable Deleted Successfully"
+        },
+        "form": {
+          "description": "Description",
+          "contact": "Contact",
+          "due_date": "Due date"
+        },
+        "table": {
+          "description": "Description",
+          "contact": "Contact",
+          "due_date": "Due date",
+          "principal_usd": "Principal (USD)",
+          "paid_usd": "Paid (USD)",
+          "outstanding_usd": "Outstanding (USD)",
+          "status": "Status",
+          "ledger": "Ledger",
+          "operation": "Operation"
+        },
+        "ledger": {
+          "button": "Transactions",
+          "open": "View linked transactions",
+          "title": "Linked transactions",
+          "empty": "No linked transactions yet.",
+          "close": "Close",
+          "col_date": "Date",
+          "col_amount": "Amount",
+          "col_usd": "USD",
+          "col_description": "Description"
         }
       }
     },
@@ -272,7 +300,29 @@
     "amount": "Amount",
     "operation": "Operations",
     "no_category": "No Category",
-    "to_main_currency_amount": "To USD"
+    "to_main_currency_amount": "To USD",
+    "receivable": "Receivable",
+    "receivable_loan": "Loan",
+    "receivable_collection": "Collection",
+    "loan": {
+      "advanced_show": "Loan & receivable options",
+      "advanced_hide": "Hide loan & receivable options",
+      "checkbox_label": "Loan given (creates / links a receivable)",
+      "loan_help": "Use with a negative expense amount and Contact. Do not pick a receivable below.",
+      "collection_select_title": "Payment toward receivable (collection)",
+      "collection_help": "Optional for income: choose an existing receivable this payment settles.",
+      "no_receivable": "None",
+      "outstanding_suffix": "outstanding",
+      "contact_title": "Borrower / contact",
+      "due_date_title": "Loan due date (optional)",
+      "due_date_placeholder": "Leave empty to default from transaction date",
+      "errors": {
+        "expense_negative": "A loan must be recorded as an expense with a negative amount.",
+        "contact_required": "Contact is required when marking a loan.",
+        "income_positive": "A collection toward a receivable must use a positive income amount.",
+        "category_required": "Please choose a category for this transaction."
+      }
+    }
   },
   "exchanges": {
     "create": {

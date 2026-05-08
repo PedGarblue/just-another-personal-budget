@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { Trash2 } from 'lucide-vue-next'
 import type { PropType } from 'vue'
-import type { DisplayTransaction } from '~~/types/transactionTypes'
+import type { ReceivableAPIItem } from '~~/api/receivables'
 import { deleteReceivable } from '~~/api/receivables'
 import { useNotificationsStore } from '~~/stores/notifications'
 
@@ -16,7 +16,7 @@ const emits = defineEmits(['form-finished'])
 
 const props = defineProps({
   receivable: {
-    type: Object as PropType<DisplayTransaction>,
+    type: Object as PropType<ReceivableAPIItem>,
     required: true,
   },
 })

@@ -8,17 +8,25 @@ export interface TransactionItemBase {
 }
 
 export interface TransactionBase {
-  amount: string
+  amount: string | number
   to_main_currency_amount?: string
   description: string
   account: number
   category?: number
-  date: Date
+  date: Date | string
   transaction_items?: TransactionItemBase[]
+  /** Loan expense: negative amount + is_loan + contact */
+  is_loan?: boolean
+  contact?: string
+  /** ISO date string (date-only); backend may default from transaction date */
+  loan_due_date?: string
+  /** Debt collection: income linked to receivable */
+  receivable?: number | null
 }
 
 // returns from the api
-export interface TransactionAPI extends TransactionBase {
+export interface TransactionAPI
+  extends Omit<TransactionBase, 'is_loan' | 'loan_due_date'> {
   id: number
 }
 

@@ -1,11 +1,11 @@
 <script lang="ts" setup>
+import { format } from 'date-fns'
 import { Edit } from 'lucide-vue-next'
 import type { PropType } from 'vue'
-import { useAccounts } from '~~/stores/accounts'
-import Modal from '~~/components/Modal.vue'
-import { useNotificationsStore } from '~~/stores/notifications'
 import type { ReceivableAPIItem } from '~~/api/receivables'
 import { patchReceivable } from '~~/api/receivables'
+import Modal from '~~/components/Modal.vue'
+import { useNotificationsStore } from '~~/stores/notifications'
 
 const emits = defineEmits(['form-finished'])
 
@@ -16,62 +16,35 @@ const props = defineProps({
   },
 })
 
-// data
 const { t } = useLang()
 const modal = ref<InstanceType<typeof Modal> | null>(null)
-const accountsState = useAccounts()
-const accountsList = accountsState.getAccounts
 const notifications = useNotificationsStore()
+
+const dueDefault = props.receivable.due_date
+  ? new Date(props.receivable.due_date)
+  : new Date()
 
 const fields = [
   {
     key: 'description',
-    title: 'Description',
-    default: props.receivable.description,
-    value: props.receivable.description,
-  },
-  {
-    key: 'amount_given',
-    title: 'Amount Given',
-    default: props.receivable.amount_given,
-    value: props.receivable.amount_given,
-    componentProps: {
-      type: 'number',
-    },
-  },
-  {
-    key: 'amount_to_receive',
-    title: 'Amount to Receive',
-    default: props.receivable.amount_to_receive,
-    value: props.receivable.amount_to_receive,
-    componentProps: {
-      type: 'number',
-    },
-  },
-  {
-    key: 'amount_paid',
-    title: 'Amount Paid',
-    default: props.receivable.amount_paid,
-    value: props.receivable.amount_paid,
-    componentProps: {
-      type: 'number',
-    },
-  },
-  {
-    key: 'status',
-    title: 'Status',
-    default: props.receivable.status,
-    value: props.receivable.status,
+    title: t('pages.investments.receivables.form.description'),
+    default: props.receivable.description ?? '',
+    value: props.receivable.description ?? '',
   },
   {
     key: 'contact',
-    title: 'Contact',
-    default: props.receivable.contact,
-    value: props.receivable.contact,
+    title: t('pages.investments.receivables.form.contact'),
+    default: props.receivable.contact ?? '',
+    value: props.receivable.contact ?? '',
+  },
+  {
+    key: 'due_date',
+    title: t('pages.investments.receivables.form.due_date'),
+    default: dueDefault,
+    datePicker: true,
+    value: dueDefault,
   },
 ]
-
-// methods
 
 const openModal = () => {
   modal.value?.open()
@@ -80,10 +53,19 @@ const openModal = () => {
 const closeModal = () => {
   modal.value?.close()
 }
-const submit = (data: any) => {
-  return patchReceivable(props.receivable.id, {
-    ...data,
-  })
+
+const submit = (data: Record<string, unknown>) => {
+  const payload: Record<string, string> = {}
+  if (typeof data.description === 'string') {
+    payload.description = data.description.trim()
+  }
+  if (typeof data.contact === 'string') {
+    payload.contact = data.contact.trim()
+  }
+  if (data.due_date instanceof Date) {
+    payload.due_date = format(data.due_date, 'yyyy-MM-dd')
+  }
+  return patchReceivable(props.receivable.id, payload)
 }
 
 const finish = () => {

@@ -14,4 +14,6 @@ export interface DisplayTransaction extends TransactionAPI {
   amountWithCurrency: string
   toMainCurrencyAmount?: string
   categoryData?: CategoryAPI
+  /** Loan vs collection label when linked to a receivable */
+  receivableDisplay: string
 }
