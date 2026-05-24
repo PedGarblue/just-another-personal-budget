@@ -31,7 +31,41 @@ function formatValidationMessages(data: unknown): string | null {
   return null
 }
 
+function getErrorPayload(error: unknown): unknown {
+  const sources = [error]
+  if (typeof error === 'object' && error !== null && 'cause' in error) {
+    sources.push((error as { cause?: unknown }).cause)
+  }
+
+  for (const source of sources) {
+    if (typeof source !== 'object' || source === null) {
+      continue
+    }
+
+    const candidate = source as {
+      data?: unknown
+      response?: { _data?: unknown }
+    }
+
+    if (candidate.data !== undefined) {
+      return candidate.data
+    }
+
+    if (candidate.response?._data !== undefined) {
+      return candidate.response._data
+    }
+  }
+
+  return undefined
+}
+
 export function toAPIError(error: unknown): Error {
+  const payload = getErrorPayload(error)
+  const validationMessage = formatValidationMessages(payload)
+  if (validationMessage) {
+    return new Error(validationMessage)
+  }
+
   if (error instanceof Error) {
     return error
   }
@@ -42,15 +76,9 @@ export function toAPIError(error: unknown): Error {
 
   if (typeof error === 'object' && error !== null) {
     const fetchError = error as {
-      data?: unknown
       message?: string
       statusMessage?: string
       status?: number
-    }
-
-    const validationMessage = formatValidationMessages(fetchError.data)
-    if (validationMessage) {
-      return new Error(validationMessage)
     }
 
     if (fetchError.message) {

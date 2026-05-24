@@ -1,5 +1,4 @@
-import { useAPIAuth as useAPI } from '@/composables/useAPIAuth'
-import { assertAPIOk, unwrapAPIResponse } from '@/utils/apiError'
+import { fetchAPIAuth, useAPIAuth as useAPI } from '@/composables/useAPIAuth'
 import type { ProductAPI } from '~~/types/products'
 import type { APITransactionResponse } from '~~/types/transactionTypes'
 
@@ -29,6 +28,7 @@ export interface TransactionBase {
 export interface TransactionAPI
   extends Omit<TransactionBase, 'is_loan' | 'loan_due_date'> {
   id: number
+  contact_id?: number
 }
 
 export interface FetchTransactionsParams {
@@ -95,10 +95,10 @@ export default async function fetchTransactions(
 export async function createTransaction(
   data: TransactionBase,
   items: ProductAPI[] = []
-): Promise<TransactionAPI | null> {
+): Promise<TransactionAPI[]> {
   const runtimeConfig = useRuntimeConfig()
   const url = `${runtimeConfig.public.apiUrl}/transactions/`
-  const result = await useAPI<TransactionAPI>(url, {
+  const value = await fetchAPIAuth<TransactionAPI | TransactionAPI[]>(url, {
     method: 'POST',
     body: {
       ...data,
@@ -107,8 +107,8 @@ export async function createTransaction(
         amount: 1,
       })),
     },
-  } as object)
-  return unwrapAPIResponse(result)
+  })
+  return Array.isArray(value) ? value : [value]
 }
 
 export async function updateTransaction(
@@ -118,7 +118,7 @@ export async function updateTransaction(
 ): Promise<TransactionAPI | null> {
   const runtimeConfig = useRuntimeConfig()
   const url = `${runtimeConfig.public.apiUrl}/transactions/${pk}/`
-  const result = await useAPI<TransactionAPI>(url, {
+  return await fetchAPIAuth<TransactionAPI>(url, {
     method: 'PUT',
     body: {
       ...data,
@@ -127,15 +127,13 @@ export async function updateTransaction(
         amount: 1,
       })),
     },
-  } as object)
-  return unwrapAPIResponse(result)
+  })
 }
 
 export async function deleteTransaction(pk: number) {
   const runtimeConfig = useRuntimeConfig()
   const url = `${runtimeConfig.public.apiUrl}/transactions/${pk}/`
-  const result = await useAPI(url, {
+  await fetchAPIAuth(url, {
     method: 'DELETE',
   })
-  assertAPIOk(result)
 }

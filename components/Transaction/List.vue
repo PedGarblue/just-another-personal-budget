@@ -99,11 +99,18 @@ const headers = computed<Header[]>(() => [
 
 function receivableDisplayFor(transaction: TransactionAPI): string {
   const rid = transaction.receivable
+  const contactLabel = transaction.contact?.trim()
   if (rid == null || rid === 0) return '—'
   const amt = Number(transaction.amount)
-  if (Number.isNaN(amt)) return `#${rid}`
-  if (amt < 0) return `${t('transactions.receivable_loan')} #${rid}`
-  return `${t('transactions.receivable_collection')} #${rid}`
+  if (Number.isNaN(amt)) {
+    return contactLabel ? `${contactLabel} #${rid}` : `#${rid}`
+  }
+  const kind =
+    amt < 0
+      ? t('transactions.receivable_loan')
+      : t('transactions.receivable_collection')
+  if (contactLabel) return `${kind} · ${contactLabel}`
+  return `${kind} #${rid}`
 }
 
 // computed

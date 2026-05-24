@@ -1,4 +1,6 @@
 import { format } from 'date-fns'
+import type { Contact } from '~~/api/contacts'
+import { getContactList } from '~~/api/contacts'
 import type { ReceivableAPIItem } from '~~/api/receivables'
 import { getReceivableList } from '~~/api/receivables'
 import type { TransactionBase } from '~~/api/transactions'
@@ -16,24 +18,51 @@ export function useTransactionLoanReceivable() {
   const isLoan = ref(false)
   const loanContact = ref('')
   const loanDueDate = ref<Date | null>(null)
+  const collectionContactName = ref('')
   const collectionReceivableId = ref(0)
+  const contactRows = ref<Contact[]>([])
   const receivableRows = ref<ReceivableAPIItem[]>([])
   const advancedLoanReceivableOpen = ref(false)
 
   watch(isLoan, (on) => {
-    if (on) collectionReceivableId.value = 0
+    if (on) {
+      collectionReceivableId.value = 0
+      collectionContactName.value = ''
+    }
+  })
+
+  watch(collectionContactName, (name) => {
+    if (name) {
+      isLoan.value = false
+      collectionReceivableId.value = 0
+    }
   })
 
   watch(collectionReceivableId, (id) => {
-    if (id > 0) isLoan.value = false
+    if (id > 0) {
+      isLoan.value = false
+      collectionContactName.value = ''
+    }
   })
 
   function receivableOptionLabel(r: ReceivableAPIItem) {
-    const label = r.description?.trim() || r.contact?.trim() || `#${r.id}`
+    const label = r.description?.trim() || r.contact_name?.trim() || `#${r.id}`
     const out = Number(r.outstanding_usd ?? 0)
     return `${label} (#${r.id}) · $${out.toFixed(2)} ${t(
       'transactions.loan.outstanding_suffix'
     )}`
+  }
+
+  function contactOptionLabel(c: Contact) {
+    const out = Number(c.total_outstanding_usd ?? 0)
+    return `${c.name} · $${out.toFixed(2)} ${t(
+      'transactions.loan.outstanding_suffix'
+    )}`
+  }
+
+  async function loadContactRows() {
+    const data = await getContactList({ page_size: 500 })
+    contactRows.value = data?.results ?? []
   }
 
   async function loadReceivableRows() {
@@ -41,18 +70,24 @@ export function useTransactionLoanReceivable() {
     receivableRows.value = data?.results ?? []
   }
 
+  async function loadLoanReceivableOptions() {
+    await Promise.all([loadContactRows(), loadReceivableRows()])
+  }
+
   function resetLoanCollectionUi() {
     advancedLoanReceivableOpen.value = false
     isLoan.value = false
     loanContact.value = ''
     loanDueDate.value = null
+    collectionContactName.value = ''
     collectionReceivableId.value = 0
   }
 
   /** Before opening the update modal: clear loan fields, sync collection + advanced toggle from existing tx */
   function prepareUpdateModalState(
     amount: string | number,
-    receivableId: number | null | undefined
+    receivableId: number | null | undefined,
+    contactName?: string | null
   ) {
     isLoan.value = false
     loanContact.value = ''
@@ -61,10 +96,16 @@ export function useTransactionLoanReceivable() {
     const rid = receivableId
     if (amt > 0 && rid != null && rid > 0) {
       collectionReceivableId.value = rid
+      collectionContactName.value = ''
+    } else if (amt > 0 && contactName?.trim()) {
+      collectionContactName.value = contactName.trim()
+      collectionReceivableId.value = 0
     } else {
       collectionReceivableId.value = 0
+      collectionContactName.value = ''
     }
-    advancedLoanReceivableOpen.value = rid != null && rid > 0
+    advancedLoanReceivableOpen.value =
+      rid != null && rid > 0 ? true : !!contactName?.trim()
   }
 
   function validateLoanReceivableForm(
@@ -77,6 +118,12 @@ export function useTransactionLoanReceivable() {
       }
       if (!loanContact.value.trim()) {
         throw new Error(t('transactions.loan.errors.contact_required'))
+      }
+      return
+    }
+    if (collectionContactName.value) {
+      if (!(amount > 0)) {
+        throw new Error(t('transactions.loan.errors.income_positive'))
       }
       return
     }
@@ -113,6 +160,12 @@ export function useTransactionLoanReceivable() {
       return body
     }
 
+    if (collectionContactName.value) {
+      body.contact = collectionContactName.value
+      if (cat?.id != null) body.category = cat.id
+      return body
+    }
+
     if (collectionReceivableId.value > 0) {
       body.receivable = collectionReceivableId.value
       if (cat?.id != null) body.category = cat.id
@@ -127,13 +180,18 @@ export function useTransactionLoanReceivable() {
     isLoan,
     loanContact,
     loanDueDate,
+    collectionContactName,
     collectionReceivableId,
+    contactRows,
     receivableRows,
     advancedLoanReceivableOpen,
+    loadContactRows,
     loadReceivableRows,
+    loadLoanReceivableOptions,
     resetLoanCollectionUi,
     prepareUpdateModalState,
     receivableOptionLabel,
+    contactOptionLabel,
     validateLoanReceivableForm,
     buildTransactionBodyWithLoan,
   }

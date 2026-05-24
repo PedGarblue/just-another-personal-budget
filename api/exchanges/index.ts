@@ -1,6 +1,5 @@
 import type { TransactionAPI } from '../transactions'
-import { useAPIAuth as useAPI } from '~~/composables/useAPIAuth'
-import { unwrapAPIResponse } from '~~/utils/apiError'
+import { fetchAPIAuth } from '~~/composables/useAPIAuth'
 
 interface ExchangeFields {
   date: string
@@ -17,6 +16,5 @@ export async function createExchange(data: ExchangeFields) {
     method: 'POST',
     body: data,
   }
-  const result = await useAPI<[TransactionAPI]>(url, options as object)
-  return unwrapAPIResponse(result)
+  return await fetchAPIAuth<[TransactionAPI]>(url, options)
 }

@@ -12,8 +12,7 @@ import type {
   ProductListItemBase,
   ProductListItemCreate,
 } from '../../types/products'
-import { useAPIAuth as useAPI } from '~~/composables/useAPIAuth'
-import { assertAPIOk, unwrapAPIResponse } from '~~/utils/apiError'
+import { fetchAPIAuth, useAPIAuth as useAPI } from '~~/composables/useAPIAuth'
 
 export async function getProductIndex(
   baseUrlString: string | null = null,
@@ -78,8 +77,7 @@ export async function createProduct(
     method: 'POST',
     body: data,
   }
-  const result = await useAPI<ProductAPI>(url, options as object)
-  return unwrapAPIResponse(result)
+  return await fetchAPIAuth<ProductAPI>(url, options)
 }
 
 export async function updateProduct(
@@ -91,8 +89,7 @@ export async function updateProduct(
     method: 'PUT',
     body: data,
   }
-  const result = await useAPI<ProductAPI>(url, options as object)
-  return unwrapAPIResponse(result)
+  return await fetchAPIAuth<ProductAPI>(url, options)
 }
 
 export async function getProductListIndex(): Promise<ProductListAPIResponse | null> {
@@ -115,11 +112,10 @@ export async function createProductList(
   data: ProductListCreate
 ): Promise<ProductListAPI | null> {
   const url = `/products-list/`
-  const result = await useAPI<ProductListAPI>(url, {
+  return await fetchAPIAuth<ProductListAPI>(url, {
     method: 'POST',
     body: data,
-  } as object)
-  return unwrapAPIResponse(result)
+  })
 }
 
 export async function updateProductList(
@@ -127,11 +123,10 @@ export async function updateProductList(
   data: ProductListBase
 ): Promise<ProductListAPI | null> {
   const url = `/products-list/${pk}/`
-  const result = await useAPI<ProductListAPI>(url, {
+  return await fetchAPIAuth<ProductListAPI>(url, {
     method: 'PUT',
     body: data,
-  } as object)
-  return unwrapAPIResponse(result)
+  })
 }
 
 export async function getProductListItemIndex(
@@ -168,11 +163,10 @@ export async function createProductListItem(
   data: ProductListItemCreate
 ): Promise<ProductListItemAPI | null> {
   const url = `/products-list-item/`
-  const result = await useAPI<ProductListItemAPI>(url, {
+  return await fetchAPIAuth<ProductListItemAPI>(url, {
     method: 'POST',
     body: data,
-  } as object)
-  return unwrapAPIResponse(result)
+  })
 }
 
 export async function updateProductListItem(
@@ -180,27 +174,24 @@ export async function updateProductListItem(
   data: ProductListItemBase
 ): Promise<ProductListItemAPI | null> {
   const url = `/products-list-item/${pk}/`
-  const result = await useAPI<ProductListItemAPI>(url, {
+  return await fetchAPIAuth<ProductListItemAPI>(url, {
     method: 'PUT',
     body: data,
-  } as object)
-  return unwrapAPIResponse(result)
+  })
 }
 
 export async function deleteProduct(pk: number): Promise<boolean> {
   const url = `/products/${pk}/`
-  const result = await useAPI(url, {
+  await fetchAPIAuth(url, {
     method: 'DELETE',
   })
-  assertAPIOk(result)
   return true
 }
 
 export async function deleteProductListItem(pk: number): Promise<boolean> {
   const url = `/products-list-item/${pk}/`
-  const result = await useAPI(url, {
+  await fetchAPIAuth(url, {
     method: 'DELETE',
   })
-  assertAPIOk(result)
   return true
 }

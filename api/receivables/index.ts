@@ -2,9 +2,11 @@ import type {
   ReceivableAPIItem,
   ReceivableWrite,
 } from '~~/types/receivablesTypes'
+import type { ReceivableGroup } from '~~/types/contactsTypes'
 import type { APIResourceResponse } from '~~/types/api'
-import { useAPIAuth as useAPI } from '~~/composables/useAPIAuth'
-import { assertAPIOk, unwrapAPIResponse } from '~~/utils/apiError'
+import { fetchAPIAuth, useAPIAuth as useAPI } from '~~/composables/useAPIAuth'
+
+export type { ReceivableGroup } from '~~/types/contactsTypes'
 
 export type {
   ReceivableAPIItem,
@@ -29,6 +31,15 @@ export async function getReceivableList(params?: {
   return data.value
 }
 
+export async function getReceivablesGroupedByContact(): Promise<
+  ReceivableGroup[] | null
+> {
+  const { data } = await useAPI<ReceivableGroup[]>(
+    '/receivables/?group_by=contact'
+  )
+  return data.value
+}
+
 export async function getReceivable(
   pk: number
 ): Promise<ReceivableAPIItem | null> {
@@ -41,11 +52,10 @@ export async function createReceivable(
   data: ReceivableWrite
 ): Promise<ReceivableAPIItem | null> {
   const url = `/receivables/`
-  const result = await useAPI<ReceivableAPIItem>(url, {
+  return await fetchAPIAuth<ReceivableAPIItem>(url, {
     method: 'POST',
     body: data,
-  } as object)
-  return unwrapAPIResponse(result)
+  })
 }
 
 export async function updateReceivable(
@@ -53,11 +63,10 @@ export async function updateReceivable(
   data: ReceivableWrite
 ): Promise<ReceivableAPIItem | null> {
   const url = `/receivables/${pk}/`
-  const result = await useAPI<ReceivableAPIItem>(url, {
+  return await fetchAPIAuth<ReceivableAPIItem>(url, {
     method: 'PUT',
     body: data,
-  } as object)
-  return unwrapAPIResponse(result)
+  })
 }
 
 export async function patchReceivable(
@@ -65,17 +74,15 @@ export async function patchReceivable(
   data: ReceivableWrite
 ): Promise<ReceivableAPIItem | null> {
   const url = `/receivables/${pk}/`
-  const result = await useAPI<ReceivableAPIItem>(url, {
+  return await fetchAPIAuth<ReceivableAPIItem>(url, {
     method: 'PATCH',
     body: data,
-  } as object)
-  return unwrapAPIResponse(result)
+  })
 }
 
 export async function deleteReceivable(pk: number) {
   const url = `/receivables/${pk}/`
-  const result = await useAPI(url, {
+  await fetchAPIAuth(url, {
     method: 'DELETE',
   })
-  assertAPIOk(result)
 }

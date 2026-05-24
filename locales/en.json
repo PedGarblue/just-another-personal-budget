@@ -221,6 +221,10 @@
           "col_amount": "Amount",
           "col_usd": "USD",
           "col_description": "Description"
+        },
+        "grouped": {
+          "empty": "No receivables yet. Record a loan expense or create receivable metadata.",
+          "summary": "{count} loan(s) · {outstanding} outstanding"
         }
       }
     },
@@ -308,12 +312,20 @@
       "advanced_show": "Loan & receivable options",
       "advanced_hide": "Hide loan & receivable options",
       "checkbox_label": "Loan given (creates / links a receivable)",
-      "loan_help": "Use with a negative expense amount and Contact. Do not pick a receivable below.",
+      "loan_help": "Use with a negative expense amount and Contact. Do not pick a collection below.",
+      "collection_mode_title": "Debt collection (income)",
+      "collection_mode_contact": "By contact",
+      "collection_mode_receivable": "By specific receivable",
+      "collection_contact_title": "Collect from contact",
+      "collection_contact_help": "Payment is allocated across open receivables for this contact (FIFO).",
       "collection_select_title": "Payment toward receivable (collection)",
-      "collection_help": "Optional for income: choose an existing receivable this payment settles.",
+      "collection_help": "Optional for income: choose a specific receivable this payment settles.",
+      "collection_multi_success": "Applied payment across {count} loans.",
+      "no_contact": "None",
       "no_receivable": "None",
       "outstanding_suffix": "outstanding",
       "contact_title": "Borrower / contact",
+      "contact_placeholder": "Contact name (case-sensitive)",
       "due_date_title": "Loan due date (optional)",
       "due_date_placeholder": "Leave empty to default from transaction date",
       "errors": {

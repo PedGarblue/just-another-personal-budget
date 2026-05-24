@@ -1,14 +1,14 @@
 <script lang="ts" setup>
-import { ListTree } from 'lucide-vue-next'
-import type { Header } from 'vue3-easy-data-table'
-import type { ReceivableAPIItem } from '~/api/receivables'
+import { ChevronDown, ListTree } from 'lucide-vue-next'
+import type { ReceivableAPIItem, ReceivableGroup } from '~/api/receivables'
 import type { ReceivableLinkedTransaction } from '~/types/receivablesTypes'
-import { getReceivableList } from '~/api/receivables'
+import { getReceivablesGroupedByContact } from '~/api/receivables'
 import Modal from '~/components/Modal.vue'
 
 const { t } = useLang()
 
-const receivables = ref<ReceivableAPIItem[]>([])
+const groups = ref<ReceivableGroup[]>([])
+const expandedContactIds = ref<Set<number>>(new Set())
 const ledgerModal = ref<InstanceType<typeof Modal> | null>(null)
 const ledgerTitle = ref('')
 const ledgerTransactions = ref<ReceivableLinkedTransaction[]>([])
@@ -18,40 +18,24 @@ function formatUsd(value: number | undefined | null) {
   return `$${n.toFixed(2)}`
 }
 
-const headers = computed<Header[]>(() => [
-  {
-    text: t('pages.investments.receivables.table.description'),
-    value: 'description',
-  },
-  { text: t('pages.investments.receivables.table.contact'), value: 'contact' },
-  {
-    text: t('pages.investments.receivables.table.due_date'),
-    value: 'due_date',
-  },
-  {
-    text: t('pages.investments.receivables.table.principal_usd'),
-    value: 'principal_usd',
-  },
-  {
-    text: t('pages.investments.receivables.table.paid_usd'),
-    value: 'paid_usd',
-  },
-  {
-    text: t('pages.investments.receivables.table.outstanding_usd'),
-    value: 'outstanding_usd',
-  },
-  { text: t('pages.investments.receivables.table.status'), value: 'status' },
-  { text: t('pages.investments.receivables.table.ledger'), value: 'ledger' },
-  {
-    text: t('pages.investments.receivables.table.operation'),
-    value: 'operation',
-  },
-])
+function toggleGroup(contactId: number) {
+  const next = new Set(expandedContactIds.value)
+  if (next.has(contactId)) {
+    next.delete(contactId)
+  } else {
+    next.add(contactId)
+  }
+  expandedContactIds.value = next
+}
+
+function isExpanded(contactId: number) {
+  return expandedContactIds.value.has(contactId)
+}
 
 const getReceivables = async () => {
-  const data = await getReceivableList({ page_size: 500 })
+  const data = await getReceivablesGroupedByContact()
   if (data) {
-    receivables.value = data.results || []
+    groups.value = data
   }
 }
 
@@ -60,7 +44,8 @@ const refreshTable = () => {
 }
 
 const openLedger = (row: ReceivableAPIItem) => {
-  ledgerTitle.value = row.description?.trim() || `#${row.id}`
+  ledgerTitle.value =
+    row.description?.trim() || row.contact_name?.trim() || `#${row.id}`
   ledgerTransactions.value = row.transactions ?? []
   ledgerModal.value?.open()
 }
@@ -85,40 +70,150 @@ onMounted(() => {
     <div class="flex flex-row w-full gap-4 mb-2">
       <ReceivablesCreate @form-finished="() => refreshTable()" />
     </div>
-    <EasyDataTable :headers="headers" :items="receivables">
-      <template #item-principal_usd="item">
-        {{ formatUsd(item.principal_usd) }}
-      </template>
-      <template #item-paid_usd="item">
-        {{ formatUsd(item.paid_usd) }}
-      </template>
-      <template #item-outstanding_usd="item">
-        {{ formatUsd(item.outstanding_usd) }}
-      </template>
-      <template #item-ledger="item">
+
+    <div
+      v-if="groups.length === 0"
+      class="py-8 text-center text-muted-foreground"
+    >
+      {{ t('pages.investments.receivables.grouped.empty') }}
+    </div>
+
+    <div v-else class="flex flex-col gap-3">
+      <div
+        v-for="group in groups"
+        :key="group.contact_id"
+        class="rounded-lg border border-border overflow-hidden"
+      >
         <button
           type="button"
-          class="inline-flex items-center gap-1 text-sm underline-offset-2 hover:underline"
-          :aria-label="t('pages.investments.receivables.ledger.open')"
-          @click="openLedger(item)"
+          class="flex w-full items-center justify-between gap-4 px-4 py-3 text-left hover:bg-muted/40 transition-colors"
+          :aria-expanded="isExpanded(group.contact_id)"
+          @click="toggleGroup(group.contact_id)"
         >
-          <ListTree class="h-4 w-4" />
-          {{ t('pages.investments.receivables.ledger.button') }}
+          <div class="min-w-0 flex-1">
+            <p class="font-semibold truncate">{{ group.contact }}</p>
+            <p class="text-sm text-muted-foreground mt-0.5">
+              {{
+                t('pages.investments.receivables.grouped.summary', {
+                  count: group.receivables.length,
+                  outstanding: formatUsd(group.total_outstanding_usd),
+                })
+              }}
+            </p>
+          </div>
+          <div class="hidden sm:flex shrink-0 gap-6 text-sm">
+            <div class="text-right">
+              <p class="text-muted-foreground text-xs">
+                {{ t('pages.investments.receivables.table.principal_usd') }}
+              </p>
+              <p class="font-medium">
+                {{ formatUsd(group.total_principal_usd) }}
+              </p>
+            </div>
+            <div class="text-right">
+              <p class="text-muted-foreground text-xs">
+                {{ t('pages.investments.receivables.table.paid_usd') }}
+              </p>
+              <p class="font-medium">{{ formatUsd(group.total_paid_usd) }}</p>
+            </div>
+            <div class="text-right">
+              <p class="text-muted-foreground text-xs">
+                {{ t('pages.investments.receivables.table.outstanding_usd') }}
+              </p>
+              <p class="font-medium">
+                {{ formatUsd(group.total_outstanding_usd) }}
+              </p>
+            </div>
+          </div>
+          <ChevronDown
+            class="h-5 w-5 shrink-0 opacity-70 transition-transform duration-200"
+            :class="{ 'rotate-180': isExpanded(group.contact_id) }"
+            aria-hidden="true"
+          />
         </button>
-      </template>
-      <template #item-operation="receivable">
-        <div class="flex flex-row gap-1 justify-center">
-          <ReceivablesUpdate
-            :receivable="receivable"
-            @form-finished="() => refreshTable()"
-          />
-          <ReceivablesDelete
-            :receivable="receivable"
-            @form-finished="() => refreshTable()"
-          />
+
+        <div
+          v-show="isExpanded(group.contact_id)"
+          class="border-t border-border overflow-x-auto"
+        >
+          <table class="w-full text-sm">
+            <thead class="bg-muted/30">
+              <tr>
+                <th class="px-4 py-2 text-left font-medium">
+                  {{ t('pages.investments.receivables.table.description') }}
+                </th>
+                <th class="px-4 py-2 text-left font-medium">
+                  {{ t('pages.investments.receivables.table.due_date') }}
+                </th>
+                <th class="px-4 py-2 text-right font-medium">
+                  {{ t('pages.investments.receivables.table.principal_usd') }}
+                </th>
+                <th class="px-4 py-2 text-right font-medium">
+                  {{ t('pages.investments.receivables.table.paid_usd') }}
+                </th>
+                <th class="px-4 py-2 text-right font-medium">
+                  {{ t('pages.investments.receivables.table.outstanding_usd') }}
+                </th>
+                <th class="px-4 py-2 text-left font-medium">
+                  {{ t('pages.investments.receivables.table.status') }}
+                </th>
+                <th class="px-4 py-2 text-center font-medium">
+                  {{ t('pages.investments.receivables.table.ledger') }}
+                </th>
+                <th class="px-4 py-2 text-center font-medium">
+                  {{ t('pages.investments.receivables.table.operation') }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="receivable in group.receivables"
+                :key="receivable.id"
+                class="border-t border-border/60"
+              >
+                <td class="px-4 py-2">{{ receivable.description || '—' }}</td>
+                <td class="px-4 py-2 whitespace-nowrap">
+                  {{ receivable.due_date }}
+                </td>
+                <td class="px-4 py-2 text-right">
+                  {{ formatUsd(receivable.principal_usd) }}
+                </td>
+                <td class="px-4 py-2 text-right">
+                  {{ formatUsd(receivable.paid_usd) }}
+                </td>
+                <td class="px-4 py-2 text-right">
+                  {{ formatUsd(receivable.outstanding_usd) }}
+                </td>
+                <td class="px-4 py-2">{{ receivable.status }}</td>
+                <td class="px-4 py-2 text-center">
+                  <button
+                    type="button"
+                    class="inline-flex items-center gap-1 text-sm underline-offset-2 hover:underline"
+                    :aria-label="t('pages.investments.receivables.ledger.open')"
+                    @click="openLedger(receivable)"
+                  >
+                    <ListTree class="h-4 w-4" />
+                    {{ t('pages.investments.receivables.ledger.button') }}
+                  </button>
+                </td>
+                <td class="px-4 py-2">
+                  <div class="flex flex-row gap-1 justify-center">
+                    <ReceivablesUpdate
+                      :receivable="receivable"
+                      @form-finished="() => refreshTable()"
+                    />
+                    <ReceivablesDelete
+                      :receivable="receivable"
+                      @form-finished="() => refreshTable()"
+                    />
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-      </template>
-    </EasyDataTable>
+      </div>
+    </div>
 
     <Modal ref="ledgerModal">
       <template #contents>

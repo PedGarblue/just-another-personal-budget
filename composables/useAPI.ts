@@ -1,4 +1,5 @@
 import type { UseFetchOptions } from 'nuxt/app'
+import { toAPIError } from '~~/utils/apiError'
 
 export function useAPI<T>(
   url: string | (() => string),
@@ -10,4 +11,15 @@ export function useAPI<T>(
     ...options,
     $fetch: useNuxtApp().$api,
   })
+}
+
+export async function fetchAPI<T>(
+  url: string,
+  options: Record<string, unknown> = {}
+): Promise<T> {
+  try {
+    return await useNuxtApp().$api<T>(url, options)
+  } catch (error) {
+    throw toAPIError(error)
+  }
 }

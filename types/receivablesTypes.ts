@@ -1,6 +1,7 @@
 /** Fields accepted by POST/PATCH /receivables/ */
 export interface ReceivableWrite {
   description?: string
+  /** Write-only contact name */
   contact?: string
   due_date?: string
 }
@@ -15,13 +16,17 @@ export interface ReceivableLinkedTransaction {
 }
 
 /** GET list/detail response row */
-export interface ReceivableAPIItem extends ReceivableWrite {
+export interface ReceivableAPIItem {
   id: number
-  created_at?: string
-  updated_at?: string
+  description: string
+  contact_id: number
+  contact_name: string
+  due_date: string
   principal_usd: number
   paid_usd: number
   outstanding_usd: number
-  status: string
+  status: 'PAID' | 'UNPAID'
   transactions?: ReceivableLinkedTransaction[]
+  created_at?: string
+  updated_at?: string
 }

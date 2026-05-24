@@ -15,7 +15,21 @@ describe('toAPIError', () => {
     expect(error.message).toBe('[POST] "/token/": 401 Unauthorized')
   })
 
-  it('formats DRF validation payloads', () => {
+  it('formats validation payloads from real FetchError instances', async () => {
+    const { FetchError } = await import('ofetch')
+    const fetchError = new FetchError(
+      '[PUT] "http://localhost:8000/api/v1/transactions/2186/": 400 Bad Request'
+    )
+    fetchError.data = {
+      contact: ['No open receivables for this contact.'],
+    }
+
+    expect(toAPIError(fetchError).message).toBe(
+      'contact: No open receivables for this contact.'
+    )
+  })
+
+  it('formats DRF validation payloads on plain objects', () => {
     const error = toAPIError({
       data: {
         amount: ['This field is required.'],

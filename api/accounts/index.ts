@@ -1,6 +1,5 @@
 import { APIResourceResponse } from '~~/types/api'
-import { useAPIAuth as useAPI } from '~~/composables/useAPIAuth'
-import { unwrapAPIResponse } from '~~/utils/apiError'
+import { useAPIAuth as useAPI, fetchAPIAuth } from '~~/composables/useAPIAuth'
 
 export interface Account {
   id: number
@@ -32,9 +31,8 @@ export async function createAccount(
   form: AccountForm
 ): Promise<Account | null> {
   const urlAccounts = `/accounts/`
-  const result = await useAPI<Account>(urlAccounts, {
+  return await fetchAPIAuth<Account>(urlAccounts, {
     method: 'POST',
     body: form,
-  } as object)
-  return unwrapAPIResponse(result)
+  })
 }

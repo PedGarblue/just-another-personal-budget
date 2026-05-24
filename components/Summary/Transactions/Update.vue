@@ -32,12 +32,15 @@ const {
   isLoan,
   loanContact,
   loanDueDate,
+  collectionContactName,
   collectionReceivableId,
+  contactRows,
   receivableRows,
   advancedLoanReceivableOpen,
-  loadReceivableRows,
+  loadLoanReceivableOptions,
   prepareUpdateModalState,
   receivableOptionLabel,
+  contactOptionLabel,
   validateLoanReceivableForm,
   buildTransactionBodyWithLoan,
 } = useTransactionLoanReceivable()
@@ -108,10 +111,11 @@ const fields: FormField[] = [
 const transactionItems = ref<ProductAPI[]>([])
 
 const openModal = async () => {
-  await loadReceivableRows()
+  await loadLoanReceivableOptions()
   prepareUpdateModalState(
     props.transaction.amount,
-    props.transaction.receivable
+    props.transaction.receivable,
+    props.transaction.contact
   )
   modal.value?.open()
 }
@@ -156,10 +160,15 @@ const finish = () => {
               v-model:is-loan="isLoan"
               v-model:loan-contact="loanContact"
               v-model:loan-due-date="loanDueDate"
+              v-model:collection-contact-name="collectionContactName"
               v-model:collection-receivable-id="collectionReceivableId"
+              :contact-rows="contactRows"
               :receivable-rows="receivableRows"
               :receivable-option-label="receivableOptionLabel"
-              collection-select-id="update-collection-receivable"
+              :contact-option-label="contactOptionLabel"
+              collection-contact-select-id="update-collection-contact"
+              collection-receivable-select-id="update-collection-receivable"
+              loan-contact-input-id="update-loan-contact-input"
             />
             <div class="mt-4">
               <SummaryTransactionsTransactionItemsPicker

@@ -23,15 +23,20 @@ const {
   isLoan,
   loanContact,
   loanDueDate,
+  collectionContactName,
   collectionReceivableId,
+  contactRows,
   receivableRows,
   advancedLoanReceivableOpen,
-  loadReceivableRows,
+  loadLoanReceivableOptions,
   resetLoanCollectionUi,
   receivableOptionLabel,
+  contactOptionLabel,
   validateLoanReceivableForm,
   buildTransactionBodyWithLoan,
 } = useTransactionLoanReceivable()
+
+const lastCreatedCount = ref(0)
 
 const fields = computed<FormField[]>(() => [
   {
@@ -104,7 +109,7 @@ const transactionItems = ref<ProductAPI[]>([])
 
 const openModal = async () => {
   resetLoanCollectionUi()
-  await loadReceivableRows()
+  await loadLoanReceivableOptions()
   modal.value?.open()
 }
 
@@ -112,17 +117,24 @@ const closeModal = () => {
   modal.value?.close()
 }
 
-const submit = (data: any) => {
+const submit = async (data: any) => {
   const amount = Number(data.amount)
   validateLoanReceivableForm(data, amount)
   const body = buildTransactionBodyWithLoan(data, amount)
-  return createTransaction(body, transactionItems.value)
+  const created = await createTransaction(body, transactionItems.value)
+  lastCreatedCount.value = created.length
+  return created
 }
 
 const finishCreate = () => {
+  const count = lastCreatedCount.value
+  const text =
+    collectionContactName.value && count > 1
+      ? t('transactions.loan.collection_multi_success', { count })
+      : t('pages.summary.transactions.create.success')
   notifications.addNotification({
     type: 'success',
-    text: t('pages.summary.transactions.create.success'),
+    text,
   })
   resetLoanCollectionUi()
   closeModal()
@@ -167,10 +179,15 @@ onUnmounted(() => {
               v-model:is-loan="isLoan"
               v-model:loan-contact="loanContact"
               v-model:loan-due-date="loanDueDate"
+              v-model:collection-contact-name="collectionContactName"
               v-model:collection-receivable-id="collectionReceivableId"
+              :contact-rows="contactRows"
               :receivable-rows="receivableRows"
               :receivable-option-label="receivableOptionLabel"
-              collection-select-id="collection-receivable-select"
+              :contact-option-label="contactOptionLabel"
+              collection-contact-select-id="collection-contact-select"
+              collection-receivable-select-id="collection-receivable-select"
+              loan-contact-input-id="loan-contact-input"
             />
             <div class="mt-4">
               <SummaryTransactionsTransactionItemsPicker

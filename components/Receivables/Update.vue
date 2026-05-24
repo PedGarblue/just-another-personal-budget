@@ -34,8 +34,8 @@ const fields = [
   {
     key: 'contact',
     title: t('pages.investments.receivables.form.contact'),
-    default: props.receivable.contact ?? '',
-    value: props.receivable.contact ?? '',
+    default: props.receivable.contact_name ?? '',
+    value: props.receivable.contact_name ?? '',
   },
   {
     key: 'due_date',

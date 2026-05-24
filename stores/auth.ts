@@ -1,7 +1,7 @@
 // store/auth.ts
 import { defineStore } from 'pinia'
-import { useAPI } from '~~/composables/useAPI'
-import { assertAPIOk } from '~~/utils/apiError'
+import { fetchAPI } from '~~/composables/useAPI'
+import { toAPIError } from '~~/utils/apiError'
 import {
   AuthState,
   APIToken,
@@ -33,21 +33,14 @@ export const useAuthStore = defineStore({
   },
   actions: {
     async fetchToken(loginForm: LoginForm): Promise<boolean> {
-      const { data: apiToken, error: apiTokenError } = await useAPI<APIToken>(
-        '/token/',
-        {
-          method: 'POST',
-          body: loginForm,
-        } as object
-      )
-
-      if (apiTokenError.value || !apiToken.value) {
-        throw apiTokenError.value
-      }
+      const apiToken = await fetchAPI<APIToken>('/token/', {
+        method: 'POST',
+        body: loginForm,
+      })
 
       const runtimeConfig = useRuntimeConfig()
       const token: AppStoredToken = {
-        ...apiToken.value,
+        ...apiToken,
         access_expires: Date.now() + runtimeConfig.public.token.accessExpires,
         refresh_expires: Date.now() + runtimeConfig.public.token.refreshExpires,
       }
@@ -58,21 +51,16 @@ export const useAuthStore = defineStore({
     },
     async fetchUser(): Promise<User> {
       const token = this.getToken
-      const { data: apiUser, error } = await useAPI<User>('/user/me/', {
-        onRequest({ options }) {
-          options.headers = {
-            Authorization: `Bearer ${token?.access}`,
-          }
+      const apiUser = await fetchAPI<User>('/user/me/', {
+        headers: {
+          Authorization: `Bearer ${token?.access}`,
         },
       })
-      if (error.value || !apiUser.value) {
-        throw error.value
-      }
 
-      this.user = apiUser.value
+      this.user = apiUser
       localStorage.setItem('user', JSON.stringify(this.user))
 
-      return apiUser.value
+      return apiUser
     },
     async login(loginForm: LoginForm): Promise<boolean> {
       this.status = 'loading'
@@ -87,11 +75,10 @@ export const useAuthStore = defineStore({
       return true
     },
     async register(registerForm: RegisterForm): Promise<boolean> {
-      const result = await useAPI('/users/', {
+      await fetchAPI('/users/', {
         method: 'POST',
         body: registerForm,
-      } as object)
-      assertAPIOk(result)
+      })
       return true
     },
     async refreshToken(): Promise<APITokenRefresh> {
@@ -102,27 +89,27 @@ export const useAuthStore = defineStore({
         this.status = 'idle'
         throw new Error('Token expired')
       }
-      const { data, error } = await useAPI<APITokenRefresh>('/token/refresh/', {
-        method: 'POST',
-        body: { refresh: this.token.refresh },
-      } as object)
 
-      if (error.value || !data.value) {
-        // remove tokens if the refresh token is invalid
+      try {
+        const data = await fetchAPI<APITokenRefresh>('/token/refresh/', {
+          method: 'POST',
+          body: { refresh: this.token.refresh },
+        })
+
+        this.token.access = data.access
+
+        const runtimeConfig = useRuntimeConfig()
+        this.token.access_expires =
+          Date.now() + runtimeConfig.public.token.accessExpires
+
+        localStorage.setItem('token', JSON.stringify(this.token))
+        this.status = 'idle'
+        return data
+      } catch (error) {
         this.logout()
         this.status = 'error'
-        throw error.value
+        throw toAPIError(error)
       }
-
-      this.token.access = data.value.access
-
-      const runtimeConfig = useRuntimeConfig()
-      this.token.access_expires =
-        Date.now() + runtimeConfig.public.token.accessExpires
-
-      localStorage.setItem('token', JSON.stringify(this.token))
-      this.status = 'idle'
-      return data.value
     },
     async ensureValidAccessToken(): Promise<void> {
       if (!this.token?.access) return
