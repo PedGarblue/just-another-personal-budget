@@ -4,6 +4,7 @@ import type {
   IReportAccountApiItem,
 } from '~~/types/reportsTypes'
 import { useAPIAuth as useAPI } from '~~/composables/useAPIAuth'
+import { unwrapAPIResponse } from '~~/utils/apiError'
 
 export async function getReportAccountList(): Promise<
   [IReportAccountApiItem] | null
@@ -22,20 +23,20 @@ export async function createReportByAccount(
   report: IReportAccountItem
 ): Promise<IReportAccountApiItem | null> {
   const url = `/reports/`
-  const { data } = await useAPI<IReportAccountApiItem>(url, {
+  const result = await useAPI<IReportAccountApiItem>(url, {
     method: 'POST',
     body: JSON.stringify(report),
   } as object)
-  return data.value
+  return unwrapAPIResponse(result)
 }
 
 export async function updateReportByAccount(
   report: IReportAccountUpdateItem
 ): Promise<IReportAccountApiItem | null> {
   const url = `/reports/${report.id}/`
-  const { data } = await useAPI<IReportAccountApiItem>(url, {
+  const result = await useAPI<IReportAccountApiItem>(url, {
     method: 'PUT',
     body: JSON.stringify(report),
   } as object)
-  return data.value
+  return unwrapAPIResponse(result)
 }

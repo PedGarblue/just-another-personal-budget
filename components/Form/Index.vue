@@ -8,6 +8,7 @@ import type {
   ISelectFormField,
 } from '~~/types/formTypes'
 import { LoadingStatus } from '~~/types/formTypes'
+import { toAPIError } from '~~/utils/apiError'
 
 const isDatePickerField = (field: FormField): field is IDatePickerFormField => {
   return 'datePicker' in field
@@ -54,7 +55,18 @@ const tabindexCount = ref(1)
 // data
 
 const loadingState = ref<LoadingStatus>(LoadingStatus.IDLE)
-const error = ref<any>()
+const error = ref<Error | null>(null)
+
+const errorMessage = computed(() => {
+  if (!error.value) return ''
+  return toAPIError(error.value).message
+})
+
+const canSubmit = computed(
+  () =>
+    loadingState.value === LoadingStatus.IDLE ||
+    loadingState.value === LoadingStatus.ERROR
+)
 
 const getFieldTotalTabindex = (field: FormField): number => {
   if (isSelectField(field)) {
@@ -106,18 +118,23 @@ const getFieldsValues = computed((): Object => {
 })
 
 const submit = async () => {
-  if (loadingState.value !== LoadingStatus.IDLE) return
+  if (!canSubmit.value) return
   const data = getFieldsValues.value
+  error.value = null
   loadingState.value = LoadingStatus.LOADING
 
   try {
     const response = await props.formSubmitFn(data)
+    if (response === null || response === false) {
+      throw new Error('Request failed')
+    }
     loadingState.value = LoadingStatus.FINISHED
     emits('form-finished')
   } catch (submitError) {
-    emits('form-error', submitError)
+    const normalizedError = toAPIError(submitError)
+    emits('form-error', normalizedError)
     loadingState.value = LoadingStatus.ERROR
-    error.value = submitError
+    error.value = normalizedError
   }
 }
 </script>
@@ -130,7 +147,7 @@ const submit = async () => {
         v-if="loadingState === LoadingStatus.ERROR"
         class="bg-white border-2 border-red-600 p-4 text-center rounded-md"
       >
-        {{ error }}
+        {{ errorMessage }}
       </div>
     </CardTitle>
     <CardContent>

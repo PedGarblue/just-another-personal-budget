@@ -1,5 +1,6 @@
 import { useAPIAuth as useAPI } from '~~/composables/useAPIAuth'
 import type { CategoryAPI, CategoryBase } from '~~/types/categories'
+import { assertAPIOk, unwrapAPIResponse } from '~~/utils/apiError'
 
 export async function getCategoryList(): Promise<CategoryAPI[] | null> {
   const url = `/categories/`
@@ -15,8 +16,8 @@ export async function createCategory(
     method: 'POST',
     body: data,
   }
-  const { data: created } = await useAPI<CategoryAPI>(url, options as object)
-  return created.value
+  const result = await useAPI<CategoryAPI>(url, options as object)
+  return unwrapAPIResponse(result)
 }
 
 export async function updateCategory(
@@ -28,8 +29,8 @@ export async function updateCategory(
     method: 'PUT',
     body: data,
   }
-  const { data: updated } = await useAPI<CategoryAPI>(url, options as object)
-  return updated.value
+  const result = await useAPI<CategoryAPI>(url, options as object)
+  return unwrapAPIResponse(result)
 }
 
 export async function patchCategory(
@@ -41,13 +42,14 @@ export async function patchCategory(
     method: 'PATCH',
     body: data,
   }
-  const { data: updated } = await useAPI<CategoryAPI>(url, options as object)
-  return updated.value
+  const result = await useAPI<CategoryAPI>(url, options as object)
+  return unwrapAPIResponse(result)
 }
 
 export async function deleteCategory(pk: number) {
   const url = `/categories/${pk}/`
-  await useAPI(url, {
+  const result = await useAPI(url, {
     method: 'DELETE',
   })
+  assertAPIOk(result)
 }

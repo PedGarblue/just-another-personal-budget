@@ -1,6 +1,7 @@
 // store/auth.ts
 import { defineStore } from 'pinia'
 import { useAPI } from '~~/composables/useAPI'
+import { assertAPIOk } from '~~/utils/apiError'
 import {
   AuthState,
   APIToken,
@@ -86,10 +87,11 @@ export const useAuthStore = defineStore({
       return true
     },
     async register(registerForm: RegisterForm): Promise<boolean> {
-      await useAPI('/users/', {
+      const result = await useAPI('/users/', {
         method: 'POST',
         body: registerForm,
       } as object)
+      assertAPIOk(result)
       return true
     },
     async refreshToken(): Promise<APITokenRefresh> {

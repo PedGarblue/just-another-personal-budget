@@ -3,6 +3,7 @@ import { Trash2 } from 'lucide-vue-next'
 import type { PropType } from 'vue'
 import { deleteTransaction } from '~~/api/transactions'
 import { useNotificationsStore } from '~~/stores/notifications'
+import { toAPIError } from '~~/utils/apiError'
 import type { DisplayTransaction } from '~~/types/transactionTypes'
 
 enum LoadingStatus {
@@ -25,6 +26,7 @@ const props = defineProps({
 const { t } = useLang()
 const loadingState = ref<LoadingStatus>(LoadingStatus.IDLE)
 const notification = useNotificationsStore()
+const errorMessage = ref('')
 
 // methods
 const removeTransaction = async () => {
@@ -32,6 +34,7 @@ const removeTransaction = async () => {
   const { id } = props.transaction
 
   loadingState.value = LoadingStatus.LOADING
+  errorMessage.value = ''
 
   try {
     await deleteTransaction(id)
@@ -43,6 +46,11 @@ const removeTransaction = async () => {
     emits('form-finished')
   } catch (error) {
     loadingState.value = LoadingStatus.ERROR
+    errorMessage.value = toAPIError(error).message
+    notification.addNotification({
+      type: 'error',
+      text: errorMessage.value,
+    })
   }
 }
 </script>

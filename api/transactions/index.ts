@@ -1,4 +1,5 @@
 import { useAPIAuth as useAPI } from '@/composables/useAPIAuth'
+import { assertAPIOk, unwrapAPIResponse } from '@/utils/apiError'
 import type { ProductAPI } from '~~/types/products'
 import type { APITransactionResponse } from '~~/types/transactionTypes'
 
@@ -97,7 +98,7 @@ export async function createTransaction(
 ): Promise<TransactionAPI | null> {
   const runtimeConfig = useRuntimeConfig()
   const url = `${runtimeConfig.public.apiUrl}/transactions/`
-  const { data: created } = await useAPI<TransactionAPI>(url, {
+  const result = await useAPI<TransactionAPI>(url, {
     method: 'POST',
     body: {
       ...data,
@@ -107,7 +108,7 @@ export async function createTransaction(
       })),
     },
   } as object)
-  return created.value
+  return unwrapAPIResponse(result)
 }
 
 export async function updateTransaction(
@@ -117,7 +118,7 @@ export async function updateTransaction(
 ): Promise<TransactionAPI | null> {
   const runtimeConfig = useRuntimeConfig()
   const url = `${runtimeConfig.public.apiUrl}/transactions/${pk}/`
-  const { data: updated } = await useAPI<TransactionAPI>(url, {
+  const result = await useAPI<TransactionAPI>(url, {
     method: 'PUT',
     body: {
       ...data,
@@ -127,13 +128,14 @@ export async function updateTransaction(
       })),
     },
   } as object)
-  return updated.value
+  return unwrapAPIResponse(result)
 }
 
 export async function deleteTransaction(pk: number) {
   const runtimeConfig = useRuntimeConfig()
   const url = `${runtimeConfig.public.apiUrl}/transactions/${pk}/`
-  await useAPI(url, {
+  const result = await useAPI(url, {
     method: 'DELETE',
   })
+  assertAPIOk(result)
 }

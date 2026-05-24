@@ -1,5 +1,6 @@
 import { APIResourceResponse } from '~~/types/api'
 import { useAPIAuth as useAPI } from '~~/composables/useAPIAuth'
+import { unwrapAPIResponse } from '~~/utils/apiError'
 
 export interface Account {
   id: number
@@ -31,9 +32,9 @@ export async function createAccount(
   form: AccountForm
 ): Promise<Account | null> {
   const urlAccounts = `/accounts/`
-  const { data: account } = await useAPI<Account>(urlAccounts, {
+  const result = await useAPI<Account>(urlAccounts, {
     method: 'POST',
     body: form,
   } as object)
-  return account.value
+  return unwrapAPIResponse(result)
 }

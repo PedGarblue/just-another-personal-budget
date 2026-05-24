@@ -4,6 +4,7 @@ import type {
 } from '~~/types/receivablesTypes'
 import type { APIResourceResponse } from '~~/types/api'
 import { useAPIAuth as useAPI } from '~~/composables/useAPIAuth'
+import { assertAPIOk, unwrapAPIResponse } from '~~/utils/apiError'
 
 export type {
   ReceivableAPIItem,
@@ -40,11 +41,11 @@ export async function createReceivable(
   data: ReceivableWrite
 ): Promise<ReceivableAPIItem | null> {
   const url = `/receivables/`
-  const { data: created } = await useAPI<ReceivableAPIItem>(url, {
+  const result = await useAPI<ReceivableAPIItem>(url, {
     method: 'POST',
     body: data,
   } as object)
-  return created.value
+  return unwrapAPIResponse(result)
 }
 
 export async function updateReceivable(
@@ -52,11 +53,11 @@ export async function updateReceivable(
   data: ReceivableWrite
 ): Promise<ReceivableAPIItem | null> {
   const url = `/receivables/${pk}/`
-  const { data: updated } = await useAPI<ReceivableAPIItem>(url, {
+  const result = await useAPI<ReceivableAPIItem>(url, {
     method: 'PUT',
     body: data,
   } as object)
-  return updated.value
+  return unwrapAPIResponse(result)
 }
 
 export async function patchReceivable(
@@ -64,16 +65,17 @@ export async function patchReceivable(
   data: ReceivableWrite
 ): Promise<ReceivableAPIItem | null> {
   const url = `/receivables/${pk}/`
-  const { data: updated } = await useAPI<ReceivableAPIItem>(url, {
+  const result = await useAPI<ReceivableAPIItem>(url, {
     method: 'PATCH',
     body: data,
   } as object)
-  return updated.value
+  return unwrapAPIResponse(result)
 }
 
 export async function deleteReceivable(pk: number) {
   const url = `/receivables/${pk}/`
-  await useAPI(url, {
+  const result = await useAPI(url, {
     method: 'DELETE',
   })
+  assertAPIOk(result)
 }

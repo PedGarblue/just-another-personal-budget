@@ -13,6 +13,7 @@ import type {
   ProductListItemCreate,
 } from '../../types/products'
 import { useAPIAuth as useAPI } from '~~/composables/useAPIAuth'
+import { assertAPIOk, unwrapAPIResponse } from '~~/utils/apiError'
 
 export async function getProductIndex(
   baseUrlString: string | null = null,
@@ -77,8 +78,8 @@ export async function createProduct(
     method: 'POST',
     body: data,
   }
-  const { data: created } = await useAPI<ProductAPI>(url, options as object)
-  return created.value
+  const result = await useAPI<ProductAPI>(url, options as object)
+  return unwrapAPIResponse(result)
 }
 
 export async function updateProduct(
@@ -90,8 +91,8 @@ export async function updateProduct(
     method: 'PUT',
     body: data,
   }
-  const { data: updated } = await useAPI<ProductAPI>(url, options as object)
-  return updated.value
+  const result = await useAPI<ProductAPI>(url, options as object)
+  return unwrapAPIResponse(result)
 }
 
 export async function getProductListIndex(): Promise<ProductListAPIResponse | null> {
@@ -114,11 +115,11 @@ export async function createProductList(
   data: ProductListCreate
 ): Promise<ProductListAPI | null> {
   const url = `/products-list/`
-  const { data: created } = await useAPI<ProductListAPI>(url, {
+  const result = await useAPI<ProductListAPI>(url, {
     method: 'POST',
     body: data,
   } as object)
-  return created.value
+  return unwrapAPIResponse(result)
 }
 
 export async function updateProductList(
@@ -126,11 +127,11 @@ export async function updateProductList(
   data: ProductListBase
 ): Promise<ProductListAPI | null> {
   const url = `/products-list/${pk}/`
-  const { data: updated } = await useAPI<ProductListAPI>(url, {
+  const result = await useAPI<ProductListAPI>(url, {
     method: 'PUT',
     body: data,
   } as object)
-  return updated.value
+  return unwrapAPIResponse(result)
 }
 
 export async function getProductListItemIndex(
@@ -167,11 +168,11 @@ export async function createProductListItem(
   data: ProductListItemCreate
 ): Promise<ProductListItemAPI | null> {
   const url = `/products-list-item/`
-  const { data: created } = await useAPI<ProductListItemAPI>(url, {
+  const result = await useAPI<ProductListItemAPI>(url, {
     method: 'POST',
     body: data,
   } as object)
-  return created.value
+  return unwrapAPIResponse(result)
 }
 
 export async function updateProductListItem(
@@ -179,25 +180,27 @@ export async function updateProductListItem(
   data: ProductListItemBase
 ): Promise<ProductListItemAPI | null> {
   const url = `/products-list-item/${pk}/`
-  const { data: updated } = await useAPI<ProductListItemAPI>(url, {
+  const result = await useAPI<ProductListItemAPI>(url, {
     method: 'PUT',
     body: data,
   } as object)
-  return updated.value
+  return unwrapAPIResponse(result)
 }
 
 export async function deleteProduct(pk: number): Promise<boolean> {
   const url = `/products/${pk}/`
-  await useAPI(url, {
+  const result = await useAPI(url, {
     method: 'DELETE',
   })
+  assertAPIOk(result)
   return true
 }
 
 export async function deleteProductListItem(pk: number): Promise<boolean> {
   const url = `/products-list-item/${pk}/`
-  await useAPI(url, {
+  const result = await useAPI(url, {
     method: 'DELETE',
   })
+  assertAPIOk(result)
   return true
 }

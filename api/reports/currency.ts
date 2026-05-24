@@ -4,6 +4,7 @@ import type {
   IReportCurrencyApiItem,
 } from '~~/types/reportsTypes'
 import { useAPIAuth as useAPI } from '~~/composables/useAPIAuth'
+import { unwrapAPIResponse } from '~~/utils/apiError'
 
 export async function getReportByCurrencyList(): Promise<
   [IReportCurrencyApiItem] | null
@@ -23,20 +24,20 @@ export async function createReportByCurrency(
   report: IReportCurrencyItem
 ): Promise<IReportCurrencyApiItem | null> {
   const url = `/reports-currency/`
-  const { data } = await useAPI<IReportCurrencyApiItem>(url, {
+  const result = await useAPI<IReportCurrencyApiItem>(url, {
     method: 'POST',
     body: JSON.stringify(report),
   } as object)
-  return data.value
+  return unwrapAPIResponse(result)
 }
 
 export async function updateReportByCurrency(
   report: IReportCurrencyUpdateItem
 ): Promise<IReportCurrencyApiItem | null> {
   const url = `/reports-currency/${report.id}/`
-  const { data } = await useAPI<IReportCurrencyApiItem>(url, {
+  const result = await useAPI<IReportCurrencyApiItem>(url, {
     method: 'PUT',
     body: JSON.stringify(report),
   } as object)
-  return data.value
+  return unwrapAPIResponse(result)
 }
