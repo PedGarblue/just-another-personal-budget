@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { AppSetup } from './utils/app'
 import type { ITheme } from './utils/theme'
-import { useAuthStore } from './stores/auth'
 import { useNotificationsStore } from '~~/stores/notifications'
 
 AppSetup()
@@ -11,11 +10,10 @@ const themeDark = ref<ITheme>('dark')
 const locale = useState<string>('locale.setting')
 const app = useAppConfig()
 const notificationStore = useNotificationsStore()
-const authStore = useAuthStore()
 
 const notifications = computed(() => notificationStore.notifications)
 
-let tokenRefreshInterval: NodeJS.Timeout | null = null
+useAuthTokenRefresh()
 
 useHead({
   title: app.name,
@@ -29,32 +27,6 @@ useHead({
     },
   ],
   link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
-})
-
-const unsubscribeTokenRefresh = authStore.$onAction(({ name, onError }) => {
-  if (name === 'refreshToken') {
-    onError(() => {
-      if (tokenRefreshInterval) {
-        clearInterval(tokenRefreshInterval)
-      }
-      // TODO: Show a notification to the user that they have been logged out
-      navigateTo('/login')
-    })
-  }
-})
-
-onMounted(() => {
-  authStore.checkAndRefreshToken()
-  tokenRefreshInterval = setInterval(() => {
-    authStore.checkAndRefreshToken()
-  }, 60 * 1000)
-})
-
-onUnmounted(() => {
-  if (tokenRefreshInterval) {
-    clearInterval(tokenRefreshInterval)
-  }
-  unsubscribeTokenRefresh()
 })
 </script>
 

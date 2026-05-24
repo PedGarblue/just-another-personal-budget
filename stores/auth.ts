@@ -22,6 +22,8 @@ export const useAuthStore = defineStore({
   }),
   getters: {
     isLoggedIn: (state) => !!state.token?.access,
+    isAccessTokenExpired: (state) =>
+      !!state.token && Date.now() > state.token.access_expires,
     isAccessTokenExpiringSoon: (state) =>
       state.token && Date.now() + 60 * 1000 > state.token.access_expires,
     getStatus: (state) => state.status,
@@ -120,18 +122,24 @@ export const useAuthStore = defineStore({
       this.status = 'idle'
       return data.value
     },
-    async checkAndRefreshToken(): Promise<void> {
-      if (this.isAccessTokenExpiringSoon) {
-        this.refreshTokenPromise = this.refreshToken()
+    async ensureValidAccessToken(): Promise<void> {
+      if (!this.token?.access) return
+      if (!this.isAccessTokenExpiringSoon) return
 
+      if (this.refreshTokenPromise) {
         await this.refreshTokenPromise
-          .then(() => {
-            this.refreshTokenPromise = null
-          })
-          .catch(() => {
-            this.refreshTokenPromise = null
-          })
+        return
       }
+
+      this.refreshTokenPromise = this.refreshToken()
+      try {
+        await this.refreshTokenPromise
+      } finally {
+        this.refreshTokenPromise = null
+      }
+    },
+    async checkAndRefreshToken(): Promise<void> {
+      await this.ensureValidAccessToken()
     },
     logout() {
       this.user = null

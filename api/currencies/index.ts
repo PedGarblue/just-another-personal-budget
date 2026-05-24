@@ -20,9 +20,7 @@ export interface APICurrencyResponse extends APIResourceResponse {
 
 export default async function (): Promise<APICurrencyResponse | null> {
   const authStore = useAuthStore()
-  if (authStore.getRefreshTokenPromise) {
-    await authStore.getRefreshTokenPromise
-  }
+  await authStore.ensureValidAccessToken()
 
   const api = useNuxtApp().$api
 

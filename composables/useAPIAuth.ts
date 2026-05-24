@@ -8,13 +8,9 @@ export async function useAPIAuth<T>(
     default?: () => T | Ref<T>
   } = {} as any
 ) {
-  // set the Authorization header with the access token
   const authStore = useAuthStore()
 
-  // if there is an ongoing token refresh, wait for it to finish
-  if (authStore.getRefreshTokenPromise) {
-    await authStore.getRefreshTokenPromise
-  }
+  await authStore.ensureValidAccessToken()
 
   return useAPI(url, {
     ...options,
