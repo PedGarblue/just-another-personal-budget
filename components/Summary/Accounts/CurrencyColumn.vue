@@ -107,6 +107,12 @@ const cryptoUsdApprox = computed(() => {
     maximumFractionDigits: 2,
   })
 })
+
+const sortedAccounts = computed(() =>
+  [...props.currency.accounts].sort(
+    (a, b) => parseFloat(b.balance) - parseFloat(a.balance)
+  )
+)
 </script>
 
 <template>
@@ -210,7 +216,7 @@ const cryptoUsdApprox = computed(() => {
 
     <div class="flex flex-1 flex-col flex-wrap">
       <SummaryAccountsItem
-        v-for="account in currency.accounts"
+        v-for="account in sortedAccounts"
         :key="account.id"
         :account="account"
       />
