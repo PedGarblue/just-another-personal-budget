@@ -115,6 +115,9 @@ onMounted(() => {
             </span>
           </Anchor>
         </li>
+        <li>
+          <SummaryCategoriesCreate variant="sidebar" />
+        </li>
       </ul>
     </div>
   </div>

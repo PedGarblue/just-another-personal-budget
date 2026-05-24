@@ -12,6 +12,15 @@ const { t } = useLang()
 const notifications = useNotificationsStore()
 const modal = ref<InstanceType<typeof Modal> | null>(null)
 const transactionsStore = useTransactions()
+
+defineProps({
+  variant: {
+    type: String,
+    default: 'default',
+    validator: (value: string) => ['default', 'sidebar'].includes(value),
+  },
+})
+
 const categories = computed(() => transactionsStore.getCategories)
 const newCategory = reactive<CategoryForm>({
   name: '',
@@ -75,7 +84,10 @@ const getAvailableParents = (currentCategoryId: number) => {
 }
 
 // methods
-const openModal = () => {
+const openModal = async () => {
+  if (categories.value.length === 0) {
+    await transactionsStore.fetchCategories()
+  }
   modal.value?.open()
   createError.value = null
   // Reset form
@@ -214,7 +226,22 @@ const updateItem = async (item: CategoryAPI, field: string, value: any) => {
 
 <template>
   <div>
-    <Button @click="openModal">
+    <button
+      v-if="variant === 'sidebar'"
+      type="button"
+      class="group flex items-center mb-4 w-full text-left"
+      @click="openModal"
+    >
+      <div
+        class="flex items-center mr-4 px-2 py-2 rounded-md ring-1 ring-slate-900/5 shadow-sm group-hover:shadow group-hover:ring-slate-900/10 dark:ring-0 dark:shadow-none dark:group-hover:shadow-none dark:group-hover:highlight-white/10 group-hover:shadow-sky-200 dark:highlight-white/10 text-slate-500 dark:text-gray-100 group-hover:bg-gray-200 bg-gray-100 dark:group-hover:bg-slate-600 dark:bg-slate-700"
+      >
+        <FolderPlus class="text-xs" />
+      </div>
+      <span class="text-sm font-semibold capitalize">
+        {{ t('categories.title') }}
+      </span>
+    </button>
+    <Button v-else @click="openModal">
       <FolderPlus class="mx-auto mr-1 text" />
       {{ t('categories.title') }}
     </Button>

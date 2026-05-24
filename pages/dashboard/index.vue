@@ -80,6 +80,7 @@ onMounted(() => {
         :to-date="transactionToDate"
         @transaction-changed="refreshExpensesSummary"
         @clear-filters="handleClearFilters"
+        @category-filter-changed="(id) => (transactionCategoryFilter = id)"
       />
     </PageBody>
   </PageWrapper>
