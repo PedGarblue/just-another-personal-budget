@@ -27,8 +27,37 @@ export interface TransactionBase {
 // returns from the api
 export interface TransactionAPI
   extends Omit<TransactionBase, 'is_loan' | 'loan_due_date'> {
+  /** Discriminator for mixed feed; missing type is treated as transaction */
+  type?: 'transaction'
   id: number
   contact_id?: number
+  /** Nullable group PK when this transaction belongs to a group */
+  group?: number | null
+}
+
+/** Collapsed group row in the mixed transaction feed */
+export interface TransactionGroupAPI {
+  type: 'group'
+  id: number
+  name: string
+  date: string
+  transaction_count: number
+  /** USD / main-currency total, or null if any member lacks conversion */
+  total_main_currency_amount: string | null
+}
+
+export type TransactionListItem = TransactionAPI | TransactionGroupAPI
+
+export function isTransactionItem(
+  item: TransactionListItem
+): item is TransactionAPI {
+  return item.type !== 'group'
+}
+
+export function isGroupItem(
+  item: TransactionListItem
+): item is TransactionGroupAPI {
+  return item.type === 'group'
 }
 
 export interface FetchTransactionsParams {
@@ -40,6 +69,8 @@ export interface FetchTransactionsParams {
   currency?: number
   excludeSameCurrencyTransactions?: boolean
   category?: number
+  /** When set, returns only that group's member transactions (no collapse) */
+  group?: number
 }
 
 export default async function fetchTransactions(
@@ -52,6 +83,7 @@ export default async function fetchTransactions(
     currency,
     excludeSameCurrencyTransactions,
     category,
+    group,
   }: FetchTransactionsParams = {
     page: 1,
     pageSize: 10,
@@ -85,6 +117,9 @@ export default async function fetchTransactions(
   if (category) {
     params.append('category', category.toString())
   }
+  if (group) {
+    params.append('group', group.toString())
+  }
   const url = `${
     runtimeConfig.public.apiUrl
   }/transactions/?${params.toString()}`
@@ -109,6 +144,26 @@ export async function createTransaction(
     },
   })
   return Array.isArray(value) ? value : [value]
+}
+
+/** Create a group and bind member transactions' group_id in one request */
+export interface CreateTransactionGroupBody {
+  group: true
+  name: string
+  /** Optional; backend defaults to the oldest member transaction date */
+  date?: string
+  transactions: number[]
+}
+
+export async function createTransactionGroup(
+  body: CreateTransactionGroupBody
+): Promise<TransactionGroupAPI> {
+  const runtimeConfig = useRuntimeConfig()
+  const url = `${runtimeConfig.public.apiUrl}/transactions/`
+  return await fetchAPIAuth<TransactionGroupAPI>(url, {
+    method: 'POST',
+    body,
+  })
 }
 
 export async function updateTransaction(

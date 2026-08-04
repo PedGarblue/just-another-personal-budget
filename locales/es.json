@@ -98,7 +98,28 @@
         "delete": {
           "success": "Transacción Eliminada"
         },
-        "clear_filters": "Limpiar Filtros"
+        "clear_filters": "Limpiar Filtros",
+        "group": {
+          "selection": {
+            "count": "{count} seleccionadas",
+            "clear": "Limpiar selección"
+          },
+          "create": {
+            "title": "Crear grupo",
+            "submit": "Crear grupo",
+            "restart": "Crear otro grupo",
+            "success": "¡Grupo de transacciones creado!",
+            "hint": "Agrupando {count} transacciones.",
+            "form": {
+              "name": "Nombre del grupo",
+              "date": "Fecha (opcional)"
+            },
+            "errors": {
+              "name_required": "El nombre del grupo es obligatorio.",
+              "min_transactions": "Selecciona al menos 2 transacciones para crear un grupo."
+            }
+          }
+        }
       },
       "exchanges": {
         "create": {
@@ -272,7 +293,15 @@
     "amount": "Monto",
     "operation": "Operaciones",
     "no_category": "Sin Categoría",
-    "to_main_currency_amount": "A USD"
+    "to_main_currency_amount": "A USD",
+    "receivable": "Por cobrar",
+    "receivable_loan": "Préstamo",
+    "receivable_collection": "Cobro",
+    "group": {
+      "count": "{count} transacciones",
+      "loading": "Cargando transacciones del grupo…",
+      "empty": "No hay transacciones en este grupo."
+    }
   },
   "exchanges": {
     "create": {

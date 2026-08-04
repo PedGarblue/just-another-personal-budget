@@ -98,7 +98,28 @@
         "delete": {
           "success": "Transaction Deleted"
         },
-        "clear_filters": "Clear Filters"
+        "clear_filters": "Clear Filters",
+        "group": {
+          "selection": {
+            "count": "{count} selected",
+            "clear": "Clear selection"
+          },
+          "create": {
+            "title": "Create group",
+            "submit": "Create group",
+            "restart": "Create another group",
+            "success": "Transaction group created!",
+            "hint": "Grouping {count} transactions.",
+            "form": {
+              "name": "Group name",
+              "date": "Date (optional)"
+            },
+            "errors": {
+              "name_required": "Group name is required.",
+              "min_transactions": "Select at least 2 transactions to create a group."
+            }
+          }
+        }
       },
       "exchanges": {
         "create": {
@@ -308,6 +329,11 @@
     "receivable": "Receivable",
     "receivable_loan": "Loan",
     "receivable_collection": "Collection",
+    "group": {
+      "count": "{count} transactions",
+      "loading": "Loading group transactions…",
+      "empty": "No transactions in this group."
+    },
     "loan": {
       "advanced_show": "Loan & receivable options",
       "advanced_hide": "Hide loan & receivable options",

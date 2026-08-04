@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { X } from 'lucide-vue-next'
+import { FolderPlus, X } from 'lucide-vue-next'
 import { useAccounts } from '~~/stores/accounts'
 import { useTransactions } from '~~/stores/transactions'
 import TransactionList from '~~/components/Transaction/List.vue'
+import SummaryTransactionsCreateGroup from '~~/components/Summary/Transactions/CreateGroup.vue'
 import type { CategoryAPI } from '~~/types/categories'
 import { convertColorValueToTailwindCompatible } from '~~/utils/colors'
 
@@ -45,6 +46,10 @@ const { t } = useLang()
 // data refs
 const accountCriteria = ref('All')
 const transactionList = ref<InstanceType<typeof TransactionList> | null>(null)
+const createGroupModal = ref<InstanceType<
+  typeof SummaryTransactionsCreateGroup
+> | null>(null)
+const selectedTransactionIds = ref<number[]>([])
 const accounts = useAccounts()
 const transactionsStore = useTransactions()
 
@@ -66,19 +71,18 @@ const getSelectedAccount = computed(() => {
   )
 })
 
-// computed
 const hasActiveFilters = computed(() => {
   return (
     props.categoryCriteria > 0 || props.fromDate !== '' || props.toDate !== ''
   )
 })
 
+const canCreateGroup = computed(() => selectedTransactionIds.value.length >= 2)
+
 // methods
 const refreshTable = () => {
-  // should i be doing this?
   accounts.fetchData()
   transactionList.value?.refreshTable()
-  // emit event to notify parent that transactions have changed
   emits('transaction-changed')
 }
 
@@ -92,6 +96,24 @@ const onCategoryChange = (option: CategoryAPI | string) => {
       ? option.id
       : 0
   emits('category-filter-changed', id)
+}
+
+const onSelectionChange = (ids: number[]) => {
+  selectedTransactionIds.value = ids
+}
+
+const clearSelection = () => {
+  transactionList.value?.clearSelection()
+}
+
+const openCreateGroup = () => {
+  if (!canCreateGroup.value) return
+  createGroupModal.value?.open()
+}
+
+const onGroupCreated = () => {
+  clearSelection()
+  refreshTable()
 }
 </script>
 
@@ -146,12 +168,48 @@ const onCategoryChange = (option: CategoryAPI | string) => {
         {{ t('pages.summary.transactions.clear_filters') }}
       </Button>
     </div>
+
+    <div
+      v-if="selectedTransactionIds.length > 0"
+      class="flex flex-col sm:flex-row sm:items-center gap-3 mb-3 px-3 py-2 rounded-md border border-border bg-muted/30"
+    >
+      <p class="text-sm font-medium flex-1">
+        {{
+          t('pages.summary.transactions.group.selection.count', {
+            count: selectedTransactionIds.length,
+          })
+        }}
+      </p>
+      <div class="flex flex-row gap-2">
+        <Button type="secondary" size="sm" @click="clearSelection">
+          {{ t('pages.summary.transactions.group.selection.clear') }}
+        </Button>
+        <Button
+          size="sm"
+          class="flex items-center gap-1"
+          :class="{ 'opacity-50 pointer-events-none': !canCreateGroup }"
+          @click="openCreateGroup"
+        >
+          <FolderPlus class="h-4 w-4" />
+          {{ t('pages.summary.transactions.group.create.title') }}
+        </Button>
+      </div>
+    </div>
+
+    <SummaryTransactionsCreateGroup
+      ref="createGroupModal"
+      :transaction-ids="selectedTransactionIds"
+      @form-finished="onGroupCreated"
+    />
+
     <TransactionList
       ref="transactionList"
+      selectable
       :account-criteria="getSelectedAccount?.id || 0"
       :category-criteria="props.categoryCriteria"
       :from-date="props.fromDate"
       :to-date="props.toDate"
+      @selection-change="onSelectionChange"
     >
       <template #item-operation="transaction">
         <div class="flex flex-row gap-1 justify-center">

@@ -1,14 +1,20 @@
 import type { CategoryAPI } from './categories'
-import type { TransactionAPI } from '~~/api/transactions'
+import type {
+  TransactionAPI,
+  TransactionGroupAPI,
+  TransactionListItem,
+} from '~~/api/transactions'
 import type { AccountComplete } from '~~/stores/accounts'
 import type { APIResourceResponse } from '~~/types/api'
 
 export interface APITransactionResponse extends APIResourceResponse {
-  results: TransactionAPI[]
+  results: TransactionListItem[]
 }
 
 export interface DisplayTransaction extends TransactionAPI {
-  key: number // needed for Vue3EasyDataTable
+  type?: 'transaction'
+  /** Stable Vue3EasyDataTable / Vue key */
+  key: string | number
   dateFormatted: string
   accountData: AccountComplete
   amountWithCurrency: string
@@ -17,3 +23,25 @@ export interface DisplayTransaction extends TransactionAPI {
   /** Loan vs collection label when linked to a receivable */
   receivableDisplay: string
 }
+
+export interface DisplayTransactionGroup extends TransactionGroupAPI {
+  type: 'group'
+  key: string
+  dateFormatted: string
+  /** Shown in the description column */
+  description: string
+  /** Formatted main-currency total or em dash */
+  toMainCurrencyAmount: string
+  /** Count label for the category/count column */
+  countDisplay: string
+  accountData?: undefined
+  amountWithCurrency?: undefined
+  categoryData?: undefined
+  receivableDisplay: string
+}
+
+export type DisplayTransactionListItem =
+  | DisplayTransaction
+  | DisplayTransactionGroup
+
+export type { TransactionListItem }
