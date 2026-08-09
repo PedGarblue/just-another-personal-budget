@@ -25,6 +25,8 @@ export interface ReceivableAPIItem {
   principal_usd: number
   paid_usd: number
   outstanding_usd: number
+  /** Set by expense-share finalize; display-only in UI */
+  explicit_principal_usd?: number | string | null
   status: 'PAID' | 'UNPAID'
   transactions?: ReceivableLinkedTransaction[]
   created_at?: string

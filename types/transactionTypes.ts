@@ -30,12 +30,13 @@ export interface DisplayTransactionGroup extends TransactionGroupAPI {
   dateFormatted: string
   /** Shown in the description column */
   description: string
+  /** Native total with currency symbol, or em dash when mixed/unknown */
+  amountWithCurrency: string
   /** Formatted main-currency total or em dash */
   toMainCurrencyAmount: string
   /** Count label for the category/count column */
   countDisplay: string
   accountData?: undefined
-  amountWithCurrency?: undefined
   categoryData?: undefined
   receivableDisplay: string
 }

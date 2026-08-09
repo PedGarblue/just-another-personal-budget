@@ -217,6 +217,120 @@
         }
       }
     },
+    "expenseShare": {
+      "nav": "Reparto de gastos",
+      "index": {
+        "title": "Reparto de gastos"
+      },
+      "tabs": {
+        "settle": "Liquidar mes",
+        "partners": "Socios",
+        "history": "Historial"
+      },
+      "common": {
+        "loading": "Cargando…",
+        "saving": "Guardando…",
+        "save": "Guardar",
+        "cancel": "Cancelar",
+        "close": "Cerrar",
+        "refresh": "Actualizar",
+        "yes": "Sí",
+        "no": "No"
+      },
+      "partners": {
+        "empty": "Aún no hay socios. Crea uno para empezar a repartir gastos.",
+        "filter": {
+          "active_only": "Solo activos"
+        },
+        "create": {
+          "button": "Agregar socio",
+          "title": "Crear socio de reparto",
+          "success": "Socio creado exitosamente"
+        },
+        "update": {
+          "button": "Editar",
+          "title": "Editar socio de reparto",
+          "success": "Socio actualizado exitosamente"
+        },
+        "form": {
+          "contact": "Nombre del contacto",
+          "contact_placeholder": "Escribe un nombre",
+          "contact_required": "El nombre del contacto es obligatorio.",
+          "default_percent": "% predeterminado del socio",
+          "is_active": "Activo",
+          "includes": "Categorías incluidas",
+          "includes_help": "Seleccionar un padre incluye todos los descendientes salvo exclusiones.",
+          "excludes": "Categorías excluidas",
+          "excludes_help": "Solo se pueden excluir descendientes bajo categorías incluidas.",
+          "no_categories": "No hay categorías de gasto.",
+          "no_excludable": "No hay categorías hijas para excluir."
+        },
+        "table": {
+          "contact": "Contacto",
+          "default_percent": "% pred.",
+          "includes": "Incluye",
+          "excludes": "Excluye",
+          "active": "Activo",
+          "actions": "Acciones"
+        }
+      },
+      "settle": {
+        "partner": "Socio",
+        "partner_placeholder": "Selecciona un socio",
+        "partner_required": "Selecciona un socio.",
+        "month": "Mes",
+        "partner_percent": "% del socio",
+        "percent_required": "El porcentaje del socio es obligatorio.",
+        "total_expenses": "Total de gastos (USD)",
+        "partner_share": "Parte del socio (USD)",
+        "my_share": "Mi parte (USD)",
+        "already_finalized": "Este mes ya está finalizado. Re-finalizar actualiza el principal de la cuenta por cobrar existente.",
+        "finalize_title": "Finalizar",
+        "finalize": "Finalizar",
+        "refinalize": "Re-finalizar",
+        "refinalize_confirm": "Esto actualiza el principal de la cuenta por cobrar existente",
+        "due_date": "Fecha de vencimiento (opcional)",
+        "notes": "Notas (opcional)",
+        "finalize_success": "Período finalizado exitosamente",
+        "no_preview": "No se pudo cargar la vista previa.",
+        "result_title": "Período finalizado"
+      },
+      "history": {
+        "partner": "Socio",
+        "all_partners": "Todos los socios",
+        "month": "Mes",
+        "period": "Período",
+        "status": "Estado",
+        "all_statuses": "Todos los estados",
+        "actions": "Acciones",
+        "view": "Ver",
+        "empty": "No se encontraron períodos.",
+        "detail_title": "Detalle del período",
+        "finalized_at": "Finalizado el"
+      },
+      "lines": {
+        "category": "Categoría",
+        "expense_total": "Total gastos (USD)",
+        "partner_share": "Parte socio (USD)",
+        "tx_count": "Nº txs",
+        "empty": "No hay gastos que coincidan en este período."
+      },
+      "receivable": {
+        "view": "Ver cuenta por cobrar",
+        "title": "Cuenta por cobrar",
+        "contact": "Contacto",
+        "description": "Descripción",
+        "principal": "Principal (USD)",
+        "explicit_principal": "Principal explícito (USD)",
+        "paid": "Pagado (USD)",
+        "outstanding": "Pendiente (USD)",
+        "status": "Estado",
+        "due_date": "Vencimiento",
+        "go_investments": "Abrir Inversiones",
+        "not_found": "Cuenta por cobrar no encontrada.",
+        "load_error": "Error al cargar la cuenta por cobrar."
+      }
+    },
     "reports": {
       "nav": "Informes",
       "index": {

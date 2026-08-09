@@ -44,6 +44,10 @@ export interface TransactionGroupAPI {
   transaction_count: number
   /** USD / main-currency total, or null if any member lacks conversion */
   total_main_currency_amount: string | null
+  /** Native total when all members share one currency; otherwise null */
+  total_amount?: string | null
+  /** Currency PK when total_amount is set; otherwise null */
+  currency?: number | null
 }
 
 export type TransactionListItem = TransactionAPI | TransactionGroupAPI

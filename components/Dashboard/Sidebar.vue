@@ -1,5 +1,11 @@
 <script lang="ts" setup>
-import { LayoutGrid, Banknote, FileText, Croissant } from 'lucide-vue-next'
+import {
+  LayoutGrid,
+  Banknote,
+  FileText,
+  Croissant,
+  Split,
+} from 'lucide-vue-next'
 
 export interface IMenuItem {
   type: 'link' | 'button'
@@ -53,6 +59,14 @@ const menus = computed((): IMenuItem[] => [
     route: { name: 'investments' },
     icon: {
       obj: Banknote,
+    },
+  },
+  {
+    type: 'link',
+    text: t('pages.expenseShare.nav'),
+    route: { name: 'expense-share' },
+    icon: {
+      obj: Split,
     },
   },
   {

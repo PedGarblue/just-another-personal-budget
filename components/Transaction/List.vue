@@ -178,12 +178,20 @@ function toDisplayGroup(
   group: Extract<TransactionListItem, { type: 'group' }>
 ): DisplayTransactionGroup {
   const total = group.total_main_currency_amount
+  const nativeTotal = group.total_amount
+  const nativeCurrencyId = group.currency
+  let amountWithCurrency = '—'
+  if (nativeTotal != null && nativeCurrencyId != null) {
+    const currency = accounts.getCurrency(nativeCurrencyId)
+    amountWithCurrency = `${currency.symbol}${nativeTotal}`
+  }
   return {
     ...group,
     type: 'group',
     key: `group-${group.id}`,
     dateFormatted: format(new Date(group.date), 'yyyy-MM-dd HH:mm'),
     description: group.name,
+    amountWithCurrency,
     toMainCurrencyAmount: total != null ? `$${total}` : '—',
     countDisplay: t('transactions.group.count', {
       count: group.transaction_count,
@@ -292,6 +300,9 @@ function isGroupRow(
 
 function amountIsNegative(item: DisplayTransactionListItem): boolean {
   if (isGroupRow(item)) {
+    if (item.total_amount != null) {
+      return item.total_amount.includes('-')
+    }
     return (item.total_main_currency_amount ?? '').includes('-')
   }
   return String(item.amount ?? '').includes('-')
@@ -397,7 +408,7 @@ onMounted(() => {
     </template>
 
     <template #item-amountWithCurrency="item">
-      <span v-if="isGroupRow(item)">—</span>
+      <span v-if="item.amountWithCurrency === '—'">—</span>
       <span
         v-else
         :class="{

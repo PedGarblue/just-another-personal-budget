@@ -249,6 +249,120 @@
         }
       }
     },
+    "expenseShare": {
+      "nav": "Expense Share",
+      "index": {
+        "title": "Expense Share"
+      },
+      "tabs": {
+        "settle": "Settle month",
+        "partners": "Partners",
+        "history": "History"
+      },
+      "common": {
+        "loading": "Loading…",
+        "saving": "Saving…",
+        "save": "Save",
+        "cancel": "Cancel",
+        "close": "Close",
+        "refresh": "Refresh",
+        "yes": "Yes",
+        "no": "No"
+      },
+      "partners": {
+        "empty": "No partners yet. Create one to start sharing expenses.",
+        "filter": {
+          "active_only": "Active only"
+        },
+        "create": {
+          "button": "Add partner",
+          "title": "Create expense share partner",
+          "success": "Partner created successfully"
+        },
+        "update": {
+          "button": "Edit",
+          "title": "Edit expense share partner",
+          "success": "Partner updated successfully"
+        },
+        "form": {
+          "contact": "Contact name",
+          "contact_placeholder": "Type a name",
+          "contact_required": "Contact name is required.",
+          "default_percent": "Default partner %",
+          "is_active": "Active",
+          "includes": "Included categories",
+          "includes_help": "Selecting a parent includes all descendants unless excluded.",
+          "excludes": "Excluded categories",
+          "excludes_help": "Only descendants under included parents can be excluded.",
+          "no_categories": "No expense categories found.",
+          "no_excludable": "No child categories available to exclude."
+        },
+        "table": {
+          "contact": "Contact",
+          "default_percent": "Default %",
+          "includes": "Includes",
+          "excludes": "Excludes",
+          "active": "Active",
+          "actions": "Actions"
+        }
+      },
+      "settle": {
+        "partner": "Partner",
+        "partner_placeholder": "Select a partner",
+        "partner_required": "Select a partner.",
+        "month": "Month",
+        "partner_percent": "Partner %",
+        "percent_required": "Partner percent is required.",
+        "total_expenses": "Total expenses (USD)",
+        "partner_share": "Partner share (USD)",
+        "my_share": "My share (USD)",
+        "already_finalized": "This month is already finalized. Re-finalize updates the existing receivable principal.",
+        "finalize_title": "Finalize",
+        "finalize": "Finalize",
+        "refinalize": "Re-finalize",
+        "refinalize_confirm": "This updates the existing receivable principal",
+        "due_date": "Due date (optional)",
+        "notes": "Notes (optional)",
+        "finalize_success": "Period finalized successfully",
+        "no_preview": "Unable to load preview.",
+        "result_title": "Finalized period"
+      },
+      "history": {
+        "partner": "Partner",
+        "all_partners": "All partners",
+        "month": "Month",
+        "period": "Period",
+        "status": "Status",
+        "all_statuses": "All statuses",
+        "actions": "Actions",
+        "view": "View",
+        "empty": "No periods found.",
+        "detail_title": "Period detail",
+        "finalized_at": "Finalized at"
+      },
+      "lines": {
+        "category": "Category",
+        "expense_total": "Expense total (USD)",
+        "partner_share": "Partner share (USD)",
+        "tx_count": "Tx count",
+        "empty": "No matching expenses for this period."
+      },
+      "receivable": {
+        "view": "View receivable",
+        "title": "Receivable",
+        "contact": "Contact",
+        "description": "Description",
+        "principal": "Principal (USD)",
+        "explicit_principal": "Explicit principal (USD)",
+        "paid": "Paid (USD)",
+        "outstanding": "Outstanding (USD)",
+        "status": "Status",
+        "due_date": "Due date",
+        "go_investments": "Open Investments",
+        "not_found": "Receivable not found.",
+        "load_error": "Failed to load receivable."
+      }
+    },
     "reports": {
       "nav": "Reports",
       "index": {
