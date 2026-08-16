@@ -179,11 +179,15 @@ function toDisplayGroup(
 ): DisplayTransactionGroup {
   const total = group.total_main_currency_amount
   const nativeTotal = group.total_amount
-  const nativeCurrencyId = group.currency
+  const nativeCurrencyName = group.currency
   let amountWithCurrency = '—'
-  if (nativeTotal != null && nativeCurrencyId != null) {
-    const currency = accounts.getCurrency(nativeCurrencyId)
-    amountWithCurrency = `${currency.symbol}${nativeTotal}`
+  if (nativeTotal != null && nativeCurrencyName != null) {
+    const currency = accounts.getCurrencies.find(
+      (c) => c.name === nativeCurrencyName
+    )
+    amountWithCurrency = currency
+      ? `${currency.symbol}${nativeTotal}`
+      : nativeTotal
   }
   return {
     ...group,

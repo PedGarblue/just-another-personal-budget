@@ -46,8 +46,8 @@ export interface TransactionGroupAPI {
   total_main_currency_amount: string | null
   /** Native total when all members share one currency; otherwise null */
   total_amount?: string | null
-  /** Currency PK when total_amount is set; otherwise null */
-  currency?: number | null
+  /** Currency name when total_amount is set (e.g. "VES"); otherwise null */
+  currency?: string | null
 }
 
 export type TransactionListItem = TransactionAPI | TransactionGroupAPI
