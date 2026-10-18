@@ -1,4 +1,8 @@
 components.d.ts
+src/components.d.ts
+src/auto-imports.d.ts
+env.d.ts
+index.html
 nuxt.d.ts
 dist
 .nuxt

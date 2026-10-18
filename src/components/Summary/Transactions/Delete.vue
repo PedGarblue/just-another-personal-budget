@@ -1,0 +1,63 @@
+<script lang="ts" setup>
+import { Trash2 } from 'lucide-vue-next'
+import type { PropType } from 'vue'
+import { deleteTransaction } from '@/api/transactions'
+import { useNotificationsStore } from '@/stores/notifications'
+import { toAPIError } from '@/utils/apiError'
+import type { DisplayTransaction } from '@/types/transactionTypes'
+
+enum LoadingStatus {
+  IDLE = 'IDLE',
+  LOADING = 'LOADING',
+  FINISHED = 'FINISHED',
+  ERROR = 'ERROR',
+}
+
+const emits = defineEmits(['form-finished'])
+
+const props = defineProps({
+  transaction: {
+    type: Object as PropType<DisplayTransaction>,
+    required: true,
+  },
+})
+
+// data
+const { t } = useLang()
+const loadingState = ref<LoadingStatus>(LoadingStatus.IDLE)
+const notification = useNotificationsStore()
+const errorMessage = ref('')
+
+// methods
+const removeTransaction = async () => {
+  if (loadingState.value !== LoadingStatus.IDLE) return
+  const { id } = props.transaction
+
+  loadingState.value = LoadingStatus.LOADING
+  errorMessage.value = ''
+
+  try {
+    await deleteTransaction(id)
+    loadingState.value = LoadingStatus.FINISHED
+    notification.addNotification({
+      type: 'warning',
+      text: t('pages.summary.transactions.delete.success'),
+    })
+    emits('form-finished')
+  } catch (error) {
+    loadingState.value = LoadingStatus.ERROR
+    errorMessage.value = toAPIError(error).message
+    notification.addNotification({
+      type: 'error',
+      text: errorMessage.value,
+    })
+  }
+}
+</script>
+
+<template>
+  <Trash2
+    class="text-lg text-red-600 cursor-pointer"
+    @click="() => removeTransaction()"
+  />
+</template>

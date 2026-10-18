@@ -1,17 +1,17 @@
 # Just Another Personal Budget
-a Nuxt 3 Personal Budget App.
+A Vue 3 personal budget app.
 
 > **NOTES** 
 > - This Project using "pnpm" as package manager. (not npm or yarn)!!! 
 
 ## Features
-- [x] 💨 [Tailwind CSS v3](https://tailwindcss.com/) with [Windicss](https://windicss.org/)
+- [x] 💨 [Tailwind CSS v4](https://tailwindcss.com/)
 - [x] ✨ [Headless UI](https://headlessui.dev/)
 - [x] 🔔 [Icon Pack Component (unplugin-icons)](https://icones.js.org/)
 - [x] 🛹 [State & Store Management (Pinia)](https://pinia.vuejs.org/)
 - [x] 🚩 [Localization (i18n) by @intlify](https://github.com/intlify/nuxt3) & Auto Generate Locales
 - [x] 📦 [Vue Composition Collection (Vueuse)](https://vueuse.org/)
-- [x] 📚 [Content Management System (Nuxt Content)](https://content.nuxtjs.org/) [SSR]
+- [x] 📚 Vue Router pages and layouts
 - [x] 🌙 Switch Theme (light, dark, system, realtime)
 - [x] 🇮🇩 Language Switcher
 - [x] Eslint & Prettier
@@ -67,9 +67,8 @@ Summary will eventually be the dashboard
 * Install dependencies `pnpm install --shamefully-hoist`
 * Run `pnpm dev` to start development server and open `http://localhost:3000` in your browser
 ### Deploy as Static Site
-* Run `pnpm generate` to build the project
-* Serve `dist/` folder
-Checkout the [deployment documentation](https://v3.nuxtjs.org/docs/deployment).
+* Run `pnpm build` to build the project
+* Serve the `dist/` folder (`pnpm start`)
 
 ### Precommit and Postmerge
 This project using husky and commitlint for precommit and postmerge.
