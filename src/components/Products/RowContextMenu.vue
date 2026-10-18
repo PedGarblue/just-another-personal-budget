@@ -7,7 +7,7 @@ const emits = defineEmits<{
   (e: 'product-contextmenu-selection-delete', id: string): void
 }>()
 
-const props = defineProps<{
+defineProps<{
   product: ProductAPI
 }>()
 

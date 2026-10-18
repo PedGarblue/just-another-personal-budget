@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useAccounts } from '@/composables/useAccounts'
 
-const accounts = useAccounts()
+useAccounts()
 
 useHead({
   title: 'Investments',

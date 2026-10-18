@@ -33,7 +33,7 @@ export function LanguageManager() {
         ? window.navigator.language.substring(0, 2)
         : 'en'
       return availableLocales[foundLang] ? foundLang : 'en'
-    } catch (error) {
+    } catch {
       return 'en'
     }
   }

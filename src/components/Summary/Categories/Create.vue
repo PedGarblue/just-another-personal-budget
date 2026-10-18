@@ -1,10 +1,8 @@
 <script lang="ts" setup>
 import { FolderPlus, Trash2, Edit2, X, Check } from 'lucide-vue-next'
-import type { Ref } from 'vue'
 import type { Header, SortType } from 'vue3-easy-data-table'
 import type { CategoryAPI, CategoryForm } from '@/types/categories'
 import Modal from '@/components/Modal.vue'
-import { createCategory, deleteCategory } from '@/api/categories'
 import { useNotificationsStore } from '@/stores/notifications'
 import { useTransactions } from '@/stores/transactions'
 

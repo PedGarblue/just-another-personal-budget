@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { useAuthStore } from '@/stores/auth'
-import { LoginForm } from '@/types/auth'
 import type { FormField } from '@/types/formTypes'
 
 const router = useRouter()

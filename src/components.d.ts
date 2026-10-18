@@ -45,8 +45,6 @@ declare module 'vue' {
     Modal: typeof import('./components/Modal.vue')['default']
     Notification: typeof import('./components/Notification.vue')['default']
     PageBody: typeof import('./components/Page/Body.vue')['default']
-    PageContentDoc: typeof import('./components/Page/Content/Doc.vue')['default']
-    PageContentRenderer: typeof import('./components/Page/Content/Renderer.vue')['default']
     PageFooter: typeof import('./components/Page/Footer.vue')['default']
     PageHeader: typeof import('./components/Page/Header.vue')['default']
     PageNavbar: typeof import('./components/Page/Navbar.vue')['default']

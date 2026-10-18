@@ -65,7 +65,7 @@ const onUpdateProduct = () => {
   }
 
   updateProduct(props.product.id, data)
-    .then((updatedProduct) => {
+    .then(() => {
       notifications.addNotification({
         type: 'success',
         text: 'Product updated successfully',

@@ -11,7 +11,7 @@ const getArg = (index, def = undefined) => {
   try {
     if (!args[index] && !def) throw new Error('Argument not found')
     return args[index] || def
-  } catch (error) {
+  } catch {
     console.error(`Missing argument ${index}`)
     process.exit(1)
   }
@@ -65,8 +65,6 @@ const translateFile = async (file, locale) => {
       if (i === keyLevel - 1) currParent[currKey] = value
       currParent = currParent[currKey]
     }
-
-    parsedObj = parseObjLevel
   }
 
   // return

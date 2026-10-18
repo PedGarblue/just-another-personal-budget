@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Minus, Plus } from 'lucide-vue-next'
-import type { Header, Item, ServerOptions } from 'vue3-easy-data-table'
+import type { Header, ServerOptions } from 'vue3-easy-data-table'
 
 import type { ProductListAPI, ProductListItemAPI } from '@/types/products'
 import {
@@ -11,7 +11,7 @@ import {
 import { useNotificationsStore } from '@/stores/notifications'
 import { parseSortDataTableToSortAPI } from '@/lib/utils'
 
-const emits = defineEmits<{
+defineEmits<{
   (e: 'product-list-item-removed', id: string): void
 }>()
 
@@ -87,7 +87,7 @@ const fetchProductListItems = async () => {
     ordering,
   })
   if (fetched) {
-    const { results, count } = fetched
+    const { count } = fetched
     items.value = fetched.results
     serverItemsLength.value = count
   }

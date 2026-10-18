@@ -26,7 +26,7 @@ export function ThemeManager() {
           ? 'dark'
           : 'light'
         : 'dark'
-    } catch (error) {
+    } catch {
       return 'dark'
     }
   }

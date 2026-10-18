@@ -41,7 +41,7 @@ const removeReceivable = async () => {
       text: t('pages.investments.receivables.delete.success'),
     })
     emits('form-finished')
-  } catch (error) {
+  } catch {
     loadingState.value = LoadingStatus.ERROR
   }
 }

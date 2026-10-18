@@ -1,11 +1,6 @@
 <script lang="ts" setup>
 import { useAuthStore } from '@/stores/auth'
-import { RegisterForm } from '@/types/auth'
 import type { FormField } from '@/types/formTypes'
-
-interface RegisterFormClient extends RegisterForm {
-  confirmPassword: string
-}
 
 useHead({
   title: 'Sign Up',
@@ -13,7 +8,6 @@ useHead({
 
 const router = useRouter()
 const auth = useAuthStore()
-const { t } = useLang()
 
 const fields = computed<FormField[]>(() => [
   {

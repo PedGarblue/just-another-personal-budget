@@ -176,7 +176,6 @@ declare global {
   const useConfirmDialog: typeof import('@vueuse/core').useConfirmDialog
   const useCookie: typeof import('./composables/useCookie').useCookie
   const useCountdown: typeof import('@vueuse/core').useCountdown
-  const useCounter: typeof import('./stores/counter').useCounter
   const useCssModule: typeof import('vue').useCssModule
   const useCssSupports: typeof import('@vueuse/core').useCssSupports
   const useCssVar: typeof import('@vueuse/core').useCssVar
@@ -218,7 +217,6 @@ declare global {
   const useGeolocation: typeof import('@vueuse/core').useGeolocation
   const useHead: typeof import('@unhead/vue').useHead
   const useId: typeof import('vue').useId
-  const useIdentity: typeof import('./stores/identity').useIdentity
   const useIdle: typeof import('@vueuse/core').useIdle
   const useImage: typeof import('@vueuse/core').useImage
   const useInfiniteScroll: typeof import('@vueuse/core').useInfiniteScroll
@@ -363,12 +361,6 @@ declare global {
   // @ts-ignore
   export type { IAccountsState, AccountComplete } from './stores/accounts'
   import('./stores/accounts')
-  // @ts-ignore
-  export type { ICounterState } from './stores/counter'
-  import('./stores/counter')
-  // @ts-ignore
-  export type { IIdentityState } from './stores/identity'
-  import('./stores/identity')
   // @ts-ignore
   export type { Notification } from './stores/notifications'
   import('./stores/notifications')
@@ -550,7 +542,6 @@ declare module 'vue' {
     readonly useConfirmDialog: UnwrapRef<typeof import('@vueuse/core')['useConfirmDialog']>
     readonly useCookie: UnwrapRef<typeof import('./composables/useCookie')['useCookie']>
     readonly useCountdown: UnwrapRef<typeof import('@vueuse/core')['useCountdown']>
-    readonly useCounter: UnwrapRef<typeof import('./stores/counter')['useCounter']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssSupports: UnwrapRef<typeof import('@vueuse/core')['useCssSupports']>
     readonly useCssVar: UnwrapRef<typeof import('@vueuse/core')['useCssVar']>
@@ -592,7 +583,6 @@ declare module 'vue' {
     readonly useGeolocation: UnwrapRef<typeof import('@vueuse/core')['useGeolocation']>
     readonly useHead: UnwrapRef<typeof import('@unhead/vue')['useHead']>
     readonly useId: UnwrapRef<typeof import('vue')['useId']>
-    readonly useIdentity: UnwrapRef<typeof import('./stores/identity')['useIdentity']>
     readonly useIdle: UnwrapRef<typeof import('@vueuse/core')['useIdle']>
     readonly useImage: UnwrapRef<typeof import('@vueuse/core')['useImage']>
     readonly useInfiniteScroll: UnwrapRef<typeof import('@vueuse/core')['useInfiniteScroll']>

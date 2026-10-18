@@ -18,7 +18,7 @@ export interface IMenuItem {
   }
 }
 
-const props = defineProps({
+defineProps({
   mode: {
     type: String,
     default: 'normal',

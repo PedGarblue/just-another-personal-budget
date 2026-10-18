@@ -64,36 +64,6 @@ const routes: RouteRecordRaw[] = [
     meta: { layout: 'page' },
   },
   {
-    path: '/getting-started',
-    name: 'getting-started',
-    component: () => import('@/pages/getting-started.vue'),
-    meta: { layout: 'page', public: true },
-  },
-  {
-    path: '/blank',
-    name: 'blank',
-    component: () => import('@/pages/blank.vue'),
-    meta: { layout: 'page', public: true },
-  },
-  {
-    path: '/test',
-    name: 'test',
-    component: () => import('@/pages/test.vue'),
-    meta: { layout: 'page', public: true },
-  },
-  {
-    path: '/post',
-    name: 'post',
-    component: () => import('@/pages/post/index.vue'),
-    meta: { layout: 'page', public: true },
-  },
-  {
-    path: '/post/:slug',
-    name: 'post-slug',
-    component: () => import('@/pages/post/[slug].vue'),
-    meta: { layout: 'page', public: true },
-  },
-  {
     path: '/:pathMatch(.*)*',
     name: '404',
     component: () => import('@/pages/404.vue'),
