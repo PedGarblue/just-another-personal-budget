@@ -1,82 +1,50 @@
 # Just Another Personal Budget
-A Vue 3 personal budget app.
 
-> **NOTES** 
-> - This Project using "pnpm" as package manager. (not npm or yarn)!!! 
+A personal budget app. Vue 3, Vite, and Tailwind CSS 4. It talks to a REST API configured with `VITE_API_URL`.
+
+Use [pnpm](https://pnpm.io/).
 
 ## Features
-- [x] 💨 [Tailwind CSS v4](https://tailwindcss.com/)
-- [x] ✨ [Headless UI](https://headlessui.dev/)
-- [x] 🔔 [Icon Pack Component (unplugin-icons)](https://icones.js.org/)
-- [x] 🛹 [State & Store Management (Pinia)](https://pinia.vuejs.org/)
-- [x] 🚩 [Localization (i18n) by @intlify](https://github.com/intlify/nuxt3) & Auto Generate Locales
-- [x] 📦 [Vue Composition Collection (Vueuse)](https://vueuse.org/)
-- [x] 📚 Vue Router pages and layouts
-- [x] 🌙 Switch Theme (light, dark, system, realtime)
-- [x] 🇮🇩 Language Switcher
-- [x] Eslint & Prettier
-- [x] Husky & Commitlint
-- [x] Built-in Unit Test
-- [x] Configurable Theme
-  - [x] Primary Colors
-  - [x] Font
 
-## To Do
-- Summary [ ]
-  - Accounts [ ]
-    - Display Accounts with balances [x]
-    - When clicked should display the account transaction [ ]
-  - Transactions [ ]
-    - Transactions List [ ]
-      - List Transactions [x]
-      - Filter By Date [ ]
-    - Transactions Create
-      - Base Create [x]
-      - Create with Items
-    - Transactions Update [ ]
-      - Base Update [x]
-      - Update Items [ ]
-    - Transactions Delete [x]
+- Accounts, transactions, expenses, cashflow, and category trends on the dashboard
+- Reports by account and by currency
+- Investments (receivables)
+- Expense sharing with partners, settlement, and history
+- Purchase budgets
+- Sign in and sign up, with access-token refresh
+- Light, dark, system, and realtime themes
+- English and Spanish (vue-i18n)
+- [Lucide](https://lucide.dev/) icons, [Pinia](https://pinia.vuejs.org/), [VueUse](https://vueuse.org/), [Headless UI](https://headlessui.com/), and Chart.js
+- ESLint, Prettier, Husky, and Commitlint
 
-Summary will eventually be the dashboard
+## Quick start
 
-## Table of Contents
-- [Nuxt 3 Awesome Starter](#nuxt-3-awesome-starter)
-  - [Features](#features)
-  - [To Do](#to-do)
-  - [Table of Contents](#table-of-contents)
-  - [Quick Start](#quick-start)
-    - [Start with this template](#start-with-this-template)
-    - [Deploy as Static Site](#deploy-as-static-site)
-  - [Built-in Components](#built-in-components)
-  - [Notes](#notes)
-    - [Nuxt Content](#nuxt-content)
-    - [Custom Workspace Snippets](#custom-workspace-snippets)
-    - [Styles](#styles)
-    - [Theme (Dark Mode)](#theme-dark-mode)
-    - [Localization](#localization)
-    - [Generate Locales](#generate-locales)
-    - [Icons](#icons)
-    - [Precommit and Postmerge](#precommit-and-postmerge)
-  - [License](#license)
+Copy [`.env.example`](.env.example) to `.env` and set the API the app should call:
 
-## Quick Start
-### Start with this template
-* This project using `pnpm` as package manager.
-* Clone this project to your computer `git clone https://github.com/PedGarBlue/another-personal-budget-app`
-* Install dependencies `pnpm install --shamefully-hoist`
-* Run `pnpm dev` to start development server and open `http://localhost:3000` in your browser
-### Deploy as Static Site
-* Run `pnpm build` to build the project
-* Serve the `dist/` folder (`pnpm start`)
+```
+VITE_API_URL=http://localhost:8000/api/v1
+```
 
-### Precommit and Postmerge
-This project using husky and commitlint for precommit and postmerge.
-when you commit, it will check your commit message and running "pnpm lint-staged" to check your staged files.
-configuration in : `/path/to/.husky/pre-commit` and `/path/to/commitlint.config.js`
+```bash
+pnpm install
+pnpm dev
+```
 
-And when Postmerge, it will run "pnpm" to automatically install new dependencies.
-configuration in `/path/to/.husky/post-merge`
+The dev server runs at [http://localhost:3000](http://localhost:3000). Dashboard routes require a signed-in user.
+
+## Scripts
+
+| Command | What it does |
+| --- | --- |
+| `pnpm dev` | Start the Vite dev server |
+| `pnpm build` | Production build into `dist/` |
+| `pnpm preview` | Preview the production build |
+| `pnpm start` | Serve `dist/` on port 3000 |
+| `pnpm lint` | Lint |
+| `pnpm typecheck` | Typecheck with `vue-tsc` |
+
+Commits run lint-staged and Commitlint through Husky.
 
 ## License
-This project is licensed under the MIT license, Copyright (c) 2022 Alfian Dwi Nugraha. For more information see the [LICENSE](LICENSE.md) file.
+
+MIT. Copyright (c) 2022 Alfian Dwi Nugraha. See [LICENSE.md](LICENSE.md).
