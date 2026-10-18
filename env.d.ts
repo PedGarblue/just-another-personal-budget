@@ -11,6 +11,6 @@ interface ImportMeta {
 declare module 'vue-router' {
   interface RouteMeta {
     layout?: 'page' | 'dashboard'
-    requiresAuth?: boolean
+    public?: boolean
   }
 }

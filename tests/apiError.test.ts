@@ -1,6 +1,10 @@
 import { ref } from 'vue'
 import { describe, expect, it } from 'vitest'
-import { assertAPIOk, toAPIError, unwrapAPIResponse } from '../utils/apiError'
+import {
+  assertAPIOk,
+  toAPIError,
+  unwrapAPIResponse,
+} from '../src/utils/apiError'
 
 describe('toAPIError', () => {
   it('returns the same Error instance', () => {

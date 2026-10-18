@@ -2,7 +2,9 @@
 import { defineStore } from 'pinia'
 import { fetchAPI } from '@/composables/useAPI'
 import { tokenLifetime } from '@/config'
+import { loadStoredToken, loadStoredUser } from '@/utils/authStorage'
 import { toAPIError } from '@/utils/apiError'
+import { readJwtExpiryMs } from '@/utils/jwt'
 import {
   AuthState,
   APIToken,
@@ -13,11 +15,14 @@ import {
   RegisterForm,
 } from '@/types/auth'
 
+function expiryFromJwt(token: string, fallbackMs: number): number {
+  return readJwtExpiryMs(token) ?? Date.now() + fallbackMs
+}
+
 export const useAuthStore = defineStore('auth', {
   state: (): AuthState => ({
-    /* Initialize state from local storage to enable user to stay logged in */
-    user: JSON.parse(localStorage.getItem('user') || '{}'),
-    token: JSON.parse(localStorage.getItem('token') || '{}'),
+    user: loadStoredUser(),
+    token: loadStoredToken(),
     status: 'idle',
     refreshTokenPromise: null,
   }),
@@ -40,8 +45,14 @@ export const useAuthStore = defineStore('auth', {
 
       const token: AppStoredToken = {
         ...apiToken,
-        access_expires: Date.now() + tokenLifetime.accessExpires,
-        refresh_expires: Date.now() + tokenLifetime.refreshExpires,
+        access_expires: expiryFromJwt(
+          apiToken.access,
+          tokenLifetime.accessExpires
+        ),
+        refresh_expires: expiryFromJwt(
+          apiToken.refresh,
+          tokenLifetime.refreshExpires
+        ),
       }
 
       this.token = token
@@ -96,8 +107,10 @@ export const useAuthStore = defineStore('auth', {
         })
 
         this.token.access = data.access
-
-        this.token.access_expires = Date.now() + tokenLifetime.accessExpires
+        this.token.access_expires = expiryFromJwt(
+          data.access,
+          tokenLifetime.accessExpires
+        )
 
         localStorage.setItem('token', JSON.stringify(this.token))
         this.status = 'idle'
