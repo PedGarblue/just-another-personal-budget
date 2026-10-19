@@ -9,13 +9,16 @@ import type {
 } from '@/types/categoryTrend'
 import { useTransactions } from '@/stores/transactions'
 import { useAccounts } from '@/stores/accounts'
+import { useDataSync } from '@/stores/dataSync'
 import type { CategoryAPI } from '@/types/categories'
+import { formatDecimal, formatUsd, toChartNumber } from '@/utils/money'
 
 useChartjs()
 
 const { t } = useLang()
 const accountsStore = useAccounts()
 const transactionsStore = useTransactions()
+const dataSync = useDataSync()
 
 const FALLBACK_COLORS = [
   '#3b82f6',
@@ -77,7 +80,7 @@ const chartData = computed(() => {
       datasets: [
         {
           label: trendData.value.category_name,
-          data: periods.map((p) => Number(p.total_amount_usd)),
+          data: periods.map((p) => toChartNumber(p.total_amount_usd)),
           borderColor: parentColor,
           backgroundColor: parentColor,
           tension: 0.3,
@@ -111,9 +114,10 @@ const chartData = computed(() => {
         color || FALLBACK_COLORS[colorIdx++ % FALLBACK_COLORS.length]
       return {
         label: name,
+        categoryId,
         data: periods.map((p) => {
           const child = p.children.find((c) => c.category_id === categoryId)
-          return child ? Number(child.total_amount_usd) : 0
+          return child ? toChartNumber(child.total_amount_usd) : 0
         }),
         borderColor: resolvedColor,
         backgroundColor: resolvedColor,
@@ -139,7 +143,8 @@ const chartOptions = computed(() => ({
     y: {
       beginAtZero: true,
       ticks: {
-        callback: (value: any) => `$${Number(value).toFixed(0)}`,
+        callback: (value: string | number) =>
+          `$${formatDecimal(String(value), 0)}`,
       },
     },
   },
@@ -150,8 +155,24 @@ const chartOptions = computed(() => ({
     },
     tooltip: {
       callbacks: {
-        label: (context: any) =>
-          `${context.dataset.label}: $${context.parsed.y.toFixed(2)}`,
+        label: (context: {
+          dataIndex: number
+          dataset: { label?: string; categoryId?: number }
+        }) => {
+          const period = trendData.value?.periods[context.dataIndex]
+          if (!period) return `${context.dataset.label}: ${formatUsd(null)}`
+          if (viewMode.value === 'total') {
+            return `${context.dataset.label}: ${formatUsd(
+              period.total_amount_usd
+            )}`
+          }
+          const child = period.children.find(
+            (item) => item.category_id === context.dataset.categoryId
+          )
+          return `${context.dataset.label}: ${formatUsd(
+            child?.total_amount_usd
+          )}`
+        },
       },
     },
   },
@@ -223,9 +244,12 @@ onMounted(() => {
   }
 })
 
-defineExpose({
-  refresh: fetchTrend,
-})
+watch(
+  () => dataSync.transactionsRevision,
+  () => {
+    fetchTrend()
+  }
+)
 </script>
 
 <template>
@@ -359,7 +383,7 @@ defineExpose({
       <p class="text-gray-500">
         {{
           t('pages.summary.category_trend.grand_total', {
-            amount: trendData.grand_total_usd.toFixed(2),
+            amount: formatDecimal(trendData.grand_total_usd),
           })
         }}
       </p>

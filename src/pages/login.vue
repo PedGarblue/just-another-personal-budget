@@ -4,15 +4,16 @@ import type { FormField } from '@/types/formTypes'
 
 const router = useRouter()
 const auth = useAuthStore()
+const { t } = useLang()
 
-useHead({
-  title: 'Sign-in',
-})
+useHead(() => ({
+  title: t('pages.login.title'),
+}))
 
 const fields = computed<FormField[]>(() => [
   {
     key: 'username',
-    title: 'Username',
+    title: t('pages.login.username'),
     default: '',
     value: '',
     componentProps: {
@@ -21,7 +22,7 @@ const fields = computed<FormField[]>(() => [
   },
   {
     key: 'password',
-    title: 'Password',
+    title: t('pages.login.password'),
     default: '',
     value: '',
     componentProps: {
@@ -52,9 +53,9 @@ const submit = async (data: any) => {
       as-modal
       :fields="fields"
       :form-submit-fn="submit"
-      :form-title="`Login`"
-      :restart-title="`Login`"
-      :submit-title="`Sign In`"
+      :form-title="t('pages.login.form_title')"
+      :restart-title="t('pages.login.restart')"
+      :submit-title="t('pages.login.submit')"
     />
   </div>
 </template>

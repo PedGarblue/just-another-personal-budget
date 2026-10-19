@@ -29,7 +29,13 @@
       }
     },
     "login": {
-      "nav": "Sign In"
+      "nav": "Sign In",
+      "title": "Sign-in",
+      "username": "Username",
+      "password": "Password",
+      "form_title": "Login",
+      "restart": "Login",
+      "submit": "Sign In"
     },
     "summary": {
       "nav": "summary",

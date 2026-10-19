@@ -4,6 +4,7 @@ import { getContactList } from '@/api/contacts'
 import type { ReceivableAPIItem } from '@/api/receivables'
 import { getReceivableList } from '@/api/receivables'
 import type { TransactionBase } from '@/api/transactions'
+import { formatUsd } from '@/utils/money'
 
 function transactionDateToIso(dateVal: unknown): string {
   if (dateVal instanceof Date) return dateVal.toISOString()
@@ -47,15 +48,13 @@ export function useTransactionLoanReceivable() {
 
   function receivableOptionLabel(r: ReceivableAPIItem) {
     const label = r.description?.trim() || r.contact_name?.trim() || `#${r.id}`
-    const out = Number(r.outstanding_usd ?? 0)
-    return `${label} (#${r.id}) · $${out.toFixed(2)} ${t(
+    return `${label} (#${r.id}) · ${formatUsd(r.outstanding_usd)} ${t(
       'transactions.loan.outstanding_suffix'
     )}`
   }
 
   function contactOptionLabel(c: Contact) {
-    const out = Number(c.total_outstanding_usd ?? 0)
-    return `${c.name} · $${out.toFixed(2)} ${t(
+    return `${c.name} · ${formatUsd(c.total_outstanding_usd)} ${t(
       'transactions.loan.outstanding_suffix'
     )}`
   }

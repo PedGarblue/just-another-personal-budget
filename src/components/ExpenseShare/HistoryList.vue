@@ -11,8 +11,10 @@ import type {
   ExpenseSharePeriodStatus,
 } from '@/types/expenseShareTypes'
 import { toAPIError } from '@/utils/apiError'
+import { useDataSync } from '@/stores/dataSync'
 
 const { t } = useLang()
+const dataSync = useDataSync()
 
 const partners = ref<ExpenseSharePartner[]>([])
 const periods = ref<ExpenseSharePeriod[]>([])
@@ -83,7 +85,13 @@ onMounted(async () => {
   await loadPeriods()
 })
 
-defineExpose({ refresh: loadPeriods })
+watch(
+  () => dataSync.expenseShareRevision,
+  () => {
+    loadPartners()
+    loadPeriods()
+  }
+)
 </script>
 
 <template>

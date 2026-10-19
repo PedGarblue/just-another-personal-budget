@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { FolderPlus, X } from 'lucide-vue-next'
 import { useAccounts } from '@/stores/accounts'
+import { useDataSync } from '@/stores/dataSync'
 import { useTransactions } from '@/stores/transactions'
 import TransactionList from '@/components/Transaction/List.vue'
 import SummaryTransactionsCreateGroup from '@/components/Summary/Transactions/CreateGroup.vue'
@@ -17,11 +18,7 @@ const ALL_CATEGORIES = {
   type: 'expense',
 } as CategoryAPI
 
-const emits = defineEmits([
-  'transaction-changed',
-  'clear-filters',
-  'category-filter-changed',
-])
+const emits = defineEmits(['clear-filters', 'category-filter-changed'])
 
 const props = defineProps({
   categoryCriteria: {
@@ -52,6 +49,7 @@ const createGroupModal = ref<InstanceType<
 const selectedTransactionIds = ref<number[]>([])
 const accounts = useAccounts()
 const transactionsStore = useTransactions()
+const dataSync = useDataSync()
 
 // computed
 const accountsNames = computed(() => accounts.getAccountsNames)
@@ -83,7 +81,7 @@ const canCreateGroup = computed(() => selectedTransactionIds.value.length >= 2)
 const refreshTable = () => {
   accounts.fetchData()
   transactionList.value?.refreshTable()
-  emits('transaction-changed')
+  dataSync.notifyTransactionsChanged()
 }
 
 const clearFilters = () => {

@@ -5,9 +5,12 @@ import type {
   CashflowSummaryResponse,
 } from '@/types/cashflowSummary'
 import { useAccounts } from '@/stores/accounts'
+import { useDataSync } from '@/stores/dataSync'
+import { formatDecimal } from '@/utils/money'
 
 const { t } = useLang()
 const accountsStore = useAccounts()
+const dataSync = useDataSync()
 
 const period = ref<CashflowPeriod>('current_month')
 const periodOptions: CashflowPeriod[] = [
@@ -18,14 +21,6 @@ const periodOptions: CashflowPeriod[] = [
 const cashflowData = ref<CashflowSummaryResponse | null>(null)
 const loading = ref(false)
 const error = ref<string | null>(null)
-
-const currencyFormatter = computed(
-  () =>
-    new Intl.NumberFormat(undefined, {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    })
-)
 
 const dateRangeText = computed(() => {
   if (!cashflowData.value) return ''
@@ -40,13 +35,13 @@ const hasMalformedTransactions = computed(
 )
 
 const formattedIncome = computed(() =>
-  currencyFormatter.value.format(cashflowData.value?.income_total_usd || 0)
+  formatDecimal(cashflowData.value?.income_total_usd)
 )
 const formattedExpense = computed(() =>
-  currencyFormatter.value.format(cashflowData.value?.expense_total_usd || 0)
+  formatDecimal(cashflowData.value?.expense_total_usd)
 )
 const formattedFreeCashflow = computed(() =>
-  currencyFormatter.value.format(cashflowData.value?.free_cash_flow_usd || 0)
+  formatDecimal(cashflowData.value?.free_cash_flow_usd)
 )
 
 const fetchCashflowSummary = async () => {
@@ -70,9 +65,12 @@ onMounted(() => {
   fetchCashflowSummary()
 })
 
-defineExpose({
-  refresh: fetchCashflowSummary,
-})
+watch(
+  () => dataSync.transactionsRevision,
+  () => {
+    fetchCashflowSummary()
+  }
+)
 </script>
 
 <template>

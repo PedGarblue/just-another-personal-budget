@@ -9,28 +9,9 @@ useHead({
 const accountsStore = useAccounts()
 const { fetchCategories } = useTransactions()
 
-// refs for components that need to be refreshed
-const expensesSummaryRef = ref<InstanceType<typeof SummaryExpenses> | null>(
-  null
-)
-const categoryTrendRef = ref<InstanceType<typeof SummaryCategoryTrend> | null>(
-  null
-)
-const cashflowSummaryRef = ref<InstanceType<typeof SummaryCashflow> | null>(
-  null
-)
-
-// transaction filter state
 const transactionCategoryFilter = ref<number>(0)
 const transactionFromDate = ref<string>('')
 const transactionToDate = ref<string>('')
-
-// method to refresh expenses summary when transactions change
-const refreshExpensesSummary = () => {
-  expensesSummaryRef.value?.refresh()
-  categoryTrendRef.value?.refresh()
-  cashflowSummaryRef.value?.refresh()
-}
 
 // handle category selection from expenses chart
 const handleCategorySelected = (data: {
@@ -62,18 +43,14 @@ onMounted(() => {
     </PageHeader>
     <PageBody>
       <SummaryAccounts />
-      <SummaryExpenses
-        ref="expensesSummaryRef"
-        @category-selected="handleCategorySelected"
-      />
-      <SummaryCashflow ref="cashflowSummaryRef" />
-      <SummaryCategoryTrend ref="categoryTrendRef" />
+      <SummaryExpenses @category-selected="handleCategorySelected" />
+      <SummaryCashflow />
+      <SummaryCategoryTrend />
       <SummaryTransactions
         v-if="accountsStore.getAccounts.length > 0"
         :category-criteria="transactionCategoryFilter"
         :from-date="transactionFromDate"
         :to-date="transactionToDate"
-        @transaction-changed="refreshExpensesSummary"
         @clear-filters="handleClearFilters"
         @category-filter-changed="(id) => (transactionCategoryFilter = id)"
       />

@@ -16,21 +16,11 @@ useHead({
   title: 'Expense Share',
 })
 
-const settleRef = ref<InstanceType<typeof Settle> | null>(null)
-const partnersRef = ref<InstanceType<typeof PartnersList> | null>(null)
-const historyRef = ref<InstanceType<typeof HistoryList> | null>(null)
-
 const tabs = computed(() => [
   { key: 'settle', label: t('pages.expenseShare.tabs.settle') },
   { key: 'partners', label: t('pages.expenseShare.tabs.partners') },
   { key: 'history', label: t('pages.expenseShare.tabs.history') },
 ])
-
-function onTabChange(index: number) {
-  if (index === 0) settleRef.value?.refreshPartners()
-  if (index === 1) partnersRef.value?.refresh()
-  if (index === 2) historyRef.value?.refresh()
-}
 </script>
 
 <template>
@@ -42,7 +32,7 @@ function onTabChange(index: number) {
       />
     </PageHeader>
     <PageBody>
-      <TabGroup @change="onTabChange">
+      <TabGroup>
         <TabList class="flex gap-2 mb-6 border-b border-border">
           <HeadlessUiTab
             v-for="tab in tabs"
@@ -65,13 +55,13 @@ function onTabChange(index: number) {
         </TabList>
         <TabPanels>
           <TabPanel>
-            <Settle ref="settleRef" />
+            <Settle />
           </TabPanel>
           <TabPanel>
-            <PartnersList ref="partnersRef" />
+            <PartnersList />
           </TabPanel>
           <TabPanel>
-            <HistoryList ref="historyRef" />
+            <HistoryList />
           </TabPanel>
         </TabPanels>
       </TabGroup>

@@ -52,6 +52,8 @@ declare global {
   const extendRef: typeof import('@vueuse/core').extendRef
   const fetchAPI: typeof import('./composables/useAPI').fetchAPI
   const fetchAPIAuth: typeof import('./composables/useAPIAuth').fetchAPIAuth
+  const formatDecimal: typeof import('./utils/money').formatDecimal
+  const formatUsd: typeof import('./utils/money').formatUsd
   const getActivePinia: typeof import('pinia').getActivePinia
   const getCurrentInstance: typeof import('vue').getCurrentInstance
   const getCurrentScope: typeof import('vue').getCurrentScope
@@ -127,6 +129,7 @@ declare global {
   const throttledRef: typeof import('@vueuse/core').throttledRef
   const throttledWatch: typeof import('@vueuse/core').throttledWatch
   const toAPIError: typeof import('./utils/apiError').toAPIError
+  const toChartNumber: typeof import('./utils/money').toChartNumber
   const toRaw: typeof import('vue').toRaw
   const toReactive: typeof import('@vueuse/core').toReactive
   const toRef: typeof import('vue').toRef
@@ -187,6 +190,7 @@ declare global {
   const useCurrentElement: typeof import('@vueuse/core').useCurrentElement
   const useCycleList: typeof import('@vueuse/core').useCycleList
   const useDark: typeof import('@vueuse/core').useDark
+  const useDataSync: typeof import('./stores/dataSync').useDataSync
   const useDateFormat: typeof import('@vueuse/core').useDateFormat
   const useDebounce: typeof import('@vueuse/core').useDebounce
   const useDebounceFn: typeof import('@vueuse/core').useDebounceFn
@@ -422,6 +426,8 @@ declare module 'vue' {
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
     readonly fetchAPI: UnwrapRef<typeof import('./composables/useAPI')['fetchAPI']>
     readonly fetchAPIAuth: UnwrapRef<typeof import('./composables/useAPIAuth')['fetchAPIAuth']>
+    readonly formatDecimal: UnwrapRef<typeof import('./utils/money')['formatDecimal']>
+    readonly formatUsd: UnwrapRef<typeof import('./utils/money')['formatUsd']>
     readonly getActivePinia: UnwrapRef<typeof import('pinia')['getActivePinia']>
     readonly getCurrentInstance: UnwrapRef<typeof import('vue')['getCurrentInstance']>
     readonly getCurrentScope: UnwrapRef<typeof import('vue')['getCurrentScope']>
@@ -497,6 +503,7 @@ declare module 'vue' {
     readonly throttledRef: UnwrapRef<typeof import('@vueuse/core')['throttledRef']>
     readonly throttledWatch: UnwrapRef<typeof import('@vueuse/core')['throttledWatch']>
     readonly toAPIError: UnwrapRef<typeof import('./utils/apiError')['toAPIError']>
+    readonly toChartNumber: UnwrapRef<typeof import('./utils/money')['toChartNumber']>
     readonly toRaw: UnwrapRef<typeof import('vue')['toRaw']>
     readonly toReactive: UnwrapRef<typeof import('@vueuse/core')['toReactive']>
     readonly toRef: UnwrapRef<typeof import('vue')['toRef']>
@@ -557,6 +564,7 @@ declare module 'vue' {
     readonly useCurrentElement: UnwrapRef<typeof import('@vueuse/core')['useCurrentElement']>
     readonly useCycleList: UnwrapRef<typeof import('@vueuse/core')['useCycleList']>
     readonly useDark: UnwrapRef<typeof import('@vueuse/core')['useDark']>
+    readonly useDataSync: UnwrapRef<typeof import('./stores/dataSync')['useDataSync']>
     readonly useDateFormat: UnwrapRef<typeof import('@vueuse/core')['useDateFormat']>
     readonly useDebounce: UnwrapRef<typeof import('@vueuse/core')['useDebounce']>
     readonly useDebounceFn: UnwrapRef<typeof import('@vueuse/core')['useDebounceFn']>

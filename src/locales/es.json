@@ -29,7 +29,13 @@
       }
     },
     "login": {
-      "nav": "Iniciar Sesión"
+      "nav": "Iniciar Sesión",
+      "title": "Iniciar sesión",
+      "username": "Nombre de usuario",
+      "password": "Contraseña",
+      "form_title": "Iniciar sesión",
+      "restart": "Iniciar sesión",
+      "submit": "Iniciar Sesión"
     },
     "summary": {
       "nav": "resumen",

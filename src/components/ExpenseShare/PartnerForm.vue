@@ -11,6 +11,7 @@ import type {
 } from '@/types/expenseShareTypes'
 import { toAPIError } from '@/utils/apiError'
 import Modal from '@/components/Modal.vue'
+import { useDataSync } from '@/stores/dataSync'
 import { useNotificationsStore } from '@/stores/notifications'
 
 const props = defineProps<{
@@ -23,6 +24,7 @@ const emit = defineEmits<{
 
 const { t } = useLang()
 const notifications = useNotificationsStore()
+const dataSync = useDataSync()
 const modal = ref<InstanceType<typeof Modal> | null>(null)
 
 const contact = ref('')
@@ -94,6 +96,7 @@ async function save() {
       })
     }
     close()
+    dataSync.notifyExpenseShareChanged()
     emit('saved')
   } catch (e) {
     errorMessage.value = toAPIError(e).message

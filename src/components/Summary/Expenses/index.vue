@@ -5,12 +5,15 @@ import { getExpensesSummary } from '@/api/expenses'
 import type { ExpensesSummaryResponse, ExpensesPeriod } from '@/types/expenses'
 import { useTransactions } from '@/stores/transactions'
 import { useAccounts } from '@/stores/accounts'
+import { useDataSync } from '@/stores/dataSync'
+import { formatDecimal, formatUsd, toChartNumber } from '@/utils/money'
 
 useChartjs()
 
 const { t } = useLang()
 const accountsStore = useAccounts()
 const transactionsStore = useTransactions()
+const dataSync = useDataSync()
 
 // data refs
 const period = ref<ExpensesPeriod>('current_month')
@@ -30,7 +33,7 @@ const chartData = computed(() => {
 
   const categories = expensesData.value.summary
   const labels = categories.map((cat) => cat.category_name)
-  const amounts = categories.map((cat) => Number(cat.total_amount_usd))
+  const amounts = categories.map((cat) => toChartNumber(cat.total_amount_usd))
 
   // Get colors from categories store if available
   const backgroundColor = labels.map((label) => {
@@ -67,8 +70,8 @@ const chartOptions = computed(() => ({
     y: {
       beginAtZero: true,
       ticks: {
-        callback: function (value: any) {
-          return `$${value.toFixed(2)}`
+        callback: function (value: string | number) {
+          return formatUsd(String(value))
         },
       },
     },
@@ -79,8 +82,9 @@ const chartOptions = computed(() => ({
     },
     tooltip: {
       callbacks: {
-        label: function (context: any) {
-          return `$${context.parsed.y.toFixed(2)}`
+        label: function (context: { dataIndex: number }) {
+          const category = expensesData.value?.summary[context.dataIndex]
+          return formatUsd(category?.total_amount_usd)
         },
       },
     },
@@ -148,10 +152,12 @@ onMounted(() => {
   fetchExpensesSummary()
 })
 
-// expose refresh method for parent components
-defineExpose({
-  refresh: fetchExpensesSummary,
-})
+watch(
+  () => dataSync.transactionsRevision,
+  () => {
+    fetchExpensesSummary()
+  }
+)
 </script>
 
 <template>
@@ -197,7 +203,7 @@ defineExpose({
       <p class="text-gray-500">
         {{
           t('pages.summary.expenses.total_amount', {
-            amount: expensesData.total,
+            amount: formatDecimal(expensesData.total),
           })
         }}
       </p>

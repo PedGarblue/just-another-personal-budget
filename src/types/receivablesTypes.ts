@@ -12,7 +12,7 @@ export interface ReceivableLinkedTransaction {
   amount_display: string
   date: string
   description: string
-  usd_amount: number | null
+  usd_amount: string | null
 }
 
 /** GET list/detail response row */
@@ -22,11 +22,11 @@ export interface ReceivableAPIItem {
   contact_id: number
   contact_name: string
   due_date: string
-  principal_usd: number
-  paid_usd: number
-  outstanding_usd: number
+  principal_usd: string
+  paid_usd: string
+  outstanding_usd: string
   /** Set by expense-share finalize; display-only in UI */
-  explicit_principal_usd?: number | string | null
+  explicit_principal_usd?: string | null
   status: 'PAID' | 'UNPAID'
   transactions?: ReceivableLinkedTransaction[]
   created_at?: string

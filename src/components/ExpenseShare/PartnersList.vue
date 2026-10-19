@@ -7,10 +7,12 @@ import {
 } from '@/api/expenseSharePartners'
 import type { ExpenseSharePartner } from '@/types/expenseShareTypes'
 import { toAPIError } from '@/utils/apiError'
+import { useDataSync } from '@/stores/dataSync'
 import { useNotificationsStore } from '@/stores/notifications'
 
 const { t } = useLang()
 const notifications = useNotificationsStore()
+const dataSync = useDataSync()
 
 const partners = ref<ExpenseSharePartner[]>([])
 const loading = ref(false)
@@ -56,7 +58,7 @@ async function toggleActive(partner: ExpenseSharePartner) {
       type: 'success',
       text: t('pages.expenseShare.partners.update.success'),
     })
-    await loadPartners()
+    dataSync.notifyExpenseShareChanged()
   } catch (e) {
     notifications.addNotification({
       type: 'error',
@@ -73,7 +75,12 @@ onMounted(() => {
   loadPartners()
 })
 
-defineExpose({ refresh: loadPartners })
+watch(
+  () => dataSync.expenseShareRevision,
+  () => {
+    loadPartners()
+  }
+)
 </script>
 
 <template>
@@ -168,6 +175,6 @@ defineExpose({ refresh: loadPartners })
       </table>
     </div>
 
-    <PartnerForm ref="formRef" :partner="formPartner" @saved="loadPartners" />
+    <PartnerForm ref="formRef" :partner="formPartner" />
   </div>
 </template>

@@ -17,10 +17,12 @@ import type {
   ExpenseSharePreview,
 } from '@/types/expenseShareTypes'
 import { toAPIError } from '@/utils/apiError'
+import { useDataSync } from '@/stores/dataSync'
 import { useNotificationsStore } from '@/stores/notifications'
 
 const { t } = useLang()
 const notifications = useNotificationsStore()
+const dataSync = useDataSync()
 
 const partners = ref<ExpenseSharePartner[]>([])
 const selectedPartnerId = ref<number | ''>('')
@@ -202,6 +204,7 @@ async function onFinalize() {
       type: 'success',
       text: t('pages.expenseShare.settle.finalize_success'),
     })
+    dataSync.notifyExpenseShareChanged()
     await loadPreview()
   } catch (e) {
     finalizeError.value = toAPIError(e).message
@@ -218,7 +221,12 @@ onMounted(() => {
   loadPartners()
 })
 
-defineExpose({ refreshPartners: loadPartners })
+watch(
+  () => dataSync.expenseShareRevision,
+  () => {
+    loadPartners()
+  }
+)
 </script>
 
 <template>

@@ -4,6 +4,7 @@ import type { ReceivableAPIItem, ReceivableGroup } from '@/api/receivables'
 import type { ReceivableLinkedTransaction } from '@/types/receivablesTypes'
 import { getReceivablesGroupedByContact } from '@/api/receivables'
 import Modal from '@/components/Modal.vue'
+import { formatUsd } from '@/utils/money'
 
 const { t } = useLang()
 
@@ -12,11 +13,6 @@ const expandedContactIds = ref<Set<number>>(new Set())
 const ledgerModal = ref<InstanceType<typeof Modal> | null>(null)
 const ledgerTitle = ref('')
 const ledgerTransactions = ref<ReceivableLinkedTransaction[]>([])
-
-function formatUsd(value: number | undefined | null) {
-  const n = Number(value ?? 0)
-  return `$${n.toFixed(2)}`
-}
 
 function toggleGroup(contactId: number) {
   const next = new Set(expandedContactIds.value)
@@ -50,9 +46,9 @@ const openLedger = (row: ReceivableAPIItem) => {
   ledgerModal.value?.open()
 }
 
-function formatLedgerUsd(usd: number | null) {
-  if (usd === null || usd === undefined) return '—'
-  return `$${Number(usd).toFixed(2)}`
+function formatLedgerUsd(usd: string | null | undefined) {
+  if (usd == null || usd === '') return '—'
+  return formatUsd(usd)
 }
 
 function closeLedgerModal() {
